@@ -1,0 +1,12 @@
+language: java
+jdk: openjdk8
+before_install:
+- chmod +x mvnw
+deploy:
+  provider: heroku
+  api_key:
+    secure: <your encrypted heroku api key>
+  app: split-spring-boot-ci-cd
+  on:
+    repo: dogeared/split-spring-boot-ci-cd-example
+  skip_cleanup: 'true'
