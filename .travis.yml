@@ -6,7 +6,7 @@ deploy:
   provider: heroku
   api_key:
     secure: eIis82GxdlrXnYgZfueeBudVE0bL0NsG+CMFT0IFWBfi1WEyqx/DAPkSKOiACogd8F6qSHufRSR88MjspkmH4+6kh+A3EncpnsphOY0cyjXIGiCemTFjW81gVJ/kiSaXjdb+NA7LfLF9GlaXIcqZzocd1eDYTdwVla6h56lu+D5ytYues30MdfikD2kTbkNwjfO1D4zDn42u1HzNwccugiEPm14n/CFw1tgu9gKRLep4qwFKgqJP4l4m1ORYAhJpBLKeyH+lySA/75Waky2hAl1+6fU1GtpChknIIldvhP48DG4BqGE9zgpbCsWAg+1Ib3JPTrsPZQ2WWPgsPr5FxdQ5b+c24IiaQ1ahs8Sv8PlqtXvGDf9Xi3zQQSx9SDE5TxF9TJ6wxOqo1B5odGYVnkHgSaMxQviyPc99DKcT0tjgINk7Ir+IPPOITAzQdjY0IcDw3c2N9L/NtNsS3WA7yskTTdAsAwM5lTDBoypb9M3O5qF9XfkBi4mfscr9K56hYZtCGE2uhfXGprj91tCUeMIAkxUFYDmj81+WlMJl+RdCg4ZH4aXX7Fy5NJNFPDh/qUcKTaOWFjJiS+Jpfr9IrIzZ0a8ZHeRiewfSyfDacgkVlauQroaB5aa9LdLr8tGPnjnL5i56/qPvR2nQVcT4HfVrqrots2ordB/r4BjG4n4=
-  app: split-spring-boot-ci-cd
+  app: via-bp-backend-delegator
   on:
     repo: dogeared/split-spring-boot-ci-cd-example
   skip_cleanup: 'true'
