@@ -4,6 +4,7 @@ import com.heroku.java.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,12 +37,13 @@ public class MainController {
         return "Hallo world";
     }
 
-    @RequestMapping("/registerUser")
-    public String registerUser() {
+    @PostMapping("/registerUser")
+    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam boolean isAdmin) {
       String returnVar = "failed";
         try (Session session = sessionFactory.openSession()) {
             // Create a new User object with the user's details
-            User user = new User("userFromApi", "pass", true);
+
+            User user = new User(username, password, isAdmin);
 
             // Begin a transaction
             session.beginTransaction();
