@@ -13,11 +13,11 @@ import java.util.Map;
 
 @SpringBootApplication
 @Controller
-public class GettingStartedApplication {
+public class ApplicationStart {
     private final DataSource dataSource;
 
     @Autowired
-    public GettingStartedApplication(DataSource dataSource) {
+    public ApplicationStart(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
@@ -25,6 +25,8 @@ public class GettingStartedApplication {
     public String index() {
         return "index";
     }
+
+
 
     @GetMapping("/database")
     String database(Map<String, Object> model) {
@@ -48,7 +50,29 @@ public class GettingStartedApplication {
         }
     }
 
+
     public static void main(String[] args) {
-        SpringApplication.run(GettingStartedApplication.class, args);
+        SpringApplication.run(ApplicationStart.class, args);
+/*
+        //Hibernate Setup
+        SessionFactory sessionFactory = null;
+        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                .configure() // configures settings from hibernate.cfg.xml
+                .build();
+        try {
+            sessionFactory = new MetadataSources( registry ).buildMetadata().buildSessionFactory();
+            Session session = sessionFactory.openSession();
+            User u = new User("UserName1", "Password123", true);
+            session.beginTransaction();
+            session.save(u);
+            session.getTransaction().commit();
+            session.close();
+
+        }
+        catch (Exception e) {
+            // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
+            // so destroy it manually.
+            StandardServiceRegistryBuilder.destroy( registry );
+        }*/
     }
 }
