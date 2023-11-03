@@ -29,7 +29,7 @@ public class UserRepository {
     }
 
     public User findUserByUsername(String username){
-        User user = new User(username,"123456");
+        User user = new User(username,"");
 
         //TODO: Det her skal bruge den krypterede ligesom normalt, og bare finde useren
         return user;
