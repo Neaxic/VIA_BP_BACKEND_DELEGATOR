@@ -1,5 +1,6 @@
 package com.heroku.java.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
@@ -20,6 +21,9 @@ public class User {
 
     @Column(name = "isAdmin")
     boolean isAdmin;
+
+    @JsonIgnore
+    private String idk = "";
 
     public User() { } //Needed for hibernate to create empty objects
     public User(String username, String password, boolean isAdmin) {

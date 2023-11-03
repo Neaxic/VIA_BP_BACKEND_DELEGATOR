@@ -27,6 +27,14 @@ public class UserRepository {
             return Constants.STATUS_FAILED;
         }
     }
+
+    public User findUserByUsername(String username){
+        User user = new User(username,"123456");
+
+        //TODO: Det her skal bruge den krypterede ligesom normalt, og bare finde useren
+        return user;
+    }
+
     public User login(String username, String password) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
