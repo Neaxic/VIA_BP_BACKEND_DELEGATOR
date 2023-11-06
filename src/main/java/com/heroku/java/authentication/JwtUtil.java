@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtUtil {
-    private final String secret_key = "mysecretkey";
+    private final String secret_key = "P>ZXKI!?#=?229xipa<o02AaziøajgyuoajxIID729sjæf";
     private long accessTokenValidity = 60*60*1000;
 
     private final JwtParser jwtParser;
