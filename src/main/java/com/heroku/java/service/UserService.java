@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserService {
     @Autowired
     UserRepository userRepository;
-
-
     public String login(String username, String password) {
         User user = userRepository.login(username, password);
 
