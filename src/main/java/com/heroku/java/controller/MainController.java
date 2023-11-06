@@ -4,6 +4,7 @@ import com.heroku.java.model.Constants;
 import com.heroku.java.model.EncryptionUtil;
 import com.heroku.java.model.User;
 import com.heroku.java.repository.UserRepository;
+import com.heroku.java.service.UserService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,7 @@ public class MainController {
     private SessionFactory sessionFactory;
 
     @Autowired
-    UserRepository userRepository;
-
+    private UserService userService;
 
     @RequestMapping("/testConnection")
     public String connectedToServer() {
@@ -27,15 +27,11 @@ public class MainController {
 
     @GetMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password) {
-        User user = userRepository.login(username,password);
-
-        return user == null ? Constants.STATUS_FAILED : user.toJsonString();
+        return userService.login(username,password);
     }
 
     @PostMapping("/registerUser")
     public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam boolean isAdmin) {
-      String encryptedPassword = EncryptionUtil.hashPassword(password);
-      User user = new User(username, encryptedPassword, isAdmin);
-      return userRepository.saveUser(user);
+        return userService.registerUser(username, password, isAdmin);
     }
 }
