@@ -27,6 +27,19 @@ public class UserRepository {
             return Constants.STATUS_FAILED;
         }
     }
+
+    public User findUserByUsername(String username){
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
+            query.setParameter("username", username);
+            User user = query.uniqueResult();
+            return user;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public User login(String username, String password) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);

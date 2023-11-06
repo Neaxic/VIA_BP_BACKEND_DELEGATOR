@@ -22,6 +22,9 @@ public class User {
     @Column(name = "isAdmin")
     boolean isAdmin;
 
+    @JsonIgnore
+    private String idk = "";
+
     public User() { } //Needed for hibernate to create empty objects
     public User(String username, String password, boolean isAdmin) {
         this.username = username;
