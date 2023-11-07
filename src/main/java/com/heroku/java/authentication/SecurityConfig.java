@@ -1,6 +1,6 @@
 package com.heroku.java.authentication;
 
-import com.heroku.java.services.CustomUserDetailsService;
+import com.heroku.java.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

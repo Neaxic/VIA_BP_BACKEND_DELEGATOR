@@ -1,10 +1,5 @@
-package com.heroku.java.MachineUpload;
+package com.heroku.java.service.MachineUpload;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Random;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
