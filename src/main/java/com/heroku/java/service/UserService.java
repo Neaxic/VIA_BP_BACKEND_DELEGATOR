@@ -6,7 +6,6 @@ import com.heroku.java.model.User;
 import com.heroku.java.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class UserService {

@@ -3,7 +3,6 @@ package com.heroku.java.service;
 import com.heroku.java.model.Machine;
 import com.heroku.java.model.StatusCodes;
 import com.heroku.java.repository.MachineRepository;
-import com.heroku.java.repository.StatusCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

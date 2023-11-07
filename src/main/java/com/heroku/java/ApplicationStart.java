@@ -37,7 +37,6 @@ public class ApplicationStart {
         return "index";
     }
 
-    // You can use sessionFactory for Hibernate operations
     public static void main(String[] args) {
         SpringApplication.run(ApplicationStart.class, args);
     }

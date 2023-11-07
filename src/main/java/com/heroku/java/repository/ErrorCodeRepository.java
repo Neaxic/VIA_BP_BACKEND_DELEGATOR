@@ -1,9 +1,7 @@
 package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
-import com.heroku.java.model.EncryptionUtil;
 import com.heroku.java.model.ErrorCode;
-import com.heroku.java.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

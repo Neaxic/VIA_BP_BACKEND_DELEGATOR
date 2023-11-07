@@ -1,8 +1,6 @@
 package com.heroku.java.service;
 
-import com.heroku.java.model.EncryptionUtil;
 import com.heroku.java.model.StatusCodes;
-import com.heroku.java.model.User;
 import com.heroku.java.repository.StatusCodeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
