@@ -1,4 +1,4 @@
-package com.heroku.java.authentication;
+package com.heroku.java.model.authentication;
 
 import com.heroku.java.model.User;
 import io.jsonwebtoken.*;

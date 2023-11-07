@@ -1,4 +1,4 @@
-package com.heroku.java.authentication;
+package com.heroku.java.model.authentication;
 
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
