@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Controller
-@RequestMapping("")
+@RestController
 @CrossOrigin
 public class MainController {
 
