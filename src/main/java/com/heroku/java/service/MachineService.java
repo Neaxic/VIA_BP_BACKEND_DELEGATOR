@@ -23,4 +23,9 @@ public class MachineService {
         return machine.orElse(null);
     }
 
+    public List<Machine> getAllMachines()
+    {
+        return machineRepository.getAllMachines();
+    }
+
 }

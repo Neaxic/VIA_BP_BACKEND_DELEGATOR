@@ -1,11 +1,13 @@
 package com.heroku.java.service;
 
 import com.heroku.java.model.MachineErrorHistory;
+import com.heroku.java.model.StatusCodes;
 import com.heroku.java.repository.MachineErrorHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +24,11 @@ public class MachineErrorHistoryService {
     public MachineErrorHistory getMachineErrorHistoryById(Integer historyId) {
         Optional<MachineErrorHistory> machineErrorHistory = Optional.ofNullable(machineErrorHistoryRepository.getMachineErrorHistoryById(historyId));
         return machineErrorHistory.orElse(null);
+    }
+
+    public List<MachineErrorHistory> getAllMEH()
+    {
+        return machineErrorHistoryRepository.getAllMEH();
     }
 
 }

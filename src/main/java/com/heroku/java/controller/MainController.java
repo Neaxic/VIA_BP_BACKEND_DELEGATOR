@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @CrossOrigin
@@ -109,4 +110,28 @@ public class MainController {
         return statusCodeService.getStatusCodeById(id);
     }
 
+    @GetMapping("/getAllStatusCodes")
+    public List<StatusCodes> getAllStatusCodes() {
+        return statusCodeService.getAllStatusCodes();
+    }
+
+    @GetMapping("/getAllErrorCodes")
+    public List<ErrorCode> getAllErrorCodes() {
+        return errorCodeService.getAllErrorCodes();
+    }
+
+    @GetMapping("/getAllBatchs")
+    public List<BatchInfo> getAllBatchs() {
+        return batchInfoService.getAllBatchs();
+    }
+
+    @GetMapping("/getAllMachines")
+    public List<Machine> getAllMachines() {
+        return machineService.getAllMachines();
+    }
+
+    @GetMapping("/getAllMEH")
+    public List<MachineErrorHistory> getAllMEH() {
+        return machineErrorHistoryService.getAllMEH();
+    }
 }

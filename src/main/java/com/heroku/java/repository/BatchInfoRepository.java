@@ -2,11 +2,15 @@ package com.heroku.java.repository;
 
 import com.heroku.java.model.BatchInfo;
 import com.heroku.java.model.Constants;
+import com.heroku.java.model.ErrorCode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class BatchInfoRepository {
@@ -33,6 +37,17 @@ public class BatchInfoRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public List<BatchInfo> getAllBatchs() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<BatchInfo> query = session.createQuery("FROM BatchInfo ", BatchInfo.class);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 
 }
