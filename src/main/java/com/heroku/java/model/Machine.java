@@ -61,7 +61,6 @@ public class Machine {
     }
 
     public boolean shouldCreateFakeData() {
-        System.out.println("shouldCreateFakeData: " + createFakeData);
         return createFakeData == null ? false : createFakeData;
     }
 
