@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MachineErrorHistoryService {
@@ -24,8 +23,8 @@ public class MachineErrorHistoryService {
     }
 
     public MachineErrorHistory getMachineErrorHistoryById(Integer historyId) {
-        Optional<MachineErrorHistory> machineErrorHistory = Optional.ofNullable(machineErrorHistoryRepository.getMachineErrorHistoryById(historyId));
-        return machineErrorHistory.orElse(null);
+        return machineErrorHistoryRepository.getMachineErrorHistoryById(historyId);
+
     }
 
     public List<MachineErrorHistory> getAllMEH()

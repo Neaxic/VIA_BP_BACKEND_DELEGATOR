@@ -1,14 +1,12 @@
 package com.heroku.java.service;
 
 import com.heroku.java.model.BatchInfo;
-import com.heroku.java.model.StatusCodes;
 import com.heroku.java.repository.BatchInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BatchInfoService {
@@ -21,8 +19,7 @@ public class BatchInfoService {
         return batchInfoRepository.saveBatchInfo(batchInfo);
     }
     public BatchInfo getBatchInfoById(Integer id) {
-        Optional<BatchInfo> batchInfo = Optional.ofNullable(batchInfoRepository.getBatchInfoById(id));
-        return batchInfo.orElse(null);
+        return batchInfoRepository.getBatchInfoById(id);
     }
 
     public List<BatchInfo> getAllBatchs()

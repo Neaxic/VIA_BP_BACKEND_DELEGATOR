@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class StatusCodeService {
@@ -18,8 +17,7 @@ public class StatusCodeService {
         return statusCodeRepository.saveStatusCodes(statusCodes);
     }
     public StatusCodes getStatusCodeById(Integer statusCodeId) {
-        Optional<StatusCodes> statusCode = Optional.ofNullable(statusCodeRepository.getStatusCodeId(statusCodeId));
-        return statusCode.orElse(null);
+        return statusCodeRepository.getStatusCodeId(statusCodeId);
     }
 
     public List<StatusCodes> getAllStatusCodes()

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MachineService {
@@ -19,8 +18,7 @@ public class MachineService {
         return machineRepository.saveMachine(machine);
     }
     public Machine getMachineById(Integer machineId) {
-        Optional<Machine> machine = Optional.ofNullable(machineRepository.getMachineById(machineId));
-        return machine.orElse(null);
+        return machineRepository.getMachineById(machineId);
     }
 
     public List<Machine> getAllMachines()
