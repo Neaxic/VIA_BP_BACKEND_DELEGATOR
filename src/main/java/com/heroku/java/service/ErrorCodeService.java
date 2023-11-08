@@ -30,4 +30,9 @@ public class ErrorCodeService {
         return errorCodeRepository.getAllErrorCodes();
     }
 
+    public ErrorCode getRandomErrorCode()
+    {
+        return errorCodeRepository.getRandomErrorCode();
+    }
+
 }

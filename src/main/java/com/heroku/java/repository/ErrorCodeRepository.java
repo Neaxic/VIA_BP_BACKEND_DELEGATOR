@@ -2,7 +2,6 @@ package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
 import com.heroku.java.model.ErrorCode;
-import com.heroku.java.model.MachineErrorHistory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -49,6 +48,11 @@ public class ErrorCodeRepository{
             e.printStackTrace();
         }
         return Collections.emptyList();
+    }
+
+    public ErrorCode getRandomErrorCode() {
+        List<ErrorCode> errorCodes = getAllErrorCodes();
+        return errorCodes.get((int) (Math.random() * errorCodes.size()));
     }
 
 

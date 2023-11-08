@@ -2,7 +2,6 @@ package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
 import com.heroku.java.model.Machine;
-import com.heroku.java.model.StatusCodes;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;

@@ -21,8 +21,7 @@ public class MachineErrorHistory {
     @Column(name = "time_for_mistake")
     private LocalDateTime timeForMistake;
 
-    public MachineErrorHistory(int historyId, int machineId, int errorId, LocalDateTime timeForMistake) {
-        this.historyId = historyId;
+    public MachineErrorHistory(int machineId, int errorId, LocalDateTime timeForMistake) {
         this.machineId = machineId;
         this.errorId = errorId;
         this.timeForMistake = timeForMistake;

@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@RestController
+@Controller
+@RequestMapping("")
 @CrossOrigin
 public class MainController {
 
@@ -76,8 +77,8 @@ public class MainController {
         return machineService.registerMachine(machineName,description,statusCode);
     }
     @PostMapping("/registerMEH")
-    public String registerMachineErrorHistory(@RequestParam int historyId, @RequestParam int machineId, @RequestParam int errorId,@RequestParam LocalDateTime timeForMistake) {
-        return machineErrorHistoryService.registerMachineErrorHistory(historyId, machineId, errorId, timeForMistake);
+    public String registerMachineErrorHistory(@RequestParam int machineId, @RequestParam int errorId,@RequestParam LocalDateTime timeForMistake) {
+        return machineErrorHistoryService.registerMachineErrorHistory(machineId, errorId, timeForMistake);
     }
 
 
@@ -117,7 +118,7 @@ public class MainController {
     public List<StatusCodes> getAllStatusCodes() {
         return statusCodeService.getAllStatusCodes();
     }
-// 403 Status code
+    // 403 Status code
     @GetMapping("/getAllErrorCodes")
     public List<ErrorCode> getAllErrorCodes() {
         return errorCodeService.getAllErrorCodes();

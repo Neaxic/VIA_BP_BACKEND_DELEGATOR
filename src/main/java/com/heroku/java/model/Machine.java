@@ -1,6 +1,7 @@
 package com.heroku.java.model;
 
 import jakarta.persistence.*;
+import org.hibernate.type.TrueFalseConverter;
 
 @Entity
 @Table(name = "machine")
@@ -15,6 +16,9 @@ public class Machine {
     @ManyToOne
     @JoinColumn(name = "statusCode", referencedColumnName = "statusCodeID")
     private StatusCodes statusCode;
+
+    @Column(name = "createFakeData", columnDefinition="BIT")
+    private Boolean createFakeData = false;
 
     public Machine() {}
 
@@ -54,5 +58,14 @@ public class Machine {
 
     public void setStatusCode(StatusCodes statusCode) {
         this.statusCode = statusCode;
+    }
+
+    public boolean shouldCreateFakeData() {
+        System.out.println("shouldCreateFakeData: " + createFakeData);
+        return createFakeData == null ? false : createFakeData;
+    }
+
+    public void setCreateFakeData(Boolean createFakeData) {
+        this.createFakeData = createFakeData;
     }
 }
