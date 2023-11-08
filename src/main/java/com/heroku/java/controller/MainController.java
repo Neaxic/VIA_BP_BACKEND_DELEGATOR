@@ -127,7 +127,7 @@ public class MainController {
     public List<BatchInfo> getAllBatchs() {
         return batchInfoService.getAllBatchs();
     }
-    //TODO status code 200 VIRKER Dog intet data
+    //Virker PÅ backend
     @GetMapping("/getAllMachines")
     public List<Machine> getAllMachines() {
         return machineService.getAllMachines();
@@ -137,4 +137,11 @@ public class MainController {
     public List<MachineErrorHistory> getAllMEH() {
         return machineErrorHistoryService.getAllMEH();
     }
+
+    @GetMapping("/getAllUsers")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 }
+
+
