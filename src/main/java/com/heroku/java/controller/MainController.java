@@ -112,30 +112,37 @@ public class MainController {
     }
 
 
-    
-//Virker
+
+//Virker på Backend
     @GetMapping("/getAllStatusCodes")
     public List<StatusCodes> getAllStatusCodes() {
         return statusCodeService.getAllStatusCodes();
     }
-    // 403 Status code
+
     @GetMapping("/getAllErrorCodes")
     public List<ErrorCode> getAllErrorCodes() {
         return errorCodeService.getAllErrorCodes();
     }
-    // 403 Status code
+    // Virker På Backend
     @GetMapping("/getAllBatchs")
     public List<BatchInfo> getAllBatchs() {
         return batchInfoService.getAllBatchs();
     }
-    // 403 Status code
+    //Virker PÅ backend
     @GetMapping("/getAllMachines")
     public List<Machine> getAllMachines() {
         return machineService.getAllMachines();
     }
-    // 403 Status code
+    // Virker På BAckend
     @GetMapping("/getAllMEH")
     public List<MachineErrorHistory> getAllMEH() {
         return machineErrorHistoryService.getAllMEH();
     }
+
+    @GetMapping("/getAllUsers")
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 }
+
+
