@@ -22,7 +22,7 @@ public class MachineErrorHistoryService {
         return machineErrorHistoryRepository.saveMachineErrorHistory(machineErrorHistory);
     }
 
-    public MachineErrorHistory getMachineErrorHistoryById(Integer historyId) {
+    public List<MachineErrorHistory> getMachineErrorHistoryById(Integer historyId) {
         return machineErrorHistoryRepository.getMachineErrorHistoryById(historyId);
 
     }
