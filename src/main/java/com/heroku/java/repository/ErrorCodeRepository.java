@@ -2,11 +2,15 @@ package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
 import com.heroku.java.model.ErrorCode;
+import com.heroku.java.model.MachineErrorHistory;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.Collections;
+import java.util.List;
 
 @Repository
 public class ErrorCodeRepository{
@@ -34,6 +38,17 @@ public class ErrorCodeRepository{
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public List<ErrorCode> getAllErrorCodes() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<ErrorCode> query = session.createQuery("FROM ErrorCode ", ErrorCode.class);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
     }
 
 

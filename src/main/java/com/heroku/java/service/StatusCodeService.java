@@ -22,5 +22,11 @@ public class StatusCodeService {
         return statusCode.orElse(null);
     }
 
+    public List<StatusCodes> getAllStatusCodes()
+    {
+        return statusCodeRepository.getAllStatusCodes();
+    }
+
+
 
 }
