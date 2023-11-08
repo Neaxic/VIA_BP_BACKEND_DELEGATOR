@@ -1,7 +1,13 @@
 package com.heroku.java.model;
 
 import jakarta.persistence.*;
+import org.hibernate.engine.jdbc.batch.spi.Batch;
 import org.hibernate.type.TrueFalseConverter;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Entity
 @Table(name = "machine")
@@ -19,6 +25,14 @@ public class Machine {
 
     @Column(name = "createFakeData", columnDefinition="BIT")
     private Boolean createFakeData = false;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "BatchInfo",
+            joinColumns = @JoinColumn(name = "machineID"),
+            inverseJoinColumns = @JoinColumn(name = "batchNo")
+    )
+    private List<BatchInfo> batches;
 
     public Machine() {}
 
@@ -67,4 +81,25 @@ public class Machine {
     public void setCreateFakeData(Boolean createFakeData) {
         this.createFakeData = createFakeData;
     }
+
+    public List<BatchInfo> getBatches() {
+        return batches;
+    }
+
+    private void setBatches(List<BatchInfo> batches) {
+        this.batches = batches;
+    }
+
+    public BatchInfo getCurrentBatch() {
+        LocalDateTime currentDate = LocalDateTime.now();
+        BatchInfo currentBatch = batches.stream()
+                .filter(batch -> currentDate.isAfter(batch.getStartTime()) && currentDate.isBefore(batch.getEndTime()))
+                .findFirst().orElse(null);
+        return currentBatch;
+    }
+
+    public boolean isMachineRunning() {
+        return getStatusCode().getStatusCodeID() == Constants.MACHINE_STATUS_RUNNING;
+    }
+
 }
