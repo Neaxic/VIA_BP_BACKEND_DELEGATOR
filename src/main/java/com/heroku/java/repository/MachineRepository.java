@@ -40,6 +40,7 @@ public class MachineRepository  {
     }
 
 
+
     public List<Machine> getAllMachines() {
         try (Session session = sessionFactory.openSession()) {
             Query<Machine> query = session.createQuery("FROM Machine ", Machine.class);

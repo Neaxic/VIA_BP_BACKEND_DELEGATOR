@@ -27,6 +27,7 @@ public class StatusCodeRepository {
         }
     }
 
+
     public List<StatusCodes> getAllStatusCodes() {
         try (Session session = sessionFactory.openSession()) {
             Query<StatusCodes> query = session.createQuery("FROM StatusCodes", StatusCodes.class);

@@ -110,26 +110,29 @@ public class MainController {
         return statusCodeService.getStatusCodeById(id);
     }
 
+
+    
+//Virker
     @GetMapping("/getAllStatusCodes")
     public List<StatusCodes> getAllStatusCodes() {
         return statusCodeService.getAllStatusCodes();
     }
-
+// 403 Status code
     @GetMapping("/getAllErrorCodes")
     public List<ErrorCode> getAllErrorCodes() {
         return errorCodeService.getAllErrorCodes();
     }
-
+    // 403 Status code
     @GetMapping("/getAllBatchs")
     public List<BatchInfo> getAllBatchs() {
         return batchInfoService.getAllBatchs();
     }
-
+    // 403 Status code
     @GetMapping("/getAllMachines")
     public List<Machine> getAllMachines() {
         return machineService.getAllMachines();
     }
-
+    // 403 Status code
     @GetMapping("/getAllMEH")
     public List<MachineErrorHistory> getAllMEH() {
         return machineErrorHistoryService.getAllMEH();
