@@ -1,6 +1,6 @@
 package com.heroku.java.controller;
 
-import com.heroku.java.authentication.JwtUtil;
+import com.heroku.java.model.authentication.JwtUtil;
 import com.heroku.java.model.User;
 import com.heroku.java.model.request.LoginReq;
 import com.heroku.java.model.response.ErrorRes;
