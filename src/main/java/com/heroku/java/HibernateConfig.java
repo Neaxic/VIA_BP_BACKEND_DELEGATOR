@@ -41,8 +41,8 @@ public class HibernateConfig {
         BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://ec2-99-80-190-165.eu-west-1.compute.amazonaws.com:5432/dd051b07tq1sjn");
-        dataSource.setUsername("raqavjkqhsocey");
-        dataSource.setPassword("a42dff335fe1bc8c1cd0d6278cf02130495bef60269dff076fda016f2abea13f");
+        dataSource.setUsername(System.getenv("DATABASE_USERNAME"));
+        dataSource.setPassword(System.getenv("DATABASE_PASSWORD"));
 
         return dataSource;
     }

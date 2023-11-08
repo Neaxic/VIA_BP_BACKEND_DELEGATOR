@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtUtil {
-    private final String secret_key = "ENVIRKELIGLANGENCRYPTIONKEYDERSKALVAEREENVIOMENTKEYFRACICD"; //Der kan ikke være æøå :(
+    private final String secret_key = System.getenv("JWT_TOKEN_SECRET_KEY"); //Bruger heroku ENV values 4 cryptering + open-sorce protection
     private long accessTokenValidity = 60*60*1000;
 
     private final JwtParser jwtParser;
