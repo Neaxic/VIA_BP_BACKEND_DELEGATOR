@@ -9,6 +9,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public class UserRepository {
@@ -34,6 +36,17 @@ public class UserRepository {
             query.setParameter("username", username);
             User user = query.uniqueResult();
             return user;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<User> getAllUsers(){
+        try (Session session = sessionFactory.openSession()){
+            Query<User> query = session.createQuery("FROM User", User.class);
+            List<User> users = query.getResultList();
+            return users;
         } catch (Exception e){
             e.printStackTrace();
         }

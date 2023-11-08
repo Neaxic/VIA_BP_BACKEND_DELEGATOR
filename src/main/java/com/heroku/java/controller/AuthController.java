@@ -1,6 +1,6 @@
 package com.heroku.java.controller;
 
-import com.heroku.java.model.authentication.JwtUtil;
+import com.heroku.java.authentication.JwtUtil;
 import com.heroku.java.model.User;
 import com.heroku.java.model.request.LoginReq;
 import com.heroku.java.model.response.ErrorRes;
@@ -42,12 +42,12 @@ public class AuthController {
             LoginRes loginRes = new LoginRes(email,token);
 
             return ResponseEntity.ok(loginRes);
-
         }catch (BadCredentialsException e){
             ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST,"Invalid username or password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }catch (Exception e){
-            ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, e.getMessage());
+            System.out.println("her");
+            ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST,"Invalid username or password");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
