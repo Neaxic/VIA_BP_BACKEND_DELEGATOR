@@ -27,11 +27,11 @@ public class MachineErrorHistoryRepository {
         }
     }
 
-    public MachineErrorHistory getMachineErrorHistoryById(int machineId) {
+    public List<MachineErrorHistory> getMachineErrorHistoryById(int machineId) {
         try (Session session = sessionFactory.openSession()) {
             Query<MachineErrorHistory> query = session.createQuery("FROM MachineErrorHistory WHERE machineId = :machineId", MachineErrorHistory.class);
             query.setParameter("machineId", machineId);
-            return query.uniqueResult();
+            return (List<MachineErrorHistory>) query.list();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -100,7 +100,7 @@ public class MainController {
 
     // Retrieve a MachineErrorHistory by ID
     @GetMapping("/getMachineErrorHistory")
-    public MachineErrorHistory getMachineErrorHistory(@RequestParam Integer id) {
+    public List<MachineErrorHistory> getMachineErrorHistory(@RequestParam Integer id) {
         return machineErrorHistoryService.getMachineErrorHistoryById(id);
     }
 
