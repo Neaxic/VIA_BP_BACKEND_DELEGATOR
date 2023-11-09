@@ -18,8 +18,8 @@ public class UserService {
         return user == null ? Constants.STATUS_FAILED : user.toJsonString();
     }
     public String registerUser(String username, String password, boolean isAdmin) {
-        String encryptedPassword = EncryptionUtil.hashPassword(password);
-        User user = new User(username, encryptedPassword, isAdmin);
+        //String encryptedPassword = EncryptionUtil.hashPassword(password);
+        User user = new User(username, password, isAdmin);
         return userRepository.saveUser(user);
     }
 

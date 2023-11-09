@@ -58,12 +58,26 @@ public class UserRepository {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
             query.setParameter("username", username);
             User user = query.uniqueResult();
-            if (user != null && EncryptionUtil.verifyPassword(user.getPassword(), password)) {
-                return user; // User is authenticated
-            }
+            //if (user != null && EncryptionUtil.verifyPassword(user.getPassword(), password)) {
+            //    return user; // User is authenticated
+            //}
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean verifyPassword(String username, String password){
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
+            query.setParameter("username", username);
+            User user = query.uniqueResult();
+            if (user != null && EncryptionUtil.verifyPassword(user.getPassword(), password)) {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

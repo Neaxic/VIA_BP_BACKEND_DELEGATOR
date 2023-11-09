@@ -12,21 +12,22 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class JwtUtil {
-    private final String secret_key = System.getenv("JWT_TOKEN_SECRET_KEY"); //Bruger heroku ENV values 4 cryptering + open-sorce protection
-    private long accessTokenValidity = 60*60*1000;
+    private final String secret_key = System.getenv("JWT_TOKEN_SECRET_KEY"); // Bruger heroku ENV values 4 cryptering +
+                                                                             // open-sorce protection
+    private long accessTokenValidity = 60 * 60 * 1000;
 
     private final JwtParser jwtParser;
 
     private final String TOKEN_HEADER = "Authorization";
     private final String TOKEN_PREFIX = "Bearer ";
 
-    public JwtUtil(){
+    public JwtUtil() {
         this.jwtParser = Jwts.parser().setSigningKey(secret_key);
     }
 
     public String createToken(User user) {
         Claims claims = Jwts.claims().setSubject(user.getUsername());
-        claims.put("username",user.getUsername());
+        claims.put("username", user.getUsername());
         Date tokenCreateTime = new Date();
         Date tokenValidity = new Date(tokenCreateTime.getTime() + TimeUnit.MINUTES.toMillis(accessTokenValidity));
         return Jwts.builder()
@@ -79,6 +80,10 @@ public class JwtUtil {
 
     private List<String> getRoles(Claims claims) {
         return (List<String>) claims.get("roles");
+    }
+
+    public String getEmailFromToken(String token) {
+        return parseJwtClaims(token).getSubject();
     }
 
 }
