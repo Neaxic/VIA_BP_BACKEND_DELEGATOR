@@ -1,5 +1,6 @@
 package com.heroku.java.service.fakeDataGenerator;
 
+import com.heroku.java.model.BatchInfo;
 import com.heroku.java.model.MachineErrorHistory;
 import com.heroku.java.service.ErrorCodeService;
 import com.heroku.java.service.MachineErrorHistoryService;
@@ -14,8 +15,6 @@ import java.time.LocalDateTime;
 @Component
 public class ScheduledTasks {
 
-
-    //Ideen er at vi her Faker løbende data, aka tilføjer machine_error_history
     @Autowired
     private MachineErrorHistoryService machineErrorHistoryService;
 
@@ -25,7 +24,6 @@ public class ScheduledTasks {
     @Autowired
     private MachineService machineService;
 
-
     /**
      * Generates fake MachineErrorHistory for each machine at a predefined interval.
      */
@@ -33,13 +31,13 @@ public class ScheduledTasks {
     public void generateFakeData() {
         System.out.println("Genereate");
         machineService.getAllMachines().forEach(machine -> {
-            if (machine.shouldCreateFakeData()) {
-                System.out.printf("Inside");
+            if (machine.shouldCreateFakeData() && machine.isMachineRunning() && machine.getCurrentBatch() != null) {
                 MachineErrorHistory error = generateRandomMachineErrorHistory(machine.getMachineID());
                 machineErrorHistoryService.registerMachineErrorHistory(error);
             }
         });
     }
+
 
     public MachineErrorHistory generateRandomMachineErrorHistory(int machineId) {
         int errorId = errorCodeService.getRandomErrorCode().getErrorID();
