@@ -17,7 +17,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 // Tillad CORS-anmodninger til alle dine API'er fra frontendens URL
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000")
+                        .allowedOrigins("http://localhost:3000/")
                         .allowedMethods("*")
                         .allowedHeaders("*")
                         .allowCredentials(true);

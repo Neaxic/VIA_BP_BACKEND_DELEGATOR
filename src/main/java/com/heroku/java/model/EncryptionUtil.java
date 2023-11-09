@@ -10,6 +10,7 @@ public class EncryptionUtil {
         return argon2.hash(10, 65536, 1, password);
     }
 
+
     public static boolean verifyPassword(String hashedPassword, String inputPassword) {
         return argon2.verify(hashedPassword, inputPassword);
     }
