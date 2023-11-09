@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 
 @Component
@@ -28,10 +29,12 @@ public class ScheduledTasks {
     /**
      * Generates fake MachineErrorHistory for each machine at a predefined interval.
      */
-    @Scheduled(fixedRate = 600000)  // 10 minutes
+    @Scheduled(fixedRate = 6000000)  // 10 minutes
     public void generateFakeData() {
+        System.out.println("Genereate");
         machineService.getAllMachines().forEach(machine -> {
             if (machine.shouldCreateFakeData()) {
+                System.out.printf("Inside");
                 MachineErrorHistory error = generateRandomMachineErrorHistory(machine.getMachineID());
                 machineErrorHistoryService.registerMachineErrorHistory(error);
             }
