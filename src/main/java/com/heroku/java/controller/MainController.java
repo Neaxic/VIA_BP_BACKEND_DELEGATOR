@@ -40,20 +40,12 @@ public class MainController {
 
     //User endpoints
 
-    @CrossOrigin(origins = "http://localhost:3000/" )
     @RequestMapping("/testConnection")
     public String connectedToServer() {
         return "Connected to Server!";
     }
 
-    @CrossOrigin(origins = "http://localhost:3000/" )
 
-    @GetMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        return userService.login(username,password);
-    }
-
-    @CrossOrigin(origins = "http://localhost:3000/" )
     @PostMapping("/registerUser")
     public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam boolean isAdmin) {
         return userService.registerUser(username, password, isAdmin);
@@ -121,9 +113,7 @@ public class MainController {
     }
 
 
-
 //Virker på Backend
-@CrossOrigin(origins = "http://localhost:3000/" )
     @GetMapping("/getAllStatusCodes")
     public List<StatusCodes> getAllStatusCodes() {
         return statusCodeService.getAllStatusCodes();
