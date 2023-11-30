@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Collections;
 import java.util.List;
 
-@Repository
+
 public class MachineRepository  {
     @Autowired
     SessionFactory sessionFactory;

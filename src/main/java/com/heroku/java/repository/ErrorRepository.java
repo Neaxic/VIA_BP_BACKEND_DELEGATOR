@@ -1,6 +1,7 @@
 package com.heroku.java.repository;
 
-import com.heroku.java.model.*;
+import com.heroku.java.model.Constants;
+import com.heroku.java.model.Errors;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -11,14 +12,15 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class StatusCodeRepository {
+public class ErrorRepository {
+
     @Autowired
     SessionFactory sessionFactory;
 
-    public String saveStatusCodes(StatusCodes statusCodes) {
+    public String saveErrorCode(Errors errors) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.save(statusCodes);
+            session.save(errors);
             session.getTransaction().commit();
             return Constants.STATUS_SUCCESS;
         } catch (Exception e) {
@@ -27,10 +29,21 @@ public class StatusCodeRepository {
         }
     }
 
-
-    public List<StatusCodes> getAllStatusCodes() {
+    public Errors getErrorById(int errorID) {
         try (Session session = sessionFactory.openSession()) {
-            Query<StatusCodes> query = session.createQuery("FROM StatusCodes", StatusCodes.class);
+            Query<Errors> query = session.createQuery("FROM Errors WHERE errorId = :errorID", Errors.class);
+            query.setParameter("errorID", errorID);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public List<Errors> getAllErrors() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Errors> query = session.createQuery("FROM Errors ", Errors.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,17 +51,10 @@ public class StatusCodeRepository {
         return Collections.emptyList();
     }
 
-
-
-
-    public StatusCodes getStatusCodeId(int statusCodeID) {
-        try (Session session = sessionFactory.openSession()) {
-             Query<StatusCodes> query = session.createQuery("FROM StatusCodes WHERE statusCodeID = :param", StatusCodes.class);
-            query.setParameter("param", statusCodeID);
-            return query.uniqueResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public Errors getRandomErrorCode() {
+        List<Errors> errorCodes = getAllErrors();
+        return errorCodes.get((int) (Math.random() * errorCodes.size()));
     }
+
+
 }

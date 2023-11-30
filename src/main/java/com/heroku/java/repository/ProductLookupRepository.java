@@ -1,7 +1,8 @@
 package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
-import com.heroku.java.model.ErrorCode;
+import com.heroku.java.model.ErrorLookup;
+import com.heroku.java.model.ProductLookUp;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -12,14 +13,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class ErrorCodeRepository{
+public class ProductLookupRepository {
+
     @Autowired
     SessionFactory sessionFactory;
-
-    public String saveErrorCode(ErrorCode errorCode) {
+    public String saveProductLookup(ProductLookUp ProductLookUp) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.save(errorCode);
+            session.save(ProductLookUp);
             session.getTransaction().commit();
             return Constants.STATUS_SUCCESS;
         } catch (Exception e) {
@@ -28,10 +29,11 @@ public class ErrorCodeRepository{
         }
     }
 
-    public ErrorCode getErrorCodeById(int errorID) {
+
+    public ProductLookUp getProductLookUpById(int productLookUpId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<ErrorCode> query = session.createQuery("FROM ErrorCode WHERE errorID = :errorID", ErrorCode.class);
-            query.setParameter("errorID", errorID);
+            Query<ProductLookUp> query = session.createQuery("FROM ProductLookUp WHERE productLookupId = :productLookUpId", ProductLookUp.class);
+            query.setParameter("productLookUpId", productLookUpId);
             return query.uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,9 +42,9 @@ public class ErrorCodeRepository{
     }
 
 
-    public List<ErrorCode> getAllErrorCodes() {
+    public List<ProductLookUp> getAllProductLookUp() {
         try (Session session = sessionFactory.openSession()) {
-            Query<ErrorCode> query = session.createQuery("FROM ErrorCode ", ErrorCode.class);
+            Query<ProductLookUp> query = session.createQuery("FROM ProductLookUp", ProductLookUp.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -50,10 +52,10 @@ public class ErrorCodeRepository{
         return Collections.emptyList();
     }
 
-    public ErrorCode getRandomErrorCode() {
-        List<ErrorCode> errorCodes = getAllErrorCodes();
-        return errorCodes.get((int) (Math.random() * errorCodes.size()));
+    public ProductLookUp getRandomProductLookUp() {
+        //TODO: This should be done by SQL instead of java for performance.
+        List<ProductLookUp> errorLookups = getAllProductLookUp();
+        return errorLookups.get((int) (Math.random() * errorLookups.size()));
     }
-
 
 }

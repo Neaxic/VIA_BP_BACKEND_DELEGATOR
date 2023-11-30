@@ -1,48 +1,75 @@
 package com.heroku.java.service.fakeDataGenerator;
 
-import com.heroku.java.model.BatchInfo;
-import com.heroku.java.model.MachineErrorHistory;
-import com.heroku.java.service.ErrorCodeService;
-import com.heroku.java.service.MachineErrorHistoryService;
-import com.heroku.java.service.MachineService;
+import com.heroku.java.model.Errors;
+import com.heroku.java.model.Machine;
+import com.heroku.java.model.Product;
+import com.heroku.java.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 
 @Component
 public class ScheduledTasks {
 
     @Autowired
-    private MachineErrorHistoryService machineErrorHistoryService;
-
-    @Autowired
-    private ErrorCodeService errorCodeService;
+    private ErrorService errorService;
 
     @Autowired
     private MachineService machineService;
 
+    @Autowired
+    private ErrorLookupService errorLookupService;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private ProductLookupService productLookupService;
+
     /**
      * Generates fake MachineErrorHistory for each machine at a predefined interval.
      */
-    @Scheduled(fixedRate = 6000000)  // 10 minutes
+    @Scheduled(fixedRate = 6000000) // 10 minutes
     public void generateFakeData() {
-        System.out.println("Genereate");
         machineService.getAllMachines().forEach(machine -> {
-            if (machine.shouldCreateFakeData() && machine.isMachineRunning() && machine.getCurrentBatch() != null) {
-                MachineErrorHistory error = generateRandomMachineErrorHistory(machine.getMachineID());
-                machineErrorHistoryService.registerMachineErrorHistory(error);
+            if (machine.shouldCreateFakeData() &&
+                    machine.isMachineRunning() &&
+                    machine.getCurrentBatch() != null &&
+                    productService.getNumberOfProducedItemsInBatch(machine.getCurrentBatch().getBatchNo()) < machine.getCurrentBatch().getBatchSize())
+            {
+                productService.saveProduct(generateRandomProduct(machine));
+
+                /*TODO: This is for creating fake machine errors. Maybe move these to another scheduled function, which runs less often.
+                Errors error = generateRandomErrorHistory(machine.getMachineID());
+                errorService.registerErrorCode(error);*/
             }
         });
     }
 
+    public Product generateRandomProduct(Machine machine) {
+        Product product = new Product();
+        if (Math.random() <= 0.8) { //Will generate STATUS_OK 80% of the time.
+            product.setProductLookupId(1);
+        } else {
+            product.setProductLookupId(productLookupService.getRandomProductLookUp().getProductLookupId());
+        }
+        product.setBatchNo(machine.getCurrentBatch().getBatchNo());
+        product.setTimeStamp(LocalDateTime.now());
+        product.setFake(true);
 
-    public MachineErrorHistory generateRandomMachineErrorHistory(int machineId) {
-        int errorId = errorCodeService.getRandomErrorCode().getErrorID();
-        LocalDateTime timeForMistake = LocalDateTime.now();
-        MachineErrorHistory machineErrorHistory = new MachineErrorHistory(machineId, errorId, timeForMistake);
-        return machineErrorHistory;
+        return product;
+    }
+
+    //TODO:
+    //This is used to generate machine errors. What we want is products, on which some fail. Change this
+    public Errors generateRandomErrorHistory(int machineId) {
+        Errors error = new Errors();
+        error.setErrorLookUpId(errorLookupService.getRandomErrorLookup().getErrorLookupId());
+        error.setTimeStamp(LocalDateTime.now());
+        error.setMachineID(machineId);
+        error.setAsFakeData(true);
+        return error;
     }
 }

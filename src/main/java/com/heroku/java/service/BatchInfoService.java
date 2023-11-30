@@ -14,17 +14,17 @@ public class BatchInfoService {
     @Autowired
     private BatchInfoRepository batchInfoRepository;
 
-    public String registerBatchInfo(Integer batchNo, Integer machineID, Integer producedItems, LocalDateTime startTime, LocalDateTime endTime) {
-        BatchInfo batchInfo = new BatchInfo(batchNo, machineID, producedItems,startTime,endTime);
+    public String registerBatchInfo(Integer machineID, Integer producedItems, LocalDateTime startTime, LocalDateTime endTime) {
+        BatchInfo batchInfo = new BatchInfo(machineID, producedItems,startTime,endTime);
         return batchInfoRepository.saveBatchInfo(batchInfo);
     }
     public BatchInfo getBatchInfoById(Integer id) {
         return batchInfoRepository.getBatchInfoById(id);
     }
 
-    public List<BatchInfo> getAllBatchs()
+    public List<BatchInfo> getAllBatches()
     {
-        return batchInfoRepository.getAllBatchs();
+        return batchInfoRepository.getAllBatches();
     }
 
 
