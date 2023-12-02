@@ -51,10 +51,7 @@ public class MainController {
         return "Connected to Server!";
     }
 
-    @PostMapping("/registerUser")
-    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam boolean isAdmin) {
-        return userService.registerUser(username, password, isAdmin);
-    }
+
 
     @PostMapping("/registerErrorLookup")
     public String registerErrorLookup(@RequestParam String name, String description) {
@@ -120,9 +117,16 @@ public class MainController {
         return machineService.getAllMachines();
     }
 
+
+    //TODO Burdes Flyttes TOL AUTH DEt her intet med maskine at gøre
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+    //TODO Burdes Flyttes TOL AUTH DEt her intet med maskine at gøre
+    @PostMapping("/registerUser")
+    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam boolean isAdmin) {
+        return userService.registerUser(username, password, isAdmin);
     }
 }
 
