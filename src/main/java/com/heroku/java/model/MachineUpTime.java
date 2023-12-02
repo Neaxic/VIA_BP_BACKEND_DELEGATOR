@@ -1,6 +1,9 @@
 package com.heroku.java.model;
 
 import jakarta.persistence.*;
+import org.joda.time.DateTime;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -23,7 +26,7 @@ public class MachineUpTime {
     @Basic
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "TimeStamp")
-    private java.util.Date timeOfLog;
+    private LocalDateTime timeOfLog;
 
     @Column(name = "Status")
     private Integer status = null;
@@ -55,11 +58,11 @@ public class MachineUpTime {
         this.machineName = machineName;
     }
 
-    public Date getTimeOfLog() {
+    public LocalDateTime getTimeOfLog() {
         return timeOfLog;
     }
 
-    public void setTimeOfLog(Date timeOfLog) {
+    public void setTimeOfLog(LocalDateTime timeOfLog) {
         this.timeOfLog = timeOfLog;
     }
 
