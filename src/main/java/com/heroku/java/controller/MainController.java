@@ -97,31 +97,15 @@ public class MainController {
         return machineService.getMachineById(id);
     }
 
-/*
-
-
-    @PostMapping("/registerMEH")
-    public String registerMachineErrorHistory(@RequestParam int machineId, @RequestParam int errorId,@RequestParam LocalDateTime timeForMistake) {
-        return machineErrorHistoryService.registerMachineErrorHistory(machineId, errorId, timeForMistake);
-    }
-
 
     // Retrieve an ErrorCode by ID
     @GetMapping("/getErrorCode")
-    public Error getErrorCode(@RequestParam Integer id) {
-        return errorService.getErrorCodeById(id);
-    }
-
-
-
-    // Retrieve a MachineErrorHistory by ID
-    @GetMapping("/getMachineErrorHistory")
-    public List<Errors> getErrorsFromMachine(@RequestParam Integer id) {
-        return errorService.getMachineErrorHistoryById(id);
+    public Errors getErrorCode(@RequestParam Integer errorId) {
+        return errorService.getErrorCodeById(errorId);
     }
 
     @GetMapping("/getAllErrorCodes")
-    public List<Error> getAllErrorCodes() {
+    public List<Errors> getAllErrorCodes() {
         return errorService.getAllErrorCodes();
     }
     // Virker På Backend
@@ -135,24 +119,11 @@ public class MainController {
     public List<Machine> getAllMachines() {
         return machineService.getAllMachines();
     }
-    // Virker På BAckend
-
-    @GetMapping("/getAllErrorsFromMachine")
-    public List<Errors> getAllErrorsFromMachine(@RequestParam Integer machineId) {
-        return getErrorsFromMachine(machineId);
-    }
 
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
-    }*/
-
-
-        /*// ErrorCodes endpoints
-    @PostMapping("/registerErrorCodes")
-    public String registerErrorCode(@RequestParam String errorCode) {
-        return errorService.registerErrorCode(errorCode);
-    }*/
+    }
 }
 
 
