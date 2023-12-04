@@ -76,9 +76,7 @@ public class ScheduledTasks {
         return product;
     }
 
-    //TODO:
-    //This is used to generate machine errors. What we want is products, on which some fail. Change this
-    public Errors generateRandomErrorHistory(int machineId) {
+    public Errors generateRandomError(int machineId) {
         Errors error = new Errors();
         error.setErrorLookUpId(errorLookupService.getRandomErrorLookup().getErrorLookupId());
         error.setTimeStamp(LocalDateTime.now());

@@ -44,6 +44,9 @@ public class MainController {
     @Autowired
     private ErrorLookupService errorLookupService;
 
+    @Autowired
+    private MachineUpTimeService machineUpTimeService;
+
 
     //User endpoints
     @RequestMapping("/testConnection")
@@ -117,7 +120,10 @@ public class MainController {
         return machineService.getAllMachines();
     }
 
-
+    @GetMapping("/getMachineUpTime24HourProcentage")
+    public double getMachineUpTime24HourProcentage(@RequestParam int machineId) {
+        return machineUpTimeService.getMachineUpTime24HourProcentage(machineId);
+    }
 
 
     //TODO Burdes Flyttes TOL AUTH DEt her intet med maskine at gøre
