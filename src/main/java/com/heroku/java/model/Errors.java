@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "machine")
+@Table(name = "error")
 public class Errors {
 
     @Id

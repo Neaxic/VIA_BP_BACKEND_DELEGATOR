@@ -118,6 +118,8 @@ public class MainController {
     }
 
 
+
+
     //TODO Burdes Flyttes TOL AUTH DEt her intet med maskine at gøre
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
