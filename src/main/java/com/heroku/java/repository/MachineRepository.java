@@ -12,9 +12,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class MachineRepository  {
+public class MachineRepository {
+    private final SessionFactory sessionFactory;
+
     @Autowired
-    SessionFactory sessionFactory;
+    public MachineRepository(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     public String saveMachine(Machine machine) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -38,11 +43,9 @@ public class MachineRepository  {
         return null;
     }
 
-
-
     public List<Machine> getAllMachines() {
         try (Session session = sessionFactory.openSession()) {
-            Query<Machine> query = session.createQuery("FROM Machine ", Machine.class);
+            Query<Machine> query = session.createQuery("FROM Machine", Machine.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
