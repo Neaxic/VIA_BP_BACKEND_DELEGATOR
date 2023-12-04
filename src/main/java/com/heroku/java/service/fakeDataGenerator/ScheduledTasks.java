@@ -54,7 +54,7 @@ public class ScheduledTasks {
     /**
      * Takes a snapshot of every machine which has "enablesnapshot" enabled.
      */
-    @Scheduled(fixedRate = 60000) //6 sec
+    @Scheduled(fixedRate = 6000) //6 sec
     public void generateSnapshot() {
         for (Machine machine : machineService.getAllMachinesForSnapshot()) {
             machineUpTimeService.saveMachineUpTime(machine.toMachineUpTime());
