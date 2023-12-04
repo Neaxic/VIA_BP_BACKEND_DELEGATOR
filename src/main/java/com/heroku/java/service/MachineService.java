@@ -26,4 +26,6 @@ public class MachineService {
         return machineRepository.getAllMachines();
     }
 
+    public List<Machine> getAllMachinesForSnapshot() { return machineRepository.getAllMachinesForSnapshot(); }
+
 }

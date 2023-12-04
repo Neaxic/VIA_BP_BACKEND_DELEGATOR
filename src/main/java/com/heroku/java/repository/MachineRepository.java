@@ -52,4 +52,15 @@ public class MachineRepository {
         }
         return Collections.emptyList();
     }
+
+    public List<Machine> getAllMachinesForSnapshot() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Machine> query = session.createQuery("FROM Machine WHERE enableSnapshot = true", Machine.class);
+            query.setParameter("enableSnapshot", true);
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
 }

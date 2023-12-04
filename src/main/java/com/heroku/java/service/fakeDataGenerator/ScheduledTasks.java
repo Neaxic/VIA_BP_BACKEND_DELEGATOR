@@ -28,6 +28,9 @@ public class ScheduledTasks {
     @Autowired
     private ProductLookupService productLookupService;
 
+    @Autowired
+    private MachineUpTimeService machineUpTimeService;
+
     /**
      * Generates fake MachineErrorHistory for each machine at a predefined interval.
      */
@@ -47,6 +50,17 @@ public class ScheduledTasks {
             }
         });
     }
+
+    /**
+     * Takes a snapshot of every machine which has "enablesnapshot" enabled.
+     */
+    @Scheduled(fixedRate = 60000) //6 sec
+    public void generateSnapshot() {
+        for (Machine machine : machineService.getAllMachinesForSnapshot()) {
+            machineUpTimeService.saveMachineUpTime(machine.toMachineUpTime());
+        }
+    }
+
 
     public Product generateRandomProduct(Machine machine) {
         Product product = new Product();

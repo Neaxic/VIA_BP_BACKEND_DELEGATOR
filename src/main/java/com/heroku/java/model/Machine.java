@@ -2,6 +2,8 @@ package com.heroku.java.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "machine")
 public class Machine {
@@ -83,6 +85,16 @@ public class Machine {
     public BatchInfo getCurrentBatch() {
         //TODO: LAV DENNE
         return null;
+    }
+
+    public MachineUpTime toMachineUpTime() {
+        //TODO: Overvej og lav unitTest på den her (TTD)
+        MachineUpTime machineUpTime = new MachineUpTime();
+        machineUpTime.setMachineId(this.getMachineID());
+        machineUpTime.setMachineName(this.getMachineName());
+        machineUpTime.setStatus(this.getStatus());
+        machineUpTime.setTimeOfLog(LocalDateTime.now());
+        return machineUpTime;
     }
 
     /* @OneToMany(fetch = FetchType.EAGER)
