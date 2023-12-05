@@ -49,10 +49,6 @@ public class MainController {
     @Autowired
     private MachineUpTimeService machineUpTimeService;
 
-    @Autowired
-    private ProductStatusService productStatusService;
-
-
     //User endpoints
     @RequestMapping("/testConnection")
     public String connectedToServer() {
