@@ -69,7 +69,8 @@ public class ScheduledTasks {
         } else {
             product.setProductLookupId(productLookupService.getRandomProductLookUp().getProductLookupId());
         }
-        product.setBatchNo(machine.getCurrentBatch().getBatchNo());
+        product.setBatchNo(machine.getCurrentBatch());
+        //product.setBatchNo(machine.getCurrentBatch().getBatchNo());
         product.setTimeStamp(LocalDateTime.now());
         product.setFake(true);
 
