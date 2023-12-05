@@ -72,17 +72,6 @@ public class Product {
     }
 
 
-    public UserDTO toDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(this.getUserId());
-        userDTO.setUsername(this.getUsername());
 
-       /* Set<String> roleNames = this.getRoles().stream()
-                .map(UserRoles::getRoleName)
-                .collect(Collectors.toSet());*/
-
-        userDTO.setRoles(this.getRoles());
-        return userDTO;
-    }
 
 }
