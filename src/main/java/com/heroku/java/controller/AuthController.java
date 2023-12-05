@@ -1,6 +1,7 @@
 package com.heroku.java.controller;
 
 import com.heroku.java.model.EncryptionUtil;
+import com.heroku.java.model.UserRoles;
 import com.heroku.java.model.authentication.JwtUtil;
 import com.heroku.java.model.User;
 import com.heroku.java.model.request.LoginReq;
@@ -38,7 +39,7 @@ public class AuthController {
     public ResponseEntity verify(@RequestParam String token) {
         try {
             String email = jwtUtil.getEmailFromToken(token);
-            User user = new User(email, "");
+            User user = new User(email, "", new UserRoles());
             String newToken = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(email, newToken);
             return ResponseEntity.ok(loginRes);
@@ -60,7 +61,7 @@ public class AuthController {
             String email = authentication.getName();
 
             // det vi returner til kient
-            User user = new User(email, "");
+            User user = new User(email, "", new UserRoles());
             String token = jwtUtil.createToken(user);
             LoginRes loginRes = new LoginRes(email, token);
 

@@ -4,7 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
-import org.checkerframework.common.aliasing.qual.Unique;
+import org.jetbrains.annotations.NotNull;
+import scala.Int;
+
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -13,29 +16,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
-    @Unique
     @Column(name = "username")
-    String username = ""; //Assigning this to avoid NPE
+    String username = ""; // Assigning this to avoid NPE
 
     @Column(name = "password_")
-    String password = ""; //Assigning this to avoid NPE
+    String password = ""; // Assigning this to avoid NPE
 
-    @Column(name = "isAdmin")
-    boolean isAdmin;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "userRoles", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
+            @JoinColumn(name = "roleId") })
+    private Set<UserRoles> roles = new HashSet<>();
 
-    @JsonIgnore
-    private String idk = "";
+    List<Integer> roles2 = new ArrayList<>();
 
-    public User() { } //Needed for hibernate to create empty objects
-    public User(String username, String password, boolean isAdmin) {
+    public User() {
+    } // Needed for hibernate to create empty objects
+
+    public User(String username, String password, UserRoles role) {
         this.username = username;
         this.password = password;
-        this.isAdmin = isAdmin;
+        this.roles.add(role);
     }
-    public User(String username, String password) {
-        this(username, password, false);
-    }
-
 
     public int getUserId() {
         return userId;
@@ -61,14 +62,6 @@ public class User {
         this.password = password;
     }
 
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
-    }
-
     public String toJsonString() {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -77,5 +70,19 @@ public class User {
             e.printStackTrace();
             return "{}"; // Return an empty JSON object in case of an error
         }
+    }
+
+    public Set<UserRoles> getRoles() {
+        return roles;
+    }
+
+    public void addRoleID(UserRoles role) {
+        if (!roles.contains(role)) {
+            roles.add(role);
+        }
+    }
+
+    public void removeRoleId(UserRoles role) {
+        roles.remove(role);
     }
 }

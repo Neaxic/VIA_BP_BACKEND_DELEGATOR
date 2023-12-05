@@ -47,8 +47,8 @@ public class MainController {
 
 
     @PostMapping("/registerUser")
-    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam boolean isAdmin) {
-        return userService.registerUser(username, password, isAdmin);
+    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam int roleID) {
+        return userService.registerUser(username, password, roleID);
     }
     // ErrorCodes endpoints
     @PostMapping("/registerErrorCodes")
@@ -103,7 +103,7 @@ public class MainController {
     }
 
 
-//Virker på Backend
+    //Virker på Backend
     @RequestMapping("/getAllStatusCodes")
     public List<StatusCodes> getAllStatusCodes() {
         return statusCodeService.getAllStatusCodes();
