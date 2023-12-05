@@ -2,6 +2,7 @@ package com.heroku.java.controller;
 
 import com.heroku.java.model.EncryptionUtil;
 import com.heroku.java.model.UserRoles;
+import com.heroku.java.model.UserRolesLookup;
 import com.heroku.java.model.authentication.JwtUtil;
 import com.heroku.java.model.User;
 import com.heroku.java.model.request.LoginReq;
@@ -46,12 +47,17 @@ public class AuthController {
     @GetMapping(value = "/verify")
     public ResponseEntity verify(@RequestParam String token) {
         try {
+
             Claims claims = jwtUtil.parseJwtClaims(token);
             if (jwtUtil.validateClaims(claims)) {
-                String email = jwtUtil.getEmailFromToken(token);
-                User user = new User(email, "", new UserRoles());
+                String username = jwtUtil.getEmailFromToken(token);
+                User user = userService.findUserByUsername(username);
+                System.out.println("Verifying: "+user.getUsername());
+
+                List<UserRolesLookup> roles = userService.getRolesByUserId(user.getUserId());
                 String newToken = jwtUtil.createToken(user);
-                LoginRes loginRes = new LoginRes(email, newToken);
+
+                LoginRes loginRes = new LoginRes(username, newToken, user, roles);
                 return ResponseEntity.ok(loginRes);
             } else {
                 throw new Exception("Invalid token");
@@ -66,17 +72,21 @@ public class AuthController {
     @PostMapping(value = "/login")
     public ResponseEntity login(@RequestBody LoginReq loginReq) {
         try {
-            System.out.println(loginReq.getEmail() + "´, " + loginReq.getPassword());
+            System.out.println("Logging in: "+loginReq.getEmail());
 
             // auther
             Authentication authentication = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginReq.getEmail(), loginReq.getPassword()));
-            String email = authentication.getName();
+            String username = authentication.getName();
 
             // det vi returner til kient
-            User user = new User(email, "", new UserRoles());
+            User user = userService.findUserByUsername(username);
+            user.setPassword(""); //Making sure to send unusable password as response. // Det et hack basiclly
+
+            List<UserRolesLookup> roles = userService.getRolesByUserId(user.getUserId());
             String token = jwtUtil.createToken(user);
-            LoginRes loginRes = new LoginRes(email, token);
+
+            LoginRes loginRes = new LoginRes(username, token, user, roles);
 
             return ResponseEntity.ok(loginRes);
         } catch (BadCredentialsException e) {

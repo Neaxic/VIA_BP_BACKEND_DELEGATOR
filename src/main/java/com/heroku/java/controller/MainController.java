@@ -1,6 +1,8 @@
 package com.heroku.java.controller;
 
 import com.heroku.java.model.*;
+import com.heroku.java.model.request.LoginReq;
+import com.heroku.java.model.request.RegisterReq;
 import com.heroku.java.repository.UserRepository;
 import com.heroku.java.service.*;
 import org.hibernate.SessionFactory;
@@ -136,9 +138,10 @@ public class MainController {
         return userService.getAllUsersDTO();
     }
 
+    @ResponseBody
     @PostMapping("/registerUser")
-    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam int roleId) {
-        return userService.registerUser(username, password, roleId);
+    public String registerUser(@RequestBody RegisterReq registerReq) {
+        return userService.registerUser(registerReq.getUsername(), registerReq.getPassword(), registerReq.getFirstname(), registerReq.getLastname(), registerReq.getRoleId());
     }
 
 

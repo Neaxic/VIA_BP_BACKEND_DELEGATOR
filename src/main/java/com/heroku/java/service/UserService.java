@@ -3,8 +3,10 @@ package com.heroku.java.service;
 import com.heroku.java.model.User;
 import com.heroku.java.model.UserDTO;
 import com.heroku.java.model.UserRoles;
+import com.heroku.java.model.UserRolesLookup;
 import com.heroku.java.repository.UserRepository;
 import com.heroku.java.repository.UserRolesRepository;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,16 +27,24 @@ public class UserService {
     }
     */
 
-    public String registerUser(String username, String password, int roleID) {
+    public String registerUser(String username, String password, String firstname, String lastname, int roleID) {
         UserRoles role = userRolesRepository.findRoleById(roleID);
         //String encryptedPassword = EncryptionUtil.hashPassword(password);
-        User user = new User(username, password, role); //TODO: Tjek om dette også gemmer UserRole'en og ikke bare useren.
+        User user = new User(username, password, firstname, lastname, role);
         return userRepository.saveUser(user);
     }
 
     public List<User> getAllUsers()
     {
         return userRepository.getAllUsers();
+    }
+
+    public User findUserByUsername(String username){
+        return userRepository.findUserByUsername(username);
+    }
+
+    public List<UserRolesLookup> getRolesByUserId(int roleId){
+        return userRepository.getRolesByUserId(roleId);
     }
 
     public List<UserDTO> getAllUsersDTO() {

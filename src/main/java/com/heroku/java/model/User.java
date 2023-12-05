@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import scala.Int;
 
 import java.util.*;
@@ -22,6 +23,15 @@ public class User {
     @Column(name = "password_")
     String password = ""; // Assigning this to avoid NPE
 
+    @Column(name = "firstname")
+    String firstname = "";
+
+    @Column(name = "lastname")
+    String lastname = "";
+
+    @Column(name = "createDate")
+    DateTime createDate = new DateTime();
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
@@ -30,9 +40,11 @@ public class User {
     public User() {
     } // Needed for hibernate to create empty objects
 
-    public User(String username, String password, UserRoles role) {
+    public User(String username, String password, String firstname, String lastname, UserRoles role) {
         this.username = username;
         this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.roles.add(role);
     }
 
@@ -98,5 +110,27 @@ public class User {
         return userDTO;
     }
 
+    public DateTime getCreateDate() {
+        return createDate;
+    }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setCreateDate(DateTime createDate) {
+        this.createDate = createDate;
+    }
 }

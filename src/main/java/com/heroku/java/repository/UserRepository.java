@@ -1,9 +1,6 @@
 package com.heroku.java.repository;
 
-import com.heroku.java.model.Constants;
-import com.heroku.java.model.EncryptionUtil;
-import com.heroku.java.model.User;
-import com.heroku.java.model.UserDTO;
+import com.heroku.java.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -11,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Repository
@@ -37,6 +35,18 @@ public class UserRepository {
             query.setParameter("username", username);
             User user = query.uniqueResult();
             return user;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<UserRolesLookup> getRolesByUserId(int userID){
+        try (Session session = sessionFactory.openSession()){
+            Query<UserRolesLookup> query = session.createQuery("FROM UserRoles WHERE user_id = :userId", UserRolesLookup.class);
+            query.setParameter("userId", userID);
+            List<UserRolesLookup> roles = query.getResultList();
+            return roles;
         } catch (Exception e){
             e.printStackTrace();
         }
