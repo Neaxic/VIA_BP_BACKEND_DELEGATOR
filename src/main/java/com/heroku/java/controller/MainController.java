@@ -122,7 +122,7 @@ public class MainController {
     }
 
 
-    @GetMapping("/getMachineUpTime24HourProcentage") //TODO: Test this
+    @GetMapping("/getMachineUpTime24HourProcentage")
     public double getMachineUpTime24HourProcentage(@RequestParam int machineId) {
         return machineUpTimeService.getMachineUpTime24HourProcentage(machineId);
     }
