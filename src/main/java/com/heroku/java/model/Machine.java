@@ -1,8 +1,14 @@
 package com.heroku.java.model;
 
 import jakarta.persistence.*;
+import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "machine")
@@ -27,6 +33,10 @@ public class Machine {
 
     @Column(name = "enableSnapshot")
     private Boolean enableSnapshot = false;
+
+    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    private List<BatchInfo> batches = new ArrayList<>();
 
 
     public Machine() {}
@@ -82,9 +92,13 @@ public class Machine {
         return this.getStatus() == Constants.MACHINE_STATUS_RUNNING;
     }
 
+    @Transactional
     public BatchInfo getCurrentBatch() {
-        //TODO: LAV DENNE
-        return null;
+        LocalDateTime currentDate = LocalDateTime.now();
+        return this.getBatches().stream()
+                .filter(batch -> currentDate.isAfter(batch.getStartTime()) && currentDate.isBefore(batch.getEndTime()))
+                .findFirst()
+                .orElse(null);
     }
 
     public MachineUpTime toMachineUpTime() {
@@ -97,80 +111,17 @@ public class Machine {
         return machineUpTime;
     }
 
-    /* @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "BatchInfo",
-            joinColumns = @JoinColumn(name = "machineID"),
-            inverseJoinColumns = @JoinColumn(name = "batchNo")
-    )
-    private List<BatchInfo> batches;
-
-    public Machine() {}
-
-    public Machine(String machineName, String description, StatusCodes statusCode) {
-        this.machineName = machineName;
-        this.description = description;
-        this.statusCode = statusCode;
-    }
-
-    public int getMachineID() {
-        return machineID;
-    }
-
-    public void setMachineID(int machineID) {
-        this.machineID = machineID;
-    }
-
-    public String getMachineName() {
-        return machineName;
-    }
-
-    public void setMachineName(String machineName) {
-        this.machineName = machineName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public StatusCodes getStatusCode() {
-        return statusCode;
-    }
-
-    public void setStatusCode(StatusCodes statusCode) {
-        this.statusCode = statusCode;
-    }
-
-    public boolean shouldCreateFakeData() {
-        return createFakeData == null ? false : createFakeData;
-    }
-
-    public void setCreateFakeData(Boolean createFakeData) {
-        this.createFakeData = createFakeData;
-    }
-
     public List<BatchInfo> getBatches() {
         return batches;
     }
 
-    private void setBatches(List<BatchInfo> batches) {
+    public void setBatches(List<BatchInfo> batches) {
         this.batches = batches;
     }
 
-    public BatchInfo getCurrentBatch() {
-        LocalDateTime currentDate = LocalDateTime.now();
-        BatchInfo currentBatch = batches.stream()
-                .filter(batch -> currentDate.isAfter(batch.getStartTime()) && currentDate.isBefore(batch.getEndTime()))
-                .findFirst().orElse(null);
-        return currentBatch;
+    public void addBatch(BatchInfo batch) {
+        batches.add(batch);
+        batch.setMachine(this);
     }
-
-    public boolean isMachineRunning() {
-        return getStatusCode().getStatusCodeID() == Constants.MACHINE_STATUS_RUNNING;
-    }*/
 
 }

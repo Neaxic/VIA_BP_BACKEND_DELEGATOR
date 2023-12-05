@@ -13,8 +13,10 @@ public class Product {
     @Column(name = "ProductId")
     private int productId;
 
-    @Column(name = "BatchNo")
-    private Integer batchNo;
+
+    @ManyToOne
+    @JoinColumn(name = "BatchNo")
+    private BatchInfo batchNo;
 
     @Column(name = "ProductLookupId")
     private Integer productLookupId;
@@ -23,8 +25,8 @@ public class Product {
     @Column(name = "TimeStamp")
     private LocalDateTime timeStamp;
 
-    @Column(name = "IsFake", columnDefinition = "BIT")
-    private Boolean isFake;
+    @Column(name = "IsFake")
+    private boolean isFake;
 
     public Product() {
     }
@@ -37,11 +39,11 @@ public class Product {
         this.productId = productId;
     }
 
-    public Integer getBatchNo() {
+    public BatchInfo getBatchNo() {
         return batchNo;
     }
 
-    public void setBatchNo(Integer batchNo) {
+    public void setBatchNo(BatchInfo batchNo) {
         this.batchNo = batchNo;
     }
 
@@ -61,11 +63,11 @@ public class Product {
         this.timeStamp = timeStamp;
     }
 
-    public Boolean getFake() {
+    public boolean isFake() {
         return isFake;
     }
 
-    public void setFake(Boolean fake) {
+    public void setFake(boolean fake) {
         isFake = fake;
     }
 }

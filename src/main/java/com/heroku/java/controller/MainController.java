@@ -143,15 +143,6 @@ public class MainController {
     public String registerUser(@RequestBody RegisterReq registerReq) {
         return userService.registerUser(registerReq.getUsername(), registerReq.getPassword(), registerReq.getFirstname(), registerReq.getLastname(), registerReq.getRoleId());
     }
-
-
-    @GetMapping("/getAllProductStatus")
-    public List<ProductStatus> getAllProductStatus(){
-        return productStatusService.getAllProductsStatus();
-    }
-
-
-
 }
 
 
