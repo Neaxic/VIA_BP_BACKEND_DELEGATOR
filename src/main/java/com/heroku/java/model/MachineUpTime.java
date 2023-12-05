@@ -1,10 +1,8 @@
 package com.heroku.java.model;
 
 import jakarta.persistence.*;
-import org.joda.time.DateTime;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "MachineUpTime")

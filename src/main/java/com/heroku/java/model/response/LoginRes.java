@@ -1,7 +1,6 @@
 package com.heroku.java.model.response;
 
 import com.heroku.java.model.User;
-import com.heroku.java.model.UserRoles;
 import com.heroku.java.model.UserRolesLookup;
 
 import java.util.List;

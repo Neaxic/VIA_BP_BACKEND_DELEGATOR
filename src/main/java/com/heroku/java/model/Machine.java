@@ -1,7 +1,6 @@
 package com.heroku.java.model;
 
 import jakarta.persistence.*;
-import org.hibernate.Hibernate;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.transaction.annotation.Transactional;

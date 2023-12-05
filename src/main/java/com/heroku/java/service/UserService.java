@@ -3,7 +3,6 @@ package com.heroku.java.service;
 import com.heroku.java.model.*;
 import com.heroku.java.repository.UserRepository;
 import com.heroku.java.repository.UserRolesRepository;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +17,6 @@ public class UserService {
 
     @Autowired
     UserRolesRepository userRolesRepository;
-    /*
-    public String login(String username, String password) {
-        User user = userRepository.login(username, password);
-        return user == null ? Constants.STATUS_FAILED : user.toJsonString();
-    }
-    */
 
     public String registerUser(String username, String password, String firstname, String lastname, int roleID) {
         System.out.println("Registering: " +username);

@@ -16,12 +16,7 @@ import java.util.List;
 public class MainController {
 
     /*NOTES/TODO:
-        - Consider making all endpoints return JSON. Double check and see if this is already what's being done
         - Check TODO's
-        - Overvej de steder hvor der gemmes objekter til DB. Her returneres en String med "OK" Eller "failed".
-          Overvej her at returnere hele objekterne så de også modtager id'et frontend.
-        - Lav MachineUpTime (Skal tage snapshots af Machine og gemme historisk data)
-
      */
 
     @Autowired
@@ -144,14 +139,13 @@ public class MainController {
     }
 
     @GetMapping("/getMostFrequentStatusForBatch")
-    public String getMostFrequentStatusForBatch(@RequestParam Integer batchno){
-        return productService.getMostFrequentStatusForBatch(batchno);
+    public String getMostFrequentStatusForBatch(@RequestParam Integer batchNo){
+        return productService.getMostFrequentStatusForBatch(batchNo);
     }
 
-
     @GetMapping("/getCurrentOeeFromBatch")
-    public Double getCurrentOeeFromBatch(@RequestParam Integer batchno){
-        return productService.getCurrentOeeFromBatch(batchno);
+    public Double getCurrentOeeFromBatch(@RequestParam Integer batchNo){
+        return productService.getCurrentOeeFromBatch(batchNo);
     }
 
 

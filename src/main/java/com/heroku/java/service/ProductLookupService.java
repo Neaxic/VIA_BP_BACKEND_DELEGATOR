@@ -1,6 +1,5 @@
 package com.heroku.java.service;
 
-import com.heroku.java.model.ErrorLookup;
 import com.heroku.java.model.ProductLookUp;
 import com.heroku.java.repository.ProductLookupRepository;
 import org.springframework.beans.factory.annotation.Autowired;

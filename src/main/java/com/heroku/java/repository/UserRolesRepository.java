@@ -1,6 +1,5 @@
 package com.heroku.java.repository;
 
-import com.heroku.java.model.User;
 import com.heroku.java.model.UserRoles;
 import com.heroku.java.model.UserRolesLookup;
 import org.hibernate.Session;

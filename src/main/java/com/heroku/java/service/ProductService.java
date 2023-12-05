@@ -2,7 +2,6 @@ package com.heroku.java.service;
 
 import com.heroku.java.model.Product;
 import com.heroku.java.repository.ProductRepository;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,14 +1,11 @@
 package com.heroku.java.controller;
 
-import com.heroku.java.model.EncryptionUtil;
-import com.heroku.java.model.UserRoles;
 import com.heroku.java.model.UserRolesLookup;
 import com.heroku.java.model.authentication.JwtUtil;
 import com.heroku.java.model.User;
 import com.heroku.java.model.request.LoginReq;
 import com.heroku.java.model.response.ErrorRes;
 import com.heroku.java.model.response.LoginRes;
-import com.heroku.java.repository.UserRepository;
 import com.heroku.java.service.UserService;
 
 import io.jsonwebtoken.*;
