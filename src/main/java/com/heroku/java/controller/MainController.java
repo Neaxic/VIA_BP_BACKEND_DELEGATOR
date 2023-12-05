@@ -144,7 +144,7 @@ public class MainController {
     }
 
     @GetMapping("/getMostFrequentStatusForBatch")
-    public List<Object[]> getMostFrequentStatusForBatch(@RequestParam Integer batchno){
+    public String getMostFrequentStatusForBatch(@RequestParam Integer batchno){
         return productService.getMostFrequentStatusForBatch(batchno);
     }
 
