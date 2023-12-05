@@ -132,7 +132,7 @@ public class MainController {
     public List<User> getAllUsers() {
 
         //TODO: fjern disse prints.
-        userService.getAllUsers().forEach(v -> {
+/*        userService.getAllUsers().forEach(v -> {
             System.out.println(v.getUsername());
             System.out.println(v.getPassword());
             System.out.println(v.getRoles().size());
@@ -142,10 +142,9 @@ public class MainController {
             for (UserRoles role : v.getRoles()) {
                 System.out.println(role.getRole().getRoleName());
             }
-        });
+        });*/
 
-        //TODO: FIX THIS. Er ikke sikker på om det bare er min API der fucker op, men tjek om i kan få dette til at virke. Den får fat i de rigtige users så det kun endpointet der fucker op.
-        return null;//userService.getAllUsers();
+        return userService.getAllUsers();
     }
 
     @PostMapping("/registerUser")
