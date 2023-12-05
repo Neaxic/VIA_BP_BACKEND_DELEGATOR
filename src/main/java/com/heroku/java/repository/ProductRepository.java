@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,6 +63,32 @@ public class ProductRepository {
         }
         return 0;
     }
+
+    public Double getCurrentOeeFromBatch(int batchNo){
+        try (Session session = sessionFactory.openSession()) {
+            Query<Double> query = session.createNativeQuery("SELECT (COUNT(case when productLookupId = 1 then 1 else null end) * 100.0) / COUNT(*) FROM Product WHERE batchNo = :batchNo", Double.class);
+            query.setParameter("batchNo", batchNo);
+            Double result = query.getSingleResult();
+            return result != null ? result : 0.0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+    public List<Object[]> getMostFrequentStatusForBatch(int batchNo){
+        List<Object[]> results = new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createNativeQuery("SELECT p.productLookupId, COUNT(p) as statusCount FROM Product p WHERE p.batchNo = :batchNo AND p.productLookupId != 1 GROUP BY p.productLookupId ORDER BY statusCount DESC", Object[].class);
+            query.setParameter("batchNo", batchNo);
+            Object result = query.getResultList();
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+    //TODO Overvej
 
 
     public List<Product> getAllProducts() {

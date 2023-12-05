@@ -21,6 +21,7 @@ public class MachineService {
         return machineRepository.getMachineById(machineId);
     }
 
+
     public List<Machine> getAllMachines()
     {
         return machineRepository.getAllMachines();

@@ -48,7 +48,7 @@ public class MainController {
     private MachineUpTimeService machineUpTimeService;
 
     @Autowired
-    private ProductStatusService productStatusService;
+    private ProductService productService;
 
 
     //User endpoints
@@ -141,10 +141,15 @@ public class MainController {
         return userService.registerUser(username, password, roleId);
     }
 
+    @GetMapping("/getMostFrequentStatusForBatch")
+    public List<Object[]> getMostFrequentStatusForBatch(@RequestParam Integer batchno){
+        return productService.getMostFrequentStatusForBatch(batchno);
+    }
 
-    @GetMapping("/getAllProductStatus")
-    public List<ProductStatus> getAllProductStatus(){
-        return productStatusService.getAllProductsStatus();
+
+    @GetMapping("/getCurrentOeeFromBatch")
+    public Double getCurrentOeeFromBatch(@RequestParam Integer batchno){
+        return productService.getCurrentOeeFromBatch(batchno);
     }
 
 
