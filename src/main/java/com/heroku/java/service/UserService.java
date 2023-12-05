@@ -1,10 +1,9 @@
 package com.heroku.java.service;
 
-import com.heroku.java.model.Constants;
-import com.heroku.java.model.EncryptionUtil;
 import com.heroku.java.model.User;
 import com.heroku.java.model.UserRoles;
 import com.heroku.java.repository.UserRepository;
+import com.heroku.java.repository.UserRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

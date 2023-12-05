@@ -1,4 +1,4 @@
-package com.heroku.java.service;
+package com.heroku.java.repository;
 
 import com.heroku.java.model.User;
 import com.heroku.java.model.UserRoles;
