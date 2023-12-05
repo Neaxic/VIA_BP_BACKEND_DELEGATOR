@@ -132,22 +132,8 @@ public class MainController {
 
     @ResponseBody
     @GetMapping("/getAllUsers")
-    public List<User> getAllUsers() {
-
-        //TODO: fjern disse prints.
-/*        userService.getAllUsers().forEach(v -> {
-            System.out.println(v.getUsername());
-            System.out.println(v.getPassword());
-            System.out.println(v.getRoles().size());
-            System.out.println(v.getUserId());
-
-            System.out.println("ROLES FOR USER: "+v.getUsername());
-            for (UserRoles role : v.getRoles()) {
-                System.out.println(role.getRole().getRoleName());
-            }
-        });*/
-
-        return userService.getAllUsers();
+    public List<UserDTO> getAllUsers() {
+        return userService.getAllUsersDTO();
     }
 
     @PostMapping("/registerUser")

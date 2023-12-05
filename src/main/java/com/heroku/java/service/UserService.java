@@ -1,6 +1,7 @@
 package com.heroku.java.service;
 
 import com.heroku.java.model.User;
+import com.heroku.java.model.UserDTO;
 import com.heroku.java.model.UserRoles;
 import com.heroku.java.repository.UserRepository;
 import com.heroku.java.repository.UserRolesRepository;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -33,5 +35,10 @@ public class UserService {
     public List<User> getAllUsers()
     {
         return userRepository.getAllUsers();
+    }
+
+    public List<UserDTO> getAllUsersDTO() {
+        List<User> users = userRepository.getAllUsers();
+        return users.stream().map(User::toDTO).collect(Collectors.toList());
     }
 }

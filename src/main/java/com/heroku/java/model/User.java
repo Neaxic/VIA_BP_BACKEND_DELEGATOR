@@ -24,6 +24,7 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
     private Set<UserRoles> roles = new HashSet<>();
 
     public User() {
@@ -83,4 +84,19 @@ public class User {
     public void removeRoleId(UserRoles role) {
         roles.remove(role);
     }
+
+    public UserDTO toDTO() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(this.getUserId());
+        userDTO.setUsername(this.getUsername());
+
+       /* Set<String> roleNames = this.getRoles().stream()
+                .map(UserRoles::getRoleName)
+                .collect(Collectors.toSet());*/
+
+        userDTO.setRoles(this.getRoles());
+        return userDTO;
+    }
+
+
 }

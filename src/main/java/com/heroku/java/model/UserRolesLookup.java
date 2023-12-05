@@ -1,5 +1,6 @@
 package com.heroku.java.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity

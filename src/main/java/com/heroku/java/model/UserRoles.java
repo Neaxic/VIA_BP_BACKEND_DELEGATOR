@@ -3,6 +3,7 @@ package com.heroku.java.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,15 +12,24 @@ public class UserRoles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private int id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @ManyToOne
     @JoinColumn(name = "role_id")
     private UserRolesLookup role;
+
+    @Column(name = "user_id")
+    @JsonIgnore
+    private Integer user_id; // Change int to Integer
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
     public int getId() {
         return id;
@@ -27,14 +37,6 @@ public class UserRoles {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public UserRolesLookup getRole() {

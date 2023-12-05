@@ -3,6 +3,7 @@ package com.heroku.java.repository;
 import com.heroku.java.model.Constants;
 import com.heroku.java.model.EncryptionUtil;
 import com.heroku.java.model.User;
+import com.heroku.java.model.UserDTO;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -80,4 +81,5 @@ public class UserRepository {
         }
         return false;
     }
+
 }
