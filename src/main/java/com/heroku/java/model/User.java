@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import org.checkerframework.common.aliasing.qual.Unique;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import scala.Int;
@@ -17,6 +18,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
+    @Unique
     @Column(name = "username")
     String username = ""; // Assigning this to avoid NPE
 

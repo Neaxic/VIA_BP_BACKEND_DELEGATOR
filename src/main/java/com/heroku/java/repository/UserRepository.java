@@ -57,6 +57,7 @@ public class UserRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
             query.setParameter("username", username);
+            query.setMaxResults(1);
             User user = query.uniqueResult();
             return user;
         } catch (Exception e){
