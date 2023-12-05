@@ -34,7 +34,7 @@ public class ScheduledTasks {
     /**
      * Generates fake MachineErrorHistory for each machine at a predefined interval.
      */
-    @Scheduled(fixedRate = 6000000) // 10 minutes
+    @Scheduled(fixedRate = 300000) // 5 minutes https://unitchefs.com/milliseconds/minutes/12000/
     public void generateFakeData() {
         machineService.getAllMachines().forEach(machine -> {
             if (machine.shouldCreateFakeData() &&
@@ -67,6 +67,7 @@ public class ScheduledTasks {
         if (Math.random() <= 0.8) { //Will generate STATUS_OK 80% of the time.
             product.setProductLookupId(1);
         } else {
+            //TODO: Make NPE check
             product.setProductLookupId(productLookupService.getRandomProductLookUp().getProductLookupId());
         }
         product.setBatchNo(machine.getCurrentBatch());
