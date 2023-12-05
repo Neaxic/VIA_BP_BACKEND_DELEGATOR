@@ -37,7 +37,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    private Claims parseJwtClaims(String token) {
+    public Claims parseJwtClaims(String token) {
         return jwtParser.parseClaimsJws(token).getBody();
     }
 
@@ -58,7 +58,6 @@ public class JwtUtil {
     }
 
     public String resolveToken(HttpServletRequest request) {
-
         String bearerToken = request.getHeader(TOKEN_HEADER);
         if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
             return bearerToken.substring(TOKEN_PREFIX.length());

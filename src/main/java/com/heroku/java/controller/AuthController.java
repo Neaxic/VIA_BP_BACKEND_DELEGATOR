@@ -9,6 +9,9 @@ import com.heroku.java.model.response.ErrorRes;
 import com.heroku.java.model.response.LoginRes;
 import com.heroku.java.repository.UserRepository;
 import com.heroku.java.service.UserService;
+
+import io.jsonwebtoken.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,11 +46,16 @@ public class AuthController {
     @GetMapping(value = "/verify")
     public ResponseEntity verify(@RequestParam String token) {
         try {
-            String email = jwtUtil.getEmailFromToken(token);
-            User user = new User(email, "", new UserRoles());
-            String newToken = jwtUtil.createToken(user);
-            LoginRes loginRes = new LoginRes(email, newToken);
-            return ResponseEntity.ok(loginRes);
+            Claims claims = jwtUtil.parseJwtClaims(token);
+            if (jwtUtil.validateClaims(claims)) {
+                String email = jwtUtil.getEmailFromToken(token);
+                User user = new User(email, "", new UserRoles());
+                String newToken = jwtUtil.createToken(user);
+                LoginRes loginRes = new LoginRes(email, newToken);
+                return ResponseEntity.ok(loginRes);
+            } else {
+                throw new Exception("Invalid token");
+            }
         } catch (Exception e) {
             ErrorRes errorResponse = new ErrorRes(HttpStatus.BAD_REQUEST, "Invalid token");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
