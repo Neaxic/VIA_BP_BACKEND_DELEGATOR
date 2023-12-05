@@ -140,15 +140,6 @@ public class MainController {
     public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam int roleId) {
         return userService.registerUser(username, password, roleId);
     }
-
-
-    @GetMapping("/getAllProductStatus")
-    public List<ProductStatus> getAllProductStatus(){
-        return productStatusService.getAllProductsStatus();
-    }
-
-
-
 }
 
 
