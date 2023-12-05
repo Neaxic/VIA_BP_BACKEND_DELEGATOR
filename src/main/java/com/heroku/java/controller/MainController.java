@@ -127,15 +127,30 @@ public class MainController {
     }
 
 
-    //TODO Burdes Flyttes TOL AUTH DEt her intet med maskine at gøre
+    @ResponseBody
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
-        return userService.getAllUsers();
+
+        //TODO: fjern disse prints.
+        userService.getAllUsers().forEach(v -> {
+            System.out.println(v.getUsername());
+            System.out.println(v.getPassword());
+            System.out.println(v.getRoles().size());
+            System.out.println(v.getUserId());
+
+            System.out.println("ROLES FOR USER: "+v.getUsername());
+            for (UserRoles role : v.getRoles()) {
+                System.out.println(role.getRole().getRoleName());
+            }
+        });
+
+        //TODO: FIX THIS. Er ikke sikker på om det bare er min API der fucker op, men tjek om i kan få dette til at virke. Den får fat i de rigtige users så det kun endpointet der fucker op.
+        return null;//userService.getAllUsers();
     }
-    //TODO Burdes Flyttes TOL AUTH DEt her intet med maskine at gøre
+
     @PostMapping("/registerUser")
-    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam boolean isAdmin) {
-        return userService.registerUser(username, password, isAdmin);
+    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam int roleId) {
+        return userService.registerUser(username, password, roleId);
     }
 }
 

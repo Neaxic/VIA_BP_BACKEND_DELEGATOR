@@ -19,6 +19,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/auth")
 @CrossOrigin
@@ -27,6 +29,9 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserService userService;
 
     public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
@@ -75,4 +80,5 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
+
 }
