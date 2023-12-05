@@ -48,6 +48,10 @@ public class MainController {
     @Autowired
     private MachineUpTimeService machineUpTimeService;
 
+    @Autowired
+    private ProductService productService;
+
+
     //User endpoints
     @RequestMapping("/testConnection")
     public String connectedToServer() {
@@ -138,6 +142,20 @@ public class MainController {
     public String registerUser(@RequestBody RegisterReq registerReq) {
         return userService.registerUser(registerReq.getUsername(), registerReq.getPassword(), registerReq.getFirstname(), registerReq.getLastname(), registerReq.getRoleId());
     }
+
+    @GetMapping("/getMostFrequentStatusForBatch")
+    public List<Object[]> getMostFrequentStatusForBatch(@RequestParam Integer batchno){
+        return productService.getMostFrequentStatusForBatch(batchno);
+    }
+
+
+    @GetMapping("/getCurrentOeeFromBatch")
+    public Double getCurrentOeeFromBatch(@RequestParam Integer batchno){
+        return productService.getCurrentOeeFromBatch(batchno);
+    }
+
+
+
 }
 
 

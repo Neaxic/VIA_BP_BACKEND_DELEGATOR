@@ -70,4 +70,8 @@ public class Product {
     public void setFake(boolean fake) {
         isFake = fake;
     }
+
+
+
+
 }

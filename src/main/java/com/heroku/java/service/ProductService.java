@@ -26,6 +26,12 @@ public class ProductService {
         return productRepository.getAllProducts();
     }
 
+    public  Double getCurrentOeeFromBatch(int batchNo) {return productRepository.getCurrentOeeFromBatch(batchNo);}
+
+    public List<Object[]> getMostFrequentStatusForBatch(int batchNo){
+        return  productRepository.getMostFrequentStatusForBatch(batchNo);
+    }
+
     public String saveProduct(Product product) {
         return productRepository.saveProduct(product);
     }
