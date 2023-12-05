@@ -29,6 +29,30 @@ public class UserRepository {
         }
     }
 
+    public String addRoleLink(UserRoles roleLinker){
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.save(roleLinker);
+            session.getTransaction().commit();
+            return Constants.STATUS_SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.STATUS_FAILED;
+        }
+    }
+
+    public String removeRoleLink(UserRoles roleLinker){
+        try (Session session = sessionFactory.openSession()){
+            session.beginTransaction();
+            session.remove(roleLinker);
+            session.getTransaction().commit();
+            return Constants.STATUS_SUCCESS;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Constants.STATUS_FAILED;
+        }
+    }
+
     public User findUserByUsername(String username){
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
