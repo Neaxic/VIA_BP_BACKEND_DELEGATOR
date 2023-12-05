@@ -2,6 +2,7 @@ package com.heroku.java.repository;
 
 import com.heroku.java.model.User;
 import com.heroku.java.model.UserRoles;
+import com.heroku.java.model.UserRolesLookup;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -16,11 +17,11 @@ public class UserRolesRepository {
     @Autowired
     SessionFactory sessionFactory;
 
-    public UserRoles findRoleById(int roleId){
+    public UserRolesLookup findRoleById(int roleId){
         try (Session session = sessionFactory.openSession()) {
-            Query<UserRoles> query = session.createQuery("FROM UserRoles WHERE roleId = :roleId", UserRoles.class);
+            Query<UserRolesLookup> query = session.createQuery("FROM UserRolesLookup WHERE userRolesLookUpId = :roleId", UserRolesLookup.class);
             query.setParameter("roleId", roleId);
-            UserRoles role = query.uniqueResult();
+            UserRolesLookup role = query.uniqueResult();
             return role;
         } catch (Exception e){
             e.printStackTrace();

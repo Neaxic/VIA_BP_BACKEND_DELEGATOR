@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import org.checkerframework.common.aliasing.qual.Unique;
 import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import scala.Int;
 
 import java.util.*;
@@ -16,11 +18,21 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
+    @Unique
     @Column(name = "username")
     String username = ""; // Assigning this to avoid NPE
 
     @Column(name = "password_")
     String password = ""; // Assigning this to avoid NPE
+
+    @Column(name = "firstname")
+    String firstname = "";
+
+    @Column(name = "lastname")
+    String lastname = "";
+
+    @Column(name = "createDate")
+    DateTime createDate = new DateTime();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -30,10 +42,11 @@ public class User {
     public User() {
     } // Needed for hibernate to create empty objects
 
-    public User(String username, String password, UserRoles role) {
+    public User(String username, String password, String firstname, String lastname) {
         this.username = username;
         this.password = password;
-        this.roles.add(role);
+        this.firstname = firstname;
+        this.lastname = lastname;
     }
 
 
@@ -98,5 +111,27 @@ public class User {
         return userDTO;
     }
 
+    public DateTime getCreateDate() {
+        return createDate;
+    }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setCreateDate(DateTime createDate) {
+        this.createDate = createDate;
+    }
 }

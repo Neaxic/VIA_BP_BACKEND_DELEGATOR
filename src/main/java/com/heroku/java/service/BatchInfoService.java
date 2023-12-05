@@ -14,8 +14,11 @@ public class BatchInfoService {
     @Autowired
     private BatchInfoRepository batchInfoRepository;
 
+    @Autowired
+    private MachineService machineService;
+
     public String registerBatchInfo(Integer machineID, Integer producedItems, LocalDateTime startTime, LocalDateTime endTime) {
-        BatchInfo batchInfo = new BatchInfo(machineID, producedItems,startTime,endTime);
+        BatchInfo batchInfo = new BatchInfo(machineService.getMachineById(machineID), producedItems,startTime,endTime);
         return batchInfoRepository.saveBatchInfo(batchInfo);
     }
     public BatchInfo getBatchInfoById(Integer id) {

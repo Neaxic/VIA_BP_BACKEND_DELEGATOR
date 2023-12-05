@@ -54,7 +54,7 @@ public class ProductRepository {
 
     public int getNumberOfProducedItemsInBatch(int batchNo) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Long> query = session.createQuery("SELECT COUNT(*) FROM Product WHERE batchNo = :batchNo", Long.class);
+            Query<Long> query = session.createQuery("SELECT COUNT(*) FROM Product p WHERE p.batchNo.batchNo = :batchNo", Long.class);
             query.setParameter("batchNo", batchNo);
             Long result = query.uniqueResult();
             return result != null ? result.intValue() : 0;

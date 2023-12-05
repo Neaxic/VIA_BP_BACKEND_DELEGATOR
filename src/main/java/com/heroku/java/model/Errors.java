@@ -23,7 +23,7 @@ public class Errors {
     @Column(name = "ErrorLookUpId")
     private Integer errorLookUpId;
 
-    @Column(name = "isFakeGenerated", columnDefinition="BIT")
+    @Column(name = "isFakeGenerated")
     private boolean isFakeData;
 
     public Errors() {
