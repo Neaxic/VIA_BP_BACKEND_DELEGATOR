@@ -1,7 +1,6 @@
 package com.heroku.java.controller;
 
 import com.heroku.java.model.*;
-import com.heroku.java.model.request.LoginReq;
 import com.heroku.java.model.request.RegisterReq;
 import com.heroku.java.repository.UserRepository;
 import com.heroku.java.service.*;

@@ -44,9 +44,6 @@ public class ScheduledTasks {
             {
                 productService.saveProduct(generateRandomProduct(machine));
 
-                /*TODO: This is for creating fake machine errors. Maybe move these to another scheduled function, which runs less often.
-                Errors error = generateRandomErrorHistory(machine.getMachineID());
-                errorService.registerErrorCode(error);*/
             }
         });
     }
@@ -54,11 +51,21 @@ public class ScheduledTasks {
     /**
      * Takes a snapshot of every machine which has "enablesnapshot" enabled.
      */
-    @Scheduled(fixedRate = 3600000) //1 hour
+    @Scheduled(fixedRate = 3600000) //1 hour https://unitchefs.com/milliseconds/minutes/12000/
     public void generateSnapshot() {
         for (Machine machine : machineService.getAllMachinesForSnapshot()) {
             machineUpTimeService.saveMachineUpTime(machine.toMachineUpTime());
         }
+    }
+
+    @Scheduled(fixedRate = 1800000) //1 hour https://unitchefs.com/milliseconds/minutes/12000/
+    public void generateError() {
+        machineService.getAllMachines().forEach(machine -> {
+            if (machine.isMachineRunning() && machine.getCurrentBatch() != null) {
+                Errors error = generateRandomError(machine.getMachineID());
+                errorService.registerErrorCode(error);
+            }
+        });
     }
 
 
