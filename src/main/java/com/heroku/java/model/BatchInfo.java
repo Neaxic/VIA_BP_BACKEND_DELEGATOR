@@ -1,41 +1,38 @@
 package com.heroku.java.model;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "batchinfo")
+@Table(name = "BatchInfo")
 public class BatchInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BatchNo")
     private Integer batchNo;
 
-    @Column(nullable = false)
+    @Column(name = "MachineId")
     private Integer machineID;
 
-    @Column(nullable = false)
-    private Integer producedItems;
+    @Column(name = "BatchSize")
+    private Integer batchSize;
 
-    @Column(nullable = false)
-    private LocalDateTime startTime;
+    @Column(name = "StartTime")
+    private LocalDateTime getStartTime;
 
-    @Column(nullable = false)
+    @Column(name = "EndTime")
     private LocalDateTime endTime;
 
-    public BatchInfo(Integer batchNo, Integer machineID, Integer producedItems, LocalDateTime startTime, LocalDateTime endTime) {
-        this.batchNo = batchNo;
-        this.machineID = machineID;
-        this.producedItems = producedItems;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-    public BatchInfo(int machineId, int producedItems, String startTime, String endTime) {
-    }
-
     public BatchInfo() {
+    }
 
+    public BatchInfo(Integer machineID, Integer batchSize, LocalDateTime getStartTime, LocalDateTime endTime) {
+        this.machineID = machineID;
+        this.batchSize = batchSize;
+        this.getStartTime = getStartTime;
+        this.endTime = endTime;
     }
 
     public Integer getBatchNo() {
@@ -52,22 +49,22 @@ public class BatchInfo {
 
     public void setMachineID(Integer machineID) {
         this.machineID = machineID;
+}
+
+    public Integer getBatchSize() {
+        return batchSize;
     }
 
-    public Integer getProducedItems() {
-        return producedItems;
+    public void setBatchSize(Integer batchSize) {
+        this.batchSize = batchSize;
     }
 
-    public void setProducedItems(Integer producedItems) {
-        this.producedItems = producedItems;
+    public LocalDateTime getGetStartTime() {
+        return getStartTime;
     }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
+    public void setGetStartTime(LocalDateTime getStartTime) {
+        this.getStartTime = getStartTime;
     }
 
     public LocalDateTime getEndTime() {
@@ -76,5 +73,11 @@ public class BatchInfo {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public int getProductsMade() {
+        //TODO: Lav denne. Lav sql query på Product, og se hvor mange produkter der har det her batchNo.
+        //Overvej om dette skulle ligge i productService maybe.
+        return 0;
     }
 }

@@ -1,7 +1,7 @@
 package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
-import com.heroku.java.model.MachineErrorHistory;
+import com.heroku.java.model.ErrorLookup;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -12,13 +12,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class MachineErrorHistoryRepository {
+public class ErrorLookupRepository {
+
     @Autowired
     SessionFactory sessionFactory;
-    public String saveMachineErrorHistory(MachineErrorHistory machineErrorHistory) {
+    public String saveErrorLookup(ErrorLookup errorLookup) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.save(machineErrorHistory);
+            session.save(errorLookup);
             session.getTransaction().commit();
             return Constants.STATUS_SUCCESS;
         } catch (Exception e) {
@@ -27,20 +28,22 @@ public class MachineErrorHistoryRepository {
         }
     }
 
-    public List<MachineErrorHistory> getMachineErrorHistoryById(int machineId) {
+
+    public ErrorLookup getErrorLookupById(int errorLookupId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<MachineErrorHistory> query = session.createQuery("FROM MachineErrorHistory WHERE machineId = :machineId", MachineErrorHistory.class);
-            query.setParameter("machineId", machineId);
-            return (List<MachineErrorHistory>) query.list();
+            Query<ErrorLookup> query = session.createQuery("FROM ErrorLookup WHERE errorLookupId = :errorLookupId", ErrorLookup.class);
+            query.setParameter("errorLookupId", errorLookupId);
+            return query.uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public List<MachineErrorHistory> getAllMEH() {
+
+    public List<ErrorLookup> getAllErrorLookups() {
         try (Session session = sessionFactory.openSession()) {
-            Query<MachineErrorHistory> query = session.createQuery("FROM MachineErrorHistory ", MachineErrorHistory.class);
+            Query<ErrorLookup> query = session.createQuery("FROM ErrorLookup ", ErrorLookup.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,4 +51,9 @@ public class MachineErrorHistoryRepository {
         return Collections.emptyList();
     }
 
+    public ErrorLookup getRandomErrorLookup() {
+        //TODO: This should be done by SQL instead of java for performance.
+        List<ErrorLookup> errorLookups = getAllErrorLookups();
+        return errorLookups.get((int) (Math.random() * errorLookups.size()));
+    }
 }

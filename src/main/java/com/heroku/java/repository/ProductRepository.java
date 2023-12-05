@@ -2,6 +2,7 @@ package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
 import com.heroku.java.model.Machine;
+import com.heroku.java.model.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -12,18 +13,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Repository
-public class MachineRepository {
-    private final SessionFactory sessionFactory;
+public class ProductRepository {
 
     @Autowired
-    public MachineRepository(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    public String saveMachine(Machine machine) {
+    SessionFactory sessionFactory;
+    public String saveProduct(Product product) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.save(machine);
+            session.save(product);
             session.getTransaction().commit();
             return Constants.STATUS_SUCCESS;
         } catch (Exception e) {
@@ -32,10 +29,10 @@ public class MachineRepository {
         }
     }
 
-    public Machine getMachineById(int machineID) {
+    public Product getProductById(int productId) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Machine> query = session.createQuery("FROM Machine WHERE machineID = :machineID", Machine.class);
-            query.setParameter("machineID", machineID);
+            Query<Product> query = session.createQuery("FROM Product WHERE productId = :productId", Product.class);
+            query.setParameter("productId", productId);
             return query.uniqueResult();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,19 +40,33 @@ public class MachineRepository {
         return null;
     }
 
-    public List<Machine> getAllMachines() {
+    public List<Product> getProductsOfBatch(int batchNo) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Machine> query = session.createQuery("FROM Machine", Machine.class);
+            Query<Product> query = session.createQuery("FROM Product WHERE batchNo = :batchNo", Product.class);
+            query.setParameter("batchNo", batchNo);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return Collections.emptyList();
+        return null;
     }
 
-    public List<Machine> getAllMachinesForSnapshot() {
+    public int getNumberOfProducedItemsInBatch(int batchNo) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Machine> query = session.createQuery("FROM Machine WHERE enableSnapshot = true", Machine.class);
+            Query<Long> query = session.createQuery("SELECT COUNT(*) FROM Product WHERE batchNo = :batchNo", Long.class);
+            query.setParameter("batchNo", batchNo);
+            Long result = query.uniqueResult();
+            return result != null ? result.intValue() : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    public List<Product> getAllProducts() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Product> query = session.createQuery("FROM Product ", Product.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();

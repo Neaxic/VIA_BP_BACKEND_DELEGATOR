@@ -19,8 +19,8 @@ public class UserRoles {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
+   /* @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>(); DER SKAL LAVES NOGET HER - @JOIN OPERATION*/
 
     public int getRoleId() {
         return roleId;

@@ -39,7 +39,7 @@ public class BatchInfoRepository {
     }
 
 
-    public List<BatchInfo> getAllBatchs() {
+    public List<BatchInfo> getAllBatches() {
         try (Session session = sessionFactory.openSession()) {
             Query<BatchInfo> query = session.createQuery("FROM BatchInfo ", BatchInfo.class);
             return query.list();

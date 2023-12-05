@@ -14,6 +14,15 @@ import java.util.List;
 @CrossOrigin
 public class MainController {
 
+    /*NOTES/TODO:
+        - Consider making all endpoints return JSON. Double check and see if this is already what's being done
+        - Check TODO's
+        - Overvej de steder hvor der gemmes objekter til DB. Her returneres en String med "OK" Eller "failed".
+          Overvej her at returnere hele objekterne så de også modtager id'et frontend.
+        - Lav MachineUpTime (Skal tage snapshots af Machine og gemme historisk data)
+
+     */
+
     @Autowired
     private SessionFactory sessionFactory;
 
@@ -27,95 +36,82 @@ public class MainController {
     private BatchInfoService batchInfoService;
 
     @Autowired
-    private MachineErrorHistoryService machineErrorHistoryService;
-
-    @Autowired
-    private StatusCodeService statusCodeService;
-
-    @Autowired
     private UserRepository userRepository;
 
     @Autowired
-    private ErrorCodeService errorCodeService;
+    private ErrorService errorService;
+
+    @Autowired
+    private ErrorLookupService errorLookupService;
+
+    @Autowired
+    private MachineUpTimeService machineUpTimeService;
+
 
     //User endpoints
-
     @RequestMapping("/testConnection")
     public String connectedToServer() {
         return "Connected to Server!";
     }
 
 
-    @PostMapping("/registerUser")
-    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam int roleID) {
-        return userService.registerUser(username, password, roleID);
+
+    @PostMapping("/registerErrorLookup")
+    public String registerErrorLookup(@RequestParam String name, String description) {
+        return errorLookupService.registerErrorLookup(name, description);
     }
-    // ErrorCodes endpoints
-    @PostMapping("/registerErrorCodes")
-    public String registerErrorCode(@RequestParam String errorCode) {
-        return errorCodeService.registerErrorCode(errorCode);
+
+    @GetMapping("/getErrorLookupById")
+    public ErrorLookup getErrorLookupById(@RequestParam Integer id) {
+        return errorLookupService.getErrorLookupById(id);
     }
-    @PostMapping("/registerStatus")
-    public String registerStatusCode(@RequestParam String statusCode) {
-        return statusCodeService.registerStatusCode(statusCode);
+
+    @GetMapping("/getRandomErrorLookup")
+    public ErrorLookup getRandomErrorLookup() {
+        return errorLookupService.getRandomErrorLookup();
     }
-    @PostMapping("/registerBatch")
-    public String registerBatch(@RequestParam Integer batchNo, @RequestParam Integer machineID, @RequestParam Integer producedItems, @RequestParam LocalDateTime startTime, @RequestParam LocalDateTime endTime) {
-        return batchInfoService.registerBatchInfo(batchNo,machineID,producedItems,startTime,endTime);
+
+    @GetMapping("/getAllErrorLookups")
+    public List<ErrorLookup> getAllErrorLookups() {
+        return errorLookupService.getAllErrorLookups();
     }
+
     @PostMapping("/registerMachine")
-    public String registerMachine(@RequestParam String machineName, @RequestParam String description,@RequestParam StatusCodes statusCode) {
+    public String registerMachine(@RequestParam String machineName, @RequestParam String description, @RequestParam Integer statusCode) {
         return machineService.registerMachine(machineName,description,statusCode);
-    }
-    @PostMapping("/registerMEH")
-    public String registerMachineErrorHistory(@RequestParam int machineId, @RequestParam int errorId,@RequestParam LocalDateTime timeForMistake) {
-        return machineErrorHistoryService.registerMachineErrorHistory(machineId, errorId, timeForMistake);
     }
 
     @GetMapping("/getBatchInfo")
-    public String getBatchInfo(@RequestParam Integer batchno) {
-        return batchInfoService.getBatchInfoById(batchno).toString();
+    public BatchInfo getBatchInfo(@RequestParam Integer batchNo) {
+        return batchInfoService.getBatchInfoById(batchNo);
+    }
+
+    @PostMapping("/registerBatch")
+    public String registerBatch(@RequestParam Integer machineID, @RequestParam Integer producedItems, @RequestParam LocalDateTime startTime, @RequestParam LocalDateTime endTime) {
+        return batchInfoService.registerBatchInfo(machineID,producedItems,startTime,endTime);
+    }
+
+    // Retrieve a Machine by ID
+    @GetMapping("/getMachineById")
+    public Machine getMachine(@RequestParam Integer id) {
+        return machineService.getMachineById(id);
     }
 
 
     // Retrieve an ErrorCode by ID
     @GetMapping("/getErrorCode")
-    public ErrorCode getErrorCode(@RequestParam Integer id) {
-        return errorCodeService.getErrorCodeById(id);
+    public Errors getErrorCode(@RequestParam Integer errorId) {
+        return errorService.getErrorCodeById(errorId);
     }
 
-    // Retrieve a Machine by ID
-    @GetMapping("/getMachine")
-    public Machine getMachine(@RequestParam Integer id) {
-        return machineService.getMachineById(id);
-    }
-
-    // Retrieve a MachineErrorHistory by ID
-    @GetMapping("/getMachineErrorHistory")
-    public List<MachineErrorHistory> getMachineErrorHistory(@RequestParam Integer id) {
-        return machineErrorHistoryService.getMachineErrorHistoryById(id);
-    }
-
-    // Retrieve a StatusCode by ID
-    @GetMapping("/getStatusCode")
-    public StatusCodes getStatusCode(@RequestParam Integer id) {
-        return statusCodeService.getStatusCodeById(id);
-    }
-
-
-    //Virker på Backend
-    @RequestMapping("/getAllStatusCodes")
-    public List<StatusCodes> getAllStatusCodes() {
-        return statusCodeService.getAllStatusCodes();
-    }
     @GetMapping("/getAllErrorCodes")
-    public List<ErrorCode> getAllErrorCodes() {
-        return errorCodeService.getAllErrorCodes();
+    public List<Errors> getAllErrorCodes() {
+        return errorService.getAllErrorCodes();
     }
     // Virker På Backend
-    @GetMapping("/getAllBatchs")
+    @GetMapping("/getAllBatches")
     public List<BatchInfo> getAllBatchs() {
-        return batchInfoService.getAllBatchs();
+        return batchInfoService.getAllBatches();
     }
     //Virker PÅ backend
 
@@ -123,16 +119,23 @@ public class MainController {
     public List<Machine> getAllMachines() {
         return machineService.getAllMachines();
     }
-    // Virker På BAckend
 
-    @GetMapping("/getAllMEH")
-    public List<MachineErrorHistory> getAllMEH() {
-        return machineErrorHistoryService.getAllMEH();
+
+    @GetMapping("/getMachineUpTime24HourProcentage") //TODO: Test this
+    public double getMachineUpTime24HourProcentage(@RequestParam int machineId) {
+        return machineUpTimeService.getMachineUpTime24HourProcentage(machineId);
     }
 
+
+    //TODO Burdes Flyttes TOL AUTH DEt her intet med maskine at gøre
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
+    }
+    //TODO Burdes Flyttes TOL AUTH DEt her intet med maskine at gøre
+    @PostMapping("/registerUser")
+    public String registerUser(@RequestParam String username, @RequestParam String password, @RequestParam boolean isAdmin) {
+        return userService.registerUser(username, password, isAdmin);
     }
 }
 
