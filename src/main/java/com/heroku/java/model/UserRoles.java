@@ -11,34 +11,37 @@ public class UserRoles {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roleId;
+    private int id;
 
-    @Column(name = "roleName")
-    private String roleName;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "description")
-    private String description;
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private UserRolesLookup role;
 
-   /* @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>(); DER SKAL LAVES NOGET HER - @JOIN OPERATION*/
-
-    public int getRoleId() {
-        return roleId;
+    public int getId() {
+        return id;
     }
 
-    public String getRoleName() {
-        return roleName;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getDescription() {
-        return description;
+    public User getUser() {
+        return user;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
+    public UserRolesLookup getRole() {
+        return role;
+    }
+
+    public void setRole(UserRolesLookup role) {
+        this.role = role;
     }
 }

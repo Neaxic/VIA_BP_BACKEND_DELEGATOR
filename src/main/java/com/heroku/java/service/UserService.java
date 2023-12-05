@@ -27,7 +27,7 @@ public class UserService {
     public String registerUser(String username, String password, int roleID) {
         UserRoles role = userRolesRepository.findRoleById(roleID);
         //String encryptedPassword = EncryptionUtil.hashPassword(password);
-        User user = new User(username, password, role);
+        User user = new User(username, password, role); //TODO: Tjek om dette også gemmer UserRole'en og ikke bare useren.
         return userRepository.saveUser(user);
     }
 

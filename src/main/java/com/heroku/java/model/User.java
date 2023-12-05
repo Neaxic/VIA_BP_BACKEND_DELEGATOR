@@ -23,11 +23,8 @@ public class User {
     String password = ""; // Assigning this to avoid NPE
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "userRoles", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
-            @JoinColumn(name = "roleId") })
+    @JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<UserRoles> roles = new HashSet<>();
-
-    List<Integer> roles2 = new ArrayList<>();
 
     public User() {
     } // Needed for hibernate to create empty objects
@@ -37,6 +34,7 @@ public class User {
         this.password = password;
         this.roles.add(role);
     }
+
 
     public int getUserId() {
         return userId;
