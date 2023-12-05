@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 import scala.Int;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Entity
@@ -31,8 +32,9 @@ public class User {
     @Column(name = "lastname")
     String lastname = "";
 
+    @Basic
     @Column(name = "createDate")
-    DateTime createDate = new DateTime();
+    LocalDateTime createDate = LocalDateTime.now();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -111,7 +113,7 @@ public class User {
         return userDTO;
     }
 
-    public DateTime getCreateDate() {
+    public LocalDateTime getCreateDate() {
         return createDate;
     }
 
@@ -131,7 +133,7 @@ public class User {
         this.lastname = lastname;
     }
 
-    public void setCreateDate(DateTime createDate) {
+    public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
 }
