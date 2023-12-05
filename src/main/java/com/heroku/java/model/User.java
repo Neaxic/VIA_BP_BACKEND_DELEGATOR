@@ -40,12 +40,11 @@ public class User {
     public User() {
     } // Needed for hibernate to create empty objects
 
-    public User(String username, String password, String firstname, String lastname, UserRoles role) {
+    public User(String username, String password, String firstname, String lastname) {
         this.username = username;
         this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
-        this.roles.add(role);
     }
 
 
