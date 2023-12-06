@@ -25,7 +25,6 @@ public class User {
     @Column(name = "lastname")
     String lastname = "";
 
-    @Basic
     @Column(name = "createDate")
     LocalDateTime createDate = LocalDateTime.now();
 
@@ -61,19 +60,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-
-
-    public UserDTO toDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(this.getUserId());
-        userDTO.setUsername(this.getUsername());
-        userDTO.setFirstname(this.getFirstname());
-        userDTO.setLastname(this.getLastname());
-        userDTO.setCreateDate(this.getCreateDate());
-        return userDTO;
-    }
-
     public LocalDateTime getCreateDate() {
         return createDate;
     }
@@ -98,4 +84,15 @@ public class User {
         this.createDate = createDate;
     }
 
+
+
+    public UserDTO toDTO() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(this.getUserId());
+        userDTO.setUsername(this.getUsername());
+        userDTO.setFirstname(this.getFirstname());
+        userDTO.setLastname(this.getLastname());
+        userDTO.setCreateDate(this.getCreateDate());
+        return userDTO;
+    }
 }

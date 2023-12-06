@@ -29,4 +29,10 @@ public class MachineUpTimeService {
         }
         return (amountOfRunningSnapshots/amountOfSnapshots) * 100;
     }
+
+    public int getMostDowntimeMachine24Hour(){
+        int machine = machineUpTimeRepository.getMostDowntimeMachine24Hour();
+        System.out.println("machine: "+machine);
+        return machine;
+    }
 }

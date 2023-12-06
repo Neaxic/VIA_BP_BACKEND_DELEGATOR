@@ -172,7 +172,10 @@ public class MainController {
         return userService.deleteUser(userId);
     }
 
-
+    @GetMapping("/getMostProblematicMachine24hr")
+    public int getMostProblematicMachine24Hr(){
+        return machineUpTimeService.getMostDowntimeMachine24Hour();
+    }
 
 }
 

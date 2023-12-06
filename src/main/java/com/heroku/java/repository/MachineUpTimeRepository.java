@@ -1,6 +1,7 @@
 package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
+import com.heroku.java.model.Machine;
 import com.heroku.java.model.MachineUpTime;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -46,5 +47,28 @@ public class MachineUpTimeRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public int getMostDowntimeMachine24Hour(){
+        try (Session session = sessionFactory.openSession()) {
+            LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
+            Date dateTwentyFourHoursAgo = Date.from(oneDayAgo.atZone(ZoneId.systemDefault()).toInstant());
+
+            Query<Object[]> query = session.createQuery(
+                    "SELECT machineId, COUNT(machineId) as cnt FROM MachineUpTime " +
+                            "WHERE status != 1 AND timeOfLog >= :oneDayAgo " +
+                            "GROUP BY machineId ORDER BY cnt DESC", Object[].class);
+            query.setParameter("oneDayAgo", oneDayAgo);
+            query.setMaxResults(1);
+
+            List<Object[]> resultList = query.getResultList();
+            if (!resultList.isEmpty()) {
+                // Assuming that the machineId is an Integer.
+                return (Integer) resultList.get(0)[0];
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 }
