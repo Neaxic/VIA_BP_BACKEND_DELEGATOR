@@ -3,12 +3,12 @@ package com.heroku.java.repository;
 import com.heroku.java.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
 
 @Repository
 public class UserRepository {
@@ -28,7 +28,7 @@ public class UserRepository {
         }
     }
 
-    public String addRoleLink(UserRoles roleLinker){
+    public String addRoleLink(UserRoles roleLinker) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.save(roleLinker);
@@ -40,8 +40,8 @@ public class UserRepository {
         }
     }
 
-    public String removeRoleLink(UserRoles roleLinker){
-        try (Session session = sessionFactory.openSession()){
+    public String removeRoleLink(UserRoles roleLinker) {
+        try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.remove(roleLinker);
             session.getTransaction().commit();
@@ -52,37 +52,38 @@ public class UserRepository {
         }
     }
 
-    public User findUserByUsername(String username){
+    public User findUserByUsername(String username) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
             query.setParameter("username", username);
             query.setMaxResults(1);
             User user = query.uniqueResult();
             return user;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public List<UserRolesLookup> getRolesByUserId(int userID){
-        try (Session session = sessionFactory.openSession()){
-            Query<UserRolesLookup> query = session.createQuery("FROM UserRoles WHERE user_id = :userId", UserRolesLookup.class);
+    public List<UserRolesLookup> getRolesByUserId(int userID) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<UserRolesLookup> query = session.createQuery("FROM UserRoles WHERE user_id = :userId",
+                    UserRolesLookup.class);
             query.setParameter("userId", userID);
             List<UserRolesLookup> roles = query.getResultList();
             return roles;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public List<User> getAllUsers(){
-        try (Session session = sessionFactory.openSession()){
+    public List<User> getAllUsers() {
+        try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User", User.class);
             List<User> users = query.getResultList();
             return users;
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -93,16 +94,17 @@ public class UserRepository {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
             query.setParameter("username", username);
             User user = query.uniqueResult();
-            //if (user != null && EncryptionUtil.verifyPassword(user.getPassword(), password)) {
-            //    return user; // User is authenticated
-            //}
+            // if (user != null && EncryptionUtil.verifyPassword(user.getPassword(),
+            // password)) {
+            // return user; // User is authenticated
+            // }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public boolean verifyPassword(String username, String password){
+    public boolean verifyPassword(String username, String password) {
         try (Session session = sessionFactory.openSession()) {
             Query<User> query = session.createQuery("FROM User WHERE username = :username", User.class);
             query.setParameter("username", username);
@@ -111,6 +113,25 @@ public class UserRepository {
                 return true;
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteUser(int userID) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            User user = session.get(User.class, userID);
+            if (user != null) {
+                session.delete(user);
+                transaction.commit();
+                return true;
+            }
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
         return false;
