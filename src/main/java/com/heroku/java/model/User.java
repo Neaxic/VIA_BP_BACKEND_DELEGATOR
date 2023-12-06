@@ -48,7 +48,6 @@ public class User {
         this.lastname = lastname;
     }
 
-
     public int getUserId() {
         return userId;
     }

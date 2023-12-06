@@ -75,4 +75,9 @@ public class UserService {
         List<User> users = userRepository.getAllUsers();
         return users.stream().map(User::toDTO).collect(Collectors.toList());
     }
+
+    public boolean deleteUser(int userID){
+        userRolesRepository.deleteAllRolesByUserId(userID);
+        return userRepository.deleteUser(userID);
+    }
 }
