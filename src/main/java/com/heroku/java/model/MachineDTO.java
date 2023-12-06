@@ -86,4 +86,12 @@ public class MachineDTO {
     public void setBatches(List<BatchInfo> batches) {
         this.batches = batches;
     }
+
+    public BatchInfo getCurrentBatch() {
+        return currentBatch;
+    }
+
+    public void setCurrentBatch(BatchInfo currentBatch) {
+        this.currentBatch = currentBatch;
+    }
 }
