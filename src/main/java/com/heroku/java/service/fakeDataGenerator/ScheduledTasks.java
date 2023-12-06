@@ -77,8 +77,7 @@ public class ScheduledTasks {
             //TODO: Make NPE check
             product.setProductLookupId(productLookupService.getRandomProductLookUp().getProductLookupId());
         }
-        product.setBatchNo(machine.getCurrentBatch());
-        //product.setBatchNo(machine.getCurrentBatch().getBatchNo());
+        product.setBatchInfo(machine.getCurrentBatch());
         product.setTimeStamp(LocalDateTime.now());
         product.setFake(true);
 

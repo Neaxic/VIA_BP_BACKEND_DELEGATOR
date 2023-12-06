@@ -15,8 +15,8 @@ public class Product {
 
 
     @ManyToOne
-    @JoinColumn(name = "BatchNo")
-    private BatchInfo batchNo;
+    @JoinColumn(name = "batchNo")
+    private BatchInfo batchInfo;
 
     @Column(name = "ProductLookupId")
     private Integer productLookupId;
@@ -37,14 +37,6 @@ public class Product {
 
     public void setProductId(int productId) {
         this.productId = productId;
-    }
-
-    public BatchInfo getBatchNo() {
-        return batchNo;
-    }
-
-    public void setBatchNo(BatchInfo batchNo) {
-        this.batchNo = batchNo;
     }
 
     public Integer getProductLookupId() {
@@ -71,7 +63,11 @@ public class Product {
         isFake = fake;
     }
 
+    public BatchInfo getBatchInfo() {
+        return batchInfo;
+    }
 
-
-
+    public void setBatchInfo(BatchInfo batchInfo) {
+        this.batchInfo = batchInfo;
+    }
 }
