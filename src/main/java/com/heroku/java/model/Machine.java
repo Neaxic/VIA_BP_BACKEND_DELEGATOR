@@ -1,5 +1,6 @@
 package com.heroku.java.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -33,8 +34,7 @@ public class Machine {
     @Column(name = "enableSnapshot")
     private Boolean enableSnapshot = false;
 
-    @OneToMany(mappedBy = "machine", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Fetch(FetchMode.JOIN)
+    @Transient
     private List<BatchInfo> batches = new ArrayList<>();
 
 

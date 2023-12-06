@@ -19,6 +19,7 @@ public class MainController {
         - Check TODO's
 
         //TODO: Add delete user endpoint
+        //TODO: Add edit user endpoint.
      */
 
     @Autowired

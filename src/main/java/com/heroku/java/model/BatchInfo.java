@@ -1,7 +1,6 @@
 package com.heroku.java.model;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,22 +16,22 @@ public class BatchInfo {
     private Integer batchSize;
 
     @Column(name = "StartTime")
-    private LocalDateTime getStartTime;
+    private LocalDateTime startTime;
 
     @Column(name = "EndTime")
     private LocalDateTime endTime;
 
     @ManyToOne
-    @JoinColumn(name = "MachineId", referencedColumnName = "MachineId")
+    @JoinColumn(name = "MachineId")
     private Machine machine;
 
     public BatchInfo() {
     }
 
-    public BatchInfo(Machine machine, Integer batchSize, LocalDateTime getStartTime, LocalDateTime endTime) {
+    public BatchInfo(Machine machine, Integer batchSize, LocalDateTime startTime, LocalDateTime endTime) {
         this.machine = machine;
         this.batchSize = batchSize;
-        this.getStartTime = getStartTime;
+        this.startTime = startTime;
         this.endTime = endTime;
     }
 
@@ -61,11 +60,11 @@ public class BatchInfo {
     }
 
     public LocalDateTime getStartTime() {
-        return getStartTime;
+        return startTime;
     }
 
-    public void setGetStartTime(LocalDateTime getStartTime) {
-        this.getStartTime = getStartTime;
+    public void setStartTime(LocalDateTime getStartTime) {
+        this.startTime = getStartTime;
     }
 
     public LocalDateTime getEndTime() {
