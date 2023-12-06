@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -19,6 +20,7 @@ public class MainController {
         - Check TODO's
 
         //TODO: Add delete user endpoint
+        //TODO: Add edit user endpoint.
      */
 
     @Autowired
@@ -94,8 +96,8 @@ public class MainController {
 
     // Retrieve a Machine by ID
     @GetMapping("/getMachineById")
-    public Machine getMachine(@RequestParam Integer id) {
-        return machineService.getMachineById(id);
+    public MachineDTO getMachine(@RequestParam Integer id) {
+        return machineService.getMachineById(id).toDto();
     }
 
 
@@ -117,8 +119,8 @@ public class MainController {
     //Virker PÅ backend
 
     @GetMapping("/getAllMachines")
-    public List<Machine> getAllMachines() {
-        return machineService.getAllMachines();
+    public List<MachineDTO> getAllMachines() {
+        return machineService.getAllMachines().stream().map(Machine::toDto).collect(Collectors.toList());
     }
 
 
@@ -155,15 +157,10 @@ public class MainController {
         return productService.getCurrentOeeFromBatch(batchNo);
     }
 
-    @GetMapping("/deleteUser")
-    public Boolean deleteUser(@RequestParam Integer userId){
-        return userService.deleteUser(userId);
+    @GetMapping("/getMostFrequentStatusForMachine")
+    public String getMostFrequentStatusForMachine(){
+        return productService.getMostFrequentStatusForMachine();
     }
-
-    //Endpoints TODO:
-    //GetAllMachines
-
-    //TODO: Test getAllUsers
 
 
 

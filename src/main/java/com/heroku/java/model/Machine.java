@@ -1,5 +1,8 @@
 package com.heroku.java.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -11,6 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "machine")
+@JsonIgnoreProperties("batches")
 public class Machine {
 
     @Id
@@ -123,4 +127,7 @@ public class Machine {
         batch.setMachine(this);
     }
 
+    public MachineDTO toDto() {
+        return new MachineDTO(machineID, machineName, description, status, createFakeData, enableSnapshot, batches, this.getCurrentBatch());
+    }
 }
