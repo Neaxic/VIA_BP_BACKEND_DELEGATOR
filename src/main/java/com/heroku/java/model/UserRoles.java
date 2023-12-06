@@ -22,6 +22,7 @@ public class UserRoles {
     @JsonIgnore
     private User user;
 
+    public UserRoles() {}
 
     public User getUser() {
         return user;

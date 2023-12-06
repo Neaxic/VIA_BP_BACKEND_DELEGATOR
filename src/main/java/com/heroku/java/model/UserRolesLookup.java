@@ -2,9 +2,6 @@ package com.heroku.java.model;
 
 import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
 @Table(name = "userRolesLookUp")
 public class UserRolesLookup {
@@ -17,6 +14,8 @@ public class UserRolesLookup {
 
     @Column(name = "description")
     private String description;
+
+    public UserRolesLookup() {}
 
     public int getUserRolesLookUpId() {
         return userRolesLookUpId;
