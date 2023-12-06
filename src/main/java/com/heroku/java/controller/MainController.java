@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -95,8 +96,8 @@ public class MainController {
 
     // Retrieve a Machine by ID
     @GetMapping("/getMachineById")
-    public Machine getMachine(@RequestParam Integer id) {
-        return machineService.getMachineById(id);
+    public MachineDTO getMachine(@RequestParam Integer id) {
+        return machineService.getMachineById(id).toDto();
     }
 
 
@@ -118,8 +119,8 @@ public class MainController {
     //Virker PÅ backend
 
     @GetMapping("/getAllMachines")
-    public List<Machine> getAllMachines() {
-        return machineService.getAllMachines();
+    public List<MachineDTO> getAllMachines() {
+        return machineService.getAllMachines().stream().map(Machine::toDto).collect(Collectors.toList());
     }
 
 

@@ -1,5 +1,7 @@
 package com.heroku.java.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -23,6 +25,7 @@ public class BatchInfo {
 
     @ManyToOne
     @JoinColumn(name = "MachineId")
+    @JsonIgnore
     private Machine machine;
 
     public BatchInfo() {
@@ -42,14 +45,6 @@ public class BatchInfo {
     public void setBatchNo(Integer batchNo) {
         this.batchNo = batchNo;
     }
-
-    public Machine getMachineID() {
-        return machine;
-    }
-
-    public void setMachineID(Machine machine) {
-        this.machine = machine;
-}
 
     public Integer getBatchSize() {
         return batchSize;
