@@ -34,7 +34,7 @@ public class ScheduledTasks {
     /**
      * Generates fake MachineErrorHistory for each machine at a predefined interval.
      */
-    @Scheduled(fixedRate = 30000) //900000 15 minutes https://unitchefs.com/milliseconds/minutes/900000/
+    @Scheduled(fixedRate = 900000) //15 minutes https://unitchefs.com/milliseconds/minutes/900000/
     public void generateFakeData() {
         machineService.getAllMachines().forEach(machine -> {
             if (machine.shouldCreateFakeData() &&
