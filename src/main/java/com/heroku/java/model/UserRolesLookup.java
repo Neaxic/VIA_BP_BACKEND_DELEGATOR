@@ -15,6 +15,8 @@ public class UserRolesLookup {
     @Column(name = "description")
     private String description;
 
+    public UserRolesLookup() {}
+
     public int getUserRolesLookUpId() {
         return userRolesLookUpId;
     }

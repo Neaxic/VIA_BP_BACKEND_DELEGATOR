@@ -5,8 +5,11 @@ import jakarta.persistence.*;
 import org.checkerframework.common.aliasing.qual.Unique;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class UserDTO {
@@ -19,7 +22,7 @@ public class UserDTO {
 
     private int userId;
     private String username;
-    private Set<UserRolesLookup> roles;
+    private List<UserRolesLookup> roles;
     String firstname;
     String lastname;
     LocalDateTime createDate;
@@ -28,10 +31,10 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(int userId, String username, Set<UserRoles> roles,String firstname, String lastname, LocalDateTime createDate) {
+    public UserDTO(int userId, String username, List<UserRoles> roles,String firstname, String lastname, LocalDateTime createDate) {
         this.userId = userId;
         this.username = username;
-        this.roles = getUserRolesLookUpFromUserRoles(roles);
+        this.roles = roles.stream().map(UserRoles::getRole).collect(Collectors.toList());
         this.firstname = firstname;
         this.lastname = lastname;
         this.createDate = createDate;
@@ -53,12 +56,12 @@ public class UserDTO {
         this.username = username;
     }
 
-    public Set<UserRolesLookup> getRoles() {
+    public List<UserRolesLookup> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<UserRoles> roles) {
-        this.roles = getUserRolesLookUpFromUserRoles(roles);
+    public void setRoles(List<UserRoles> roles) {
+        this.roles = roles.stream().map(UserRoles::getRole).collect(Collectors.toList());
     }
 
     public String getFirstname() {
@@ -85,12 +88,12 @@ public class UserDTO {
         this.createDate = createDate;
     }
 
-    private Set<UserRolesLookup> getUserRolesLookUpFromUserRoles(Set<UserRoles> userRoles) { //TODO: Skriv test
-        Set<UserRolesLookup> userRolesLookups = new HashSet<>();
+    /*private List<UserRolesLookup> getUserRolesLookUpFromUserRoles(Set<UserRoles> userRoles) { //TODO: Skriv test
+        List<UserRolesLookup> userRolesLookups = new ArrayList<>();
         for (UserRoles role : userRoles) {
             userRolesLookups.add(role.getRole());
         }
         return userRolesLookups;
-    }
+    }*/
 }
 

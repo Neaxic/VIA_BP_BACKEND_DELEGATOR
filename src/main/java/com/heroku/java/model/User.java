@@ -1,13 +1,9 @@
 package com.heroku.java.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
 import org.checkerframework.common.aliasing.qual.Unique;
 
 import java.time.LocalDateTime;
-import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -29,17 +25,10 @@ public class User {
     @Column(name = "lastname")
     String lastname = "";
 
-    @Basic
     @Column(name = "createDate")
     LocalDateTime createDate = LocalDateTime.now();
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @JsonIgnore
-    private Set<UserRoles> roles = new HashSet<>();
-
-    public User() {
-    } // Needed for hibernate to create empty objects
+    public User() {} // Needed for hibernate to create empty objects
 
     public User(String username, String password, String firstname, String lastname) {
         this.username = username;
@@ -71,32 +60,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
-    public Set<UserRoles> getRoles() {
-        return roles;
-    }
-
-    public void addRoleID(UserRoles role) {
-        if (!roles.contains(role)) {
-            roles.add(role);
-        }
-    }
-
-    public void removeRoleId(UserRoles role) {
-        roles.remove(role);
-    }
-
-    public UserDTO toDTO() {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(this.getUserId());
-        userDTO.setUsername(this.getUsername());
-        userDTO.setRoles(this.getRoles());
-        userDTO.setFirstname(this.getFirstname());
-        userDTO.setLastname(this.getLastname());
-        userDTO.setCreateDate(this.getCreateDate());
-        return userDTO;
-    }
-
     public LocalDateTime getCreateDate() {
         return createDate;
     }
@@ -121,7 +84,15 @@ public class User {
         this.createDate = createDate;
     }
 
-    public void setRoles(Set<UserRoles> roles) {
-        this.roles = roles;
+
+
+    public UserDTO toDTO() {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUserId(this.getUserId());
+        userDTO.setUsername(this.getUsername());
+        userDTO.setFirstname(this.getFirstname());
+        userDTO.setLastname(this.getLastname());
+        userDTO.setCreateDate(this.getCreateDate());
+        return userDTO;
     }
 }
