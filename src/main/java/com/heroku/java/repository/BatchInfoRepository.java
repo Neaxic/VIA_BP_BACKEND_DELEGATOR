@@ -15,6 +15,8 @@ import java.util.List;
 public class BatchInfoRepository {
     @Autowired
     SessionFactory sessionFactory;
+
+
     public String saveBatchInfo(BatchInfo batchInfo) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
