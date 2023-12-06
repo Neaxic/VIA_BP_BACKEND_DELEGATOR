@@ -124,8 +124,7 @@ public class MainController {
     public double getMachineUpTime24HourProcentage(@RequestParam int machineId) {
         return machineUpTimeService.getMachineUpTime24HourProcentage(machineId);
     }
-
-
+    
     @ResponseBody
     @GetMapping("/getAllUsers")
     public List<UserDTO> getAllUsers() {
