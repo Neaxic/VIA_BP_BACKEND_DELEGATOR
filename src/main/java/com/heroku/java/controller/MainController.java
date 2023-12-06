@@ -162,6 +162,11 @@ public class MainController {
         return productService.getMostFrequentStatusForMachine();
     }
 
+    @GetMapping("/deleteUser")
+    public Boolean deleteUser(@RequestParam Integer userId){
+        return userService.deleteUser(userId);
+    }
+
 
 
 }
