@@ -127,11 +127,17 @@ public class MainController {
     public double getMachineUpTime24HourProcentage(@RequestParam int machineId) {
         return machineUpTimeService.getMachineUpTime24HourProcentage(machineId);
     }
-    
+
     @ResponseBody
     @GetMapping("/getAllUsers")
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsersDTO();
+    }
+
+    @ResponseBody
+    @GetMapping("/getAllLookupRoles")
+    public List<UserRolesLookup> getAllLookupRoles() {
+        return userService.getAllLookupRoles();
     }
 
     @ResponseBody
@@ -150,10 +156,12 @@ public class MainController {
         return productService.getCurrentOeeFromBatch(batchNo);
     }
 
-    //Endpoints TODO:
-    //GetAllMachines
+    @GetMapping("/getMostFrequentStatusForMachine")
+    public String getMostFrequentStatusForMachine(){
+        return productService.getMostFrequentStatusForMachine();
+    }
 
-    //TODO: Test getAllUsers
+
 
 }
 

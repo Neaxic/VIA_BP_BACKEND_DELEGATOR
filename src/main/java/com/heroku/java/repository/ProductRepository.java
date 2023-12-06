@@ -63,6 +63,10 @@ public class ProductRepository {
         return 0;
     }
 
+
+
+
+
     public Double getCurrentOeeFromBatch(int batchNo){
         try (Session session = sessionFactory.openSession()) {
             Query<Double> query = session.createNativeQuery("SELECT (COUNT(case when productLookupId = 1 then 1 else null end) * 100.0) / COUNT(*) FROM Product WHERE batchNo = :batchNo", Double.class);
@@ -87,7 +91,18 @@ public class ProductRepository {
         }
         return new ArrayList<>();
     }
-    //TODO Overvej
+
+    public List<Object[]> getMostFrequentStatusForMachine(){
+        List<Object[]> results = new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createNativeQuery("SELECT MachineID, productlookupid, COUNT(*) AS Count FROM BatchInfo JOIN Product ON BatchInfo.BatchNo = Product.BatchNo WHERE Product.productlookupid != 1 GROUP BY MachineID, productlookupid ORDER BY MachineID, productlookupid;", Object[].class);
+            Object result = query.getResultList();
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
 
 
     public List<Product> getAllProducts() {
