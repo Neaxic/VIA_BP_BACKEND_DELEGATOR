@@ -1,6 +1,7 @@
 package com.heroku.java.service;
 
 import com.heroku.java.model.*;
+import com.heroku.java.repository.RoleLookupRepository;
 import com.heroku.java.repository.UserRepository;
 import com.heroku.java.repository.UserRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ public class UserService {
     @Autowired
     UserRolesRepository userRolesRepository;
 
-    public String registerUser(String username, String password, String firstname, String lastname, int roleID) {
+    @Autowired
+    RoleLookupRepository roleLookupRepository;
+
+    public String registerUser(String username, String password, String firstname, String lastname, int roleID) { //TODO: Lav om så den returner User
         System.out.println("Registering: " +username);
         //Check role is a thing
         UserRolesLookup role = userRolesRepository.findRoleById(roleID);
@@ -53,6 +57,10 @@ public class UserService {
     public List<User> getAllUsers()
     {
         return userRepository.getAllUsers();
+    }
+
+    public List<UserRolesLookup> getAllLookupRoles() {
+        return roleLookupRepository.getAllLookupRoles();
     }
 
     public User findUserByUsername(String username){

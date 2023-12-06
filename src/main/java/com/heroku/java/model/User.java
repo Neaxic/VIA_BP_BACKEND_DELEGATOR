@@ -33,7 +33,7 @@ public class User {
     @Column(name = "createDate")
     LocalDateTime createDate = LocalDateTime.now();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "userRoles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private Set<UserRoles> roles = new HashSet<>();
@@ -73,16 +73,6 @@ public class User {
         this.password = password;
     }
 
-    public String toJsonString() {
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            return objectMapper.writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            return "{}"; // Return an empty JSON object in case of an error
-        }
-    }
-
     public Set<UserRoles> getRoles() {
         return roles;
     }
@@ -101,12 +91,10 @@ public class User {
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(this.getUserId());
         userDTO.setUsername(this.getUsername());
-
-       /* Set<String> roleNames = this.getRoles().stream()
-                .map(UserRoles::getRoleName)
-                .collect(Collectors.toSet());*/
-
         userDTO.setRoles(this.getRoles());
+        userDTO.setFirstname(this.getFirstname());
+        userDTO.setLastname(this.getLastname());
+        userDTO.setCreateDate(this.getCreateDate());
         return userDTO;
     }
 
@@ -132,5 +120,9 @@ public class User {
 
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
+    }
+
+    public void setRoles(Set<UserRoles> roles) {
+        this.roles = roles;
     }
 }

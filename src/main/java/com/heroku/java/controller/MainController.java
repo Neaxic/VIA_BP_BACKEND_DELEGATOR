@@ -17,6 +17,8 @@ public class MainController {
 
     /*NOTES/TODO:
         - Check TODO's
+
+        //TODO: Add delete user endpoint
      */
 
     @Autowired
@@ -124,11 +126,17 @@ public class MainController {
     public double getMachineUpTime24HourProcentage(@RequestParam int machineId) {
         return machineUpTimeService.getMachineUpTime24HourProcentage(machineId);
     }
-    
+
     @ResponseBody
     @GetMapping("/getAllUsers")
     public List<UserDTO> getAllUsers() {
         return userService.getAllUsersDTO();
+    }
+
+    @ResponseBody
+    @GetMapping("/getAllLookupRoles")
+    public List<UserRolesLookup> getAllLookupRoles() {
+        return userService.getAllLookupRoles();
     }
 
     @ResponseBody
