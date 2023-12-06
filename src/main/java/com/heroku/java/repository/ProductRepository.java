@@ -92,10 +92,11 @@ public class ProductRepository {
         return new ArrayList<>();
     }
 
-    public List<Object[]> getMostFrequentStatusForMachine(){
+    public List<Object[]> getMostFrequentStatusForMachine(int machineId){
         List<Object[]> results = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
-            Query<Object[]> query = session.createNativeQuery("SELECT MachineID, productlookupid, COUNT(*) AS Count FROM BatchInfo JOIN Product ON BatchInfo.BatchNo = Product.BatchNo WHERE Product.productlookupid != 1 GROUP BY MachineID, productlookupid ORDER BY MachineID, productlookupid;", Object[].class);
+            Query<Object[]> query = session.createNativeQuery("SELECT MachineID, productlookupid, COUNT(*) AS Count FROM BatchInfo JOIN Product ON BatchInfo.BatchNo = Product.BatchNo WHERE Product.productlookupid != 1 AND MachineID = :machineId GROUP BY MachineID, productlookupid ORDER BY productlookupid;", Object[].class);
+            query.setParameter("machineId", machineId);
             Object result = query.getResultList();
             return query.list();
         } catch (Exception e) {

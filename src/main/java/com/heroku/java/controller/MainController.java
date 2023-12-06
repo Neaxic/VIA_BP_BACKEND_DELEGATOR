@@ -158,8 +158,8 @@ public class MainController {
     }
 
     @GetMapping("/getMostFrequentStatusForMachine")
-    public String getMostFrequentStatusForMachine(){
-        return productService.getMostFrequentStatusForMachine();
+    public String getMostFrequentStatusForMachine(int machineId ){
+        return productService.getMostFrequentStatusForMachine(machineId);
     }
 
 
