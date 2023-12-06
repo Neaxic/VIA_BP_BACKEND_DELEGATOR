@@ -53,7 +53,7 @@ public class AuthController {
 
                 String newToken = jwtUtil.createToken(user);
 
-                LoginRes loginRes = new LoginRes(username, newToken, user);
+                LoginRes loginRes = new LoginRes(username, newToken, userService.getUserDTO(user));
                 return ResponseEntity.ok(loginRes);
             } else {
                 throw new Exception("Invalid token");
@@ -80,7 +80,7 @@ public class AuthController {
             user.setPassword(""); //Making sure to send unusable password as response. // Det et hack basiclly
             String token = jwtUtil.createToken(user);
 
-            LoginRes loginRes = new LoginRes(username, token, user);
+            LoginRes loginRes = new LoginRes(username, token, userService.getUserDTO(user));
 
             return ResponseEntity.ok(loginRes);
         } catch (BadCredentialsException e) {

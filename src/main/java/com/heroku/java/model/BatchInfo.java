@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "BatchInfo")
@@ -27,6 +28,10 @@ public class BatchInfo {
     @JoinColumn(name = "MachineId")
     @JsonIgnore
     private Machine machine;
+
+    @OneToMany(mappedBy = "batchInfo", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Product> products;
 
     public BatchInfo() {
     }
@@ -71,9 +76,11 @@ public class BatchInfo {
     }
 
     public int getProductsMade() {
-        //TODO: Lav denne. Lav sql query på Product, og se hvor mange produkter der har det her batchNo.
-        //Overvej om dette skulle ligge i productService maybe.
-        return 0;
+        if (products != null) {
+            return products.size();
+        } else {
+            return 0;
+        }
     }
 
     public Machine getMachine() {

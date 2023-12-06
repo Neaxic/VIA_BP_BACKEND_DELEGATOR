@@ -8,10 +8,10 @@ public class LoginRes {
     private String token;
     private UserDTO userData;
 
-    public LoginRes(String username, String token, User userData) {
+    public LoginRes(String username, String token, UserDTO userData) {
         this.username = username;
         this.token = token;
-        this.userData = userData.toDTO();
+        this.userData = userData;
     }
 
     public String getUsername() {

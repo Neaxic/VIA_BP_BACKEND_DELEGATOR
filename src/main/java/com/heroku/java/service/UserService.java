@@ -7,6 +7,7 @@ import com.heroku.java.repository.UserRolesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -42,7 +43,7 @@ public class UserService {
 
         //Get the link
         UserRoles roleLinker = new UserRoles();
-        roleLinker.setUser_id(userRepository.findUserByUsername(username).getUserId());
+        roleLinker.setUser(userRepository.findUserByUsername(username));
         roleLinker.setRole(role);
 
         String responseRole = userRepository.addRoleLink(roleLinker);
@@ -72,7 +73,21 @@ public class UserService {
     }
 
     public List<UserDTO> getAllUsersDTO() {
-        List<User> users = userRepository.getAllUsers();
-        return users.stream().map(User::toDTO).collect(Collectors.toList());
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for (User user : userRepository.getAllUsers()) {
+            userDTOS.add(getUserDTO(user));
+        }
+        return userDTOS;
+    }
+
+    public boolean deleteUser(int userID){
+        userRolesRepository.deleteAllRolesByUserId(userID);
+        return userRepository.deleteUser(userID);
+    }
+
+    public UserDTO getUserDTO(User user) {
+        UserDTO userDTO = user.toDTO();
+        userDTO.setRoles(userRolesRepository.getAllRolesByUser(user.getUserId()));
+        return userDTO;
     }
 }
