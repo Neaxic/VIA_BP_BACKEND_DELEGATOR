@@ -78,7 +78,6 @@ public class ProductRepository {
         }
         return 0.0;
     }
-
     public List<Object[]> getMostFrequentStatusForBatch(int batchNo){
         List<Object[]> results = new ArrayList<>();
         try (Session session = sessionFactory.openSession()) {
@@ -90,6 +89,24 @@ public class ProductRepository {
             e.printStackTrace();
         }
         return new ArrayList<>();
+    }
+
+    public List<Object[]> getHistoryBatchData(int machineId) {
+        List<Object[]> results = new ArrayList<>();
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createNativeQuery(
+                    "SELECT bi.BatchNo, " +
+                            "       (SELECT (COUNT(case when p.productLookupId = 1 then 1 else null end) * 100.0) / COUNT(*) FROM Product p WHERE p.batchNo = bi.BatchNo) AS OEE, " +
+                            "       (SELECT pl.productLookupId FROM Product pl WHERE pl.batchNo = bi.BatchNo AND pl.productLookupId != 1 GROUP BY pl.productLookupId ORDER BY COUNT(pl) DESC LIMIT 1) AS MostFrequentError, " +
+                            "       bi.EndTime " +
+                            "FROM BatchInfo bi " +
+                            "WHERE bi.MachineID = :machineId", Object[].class);
+            query.setParameter("machineId", machineId);
+            results = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return results;
     }
 
     public List<Object[]> getMostFrequentStatusForMachine(int machineId){
