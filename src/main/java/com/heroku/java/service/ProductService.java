@@ -2,12 +2,17 @@ package com.heroku.java.service;
 
 import com.heroku.java.model.Product;
 import com.heroku.java.repository.ProductRepository;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.json.Json;
+import java.text.SimpleDateFormat;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,6 +48,30 @@ public class ProductService {
                 .toString();
         return json;
     }
+    public String getHistoryBatchData(int machineId){
+        List<Object[]> res = productRepository.getHistoryBatchData(machineId);
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        for (Object[] ress : res){
+            Integer batchNo = (Integer) ress[0];
+            Double oee = ((BigDecimal) ress[1]).doubleValue();
+            Integer mostFreqent = (Integer) ress[2];
+            Timestamp endtime = (Timestamp) ress[3];
+
+            JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
+                    .add("batchNo", batchNo)
+                    .add("oee", oee)
+                    .add("mostFreqent", mostFreqent)
+                    .add("endtime", dateFormat.format(endtime));  // Format Timestamp her
+
+            jsonArrayBuilder.add(jsonObjectBuilder);
+        }
+
+        String json = jsonArrayBuilder.build().toString();
+        return json;
+    }
+
     public String getMostFrequentStatusForMachine(int machineId){
         List<Object[]> results = productRepository.getMostFrequentStatusForMachine(machineId);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
