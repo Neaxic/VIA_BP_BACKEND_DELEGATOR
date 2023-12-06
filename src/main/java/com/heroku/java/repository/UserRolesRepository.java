@@ -62,4 +62,16 @@ public class UserRolesRepository {
         }
         return false;
     }
+
+    public List<UserRoles> getAllRolesByUser(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<UserRoles> query = session.createQuery("FROM UserRoles u where u.user.id = :userId", UserRoles.class);
+            query.setParameter("userId", userId);
+            List<UserRoles> roles = query.getResultList();
+            return roles;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
