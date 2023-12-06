@@ -1,5 +1,6 @@
 package com.heroku.java.controller;
 
+import com.heroku.java.model.UserRoles;
 import com.heroku.java.model.UserRolesLookup;
 import com.heroku.java.model.authentication.JwtUtil;
 import com.heroku.java.model.User;
@@ -37,7 +38,6 @@ public class AuthController {
     public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-
     }
 
     // Verify token from a request
@@ -51,10 +51,9 @@ public class AuthController {
                 User user = userService.findUserByUsername(username);
                 System.out.println("Verifying: "+user.getUsername());
 
-                List<UserRolesLookup> roles = userService.getRolesByUserId(user.getUserId());
                 String newToken = jwtUtil.createToken(user);
 
-                LoginRes loginRes = new LoginRes(username, newToken, user, roles);
+                LoginRes loginRes = new LoginRes(username, newToken, user);
                 return ResponseEntity.ok(loginRes);
             } else {
                 throw new Exception("Invalid token");
@@ -79,11 +78,9 @@ public class AuthController {
             // det vi returner til kient
             User user = userService.findUserByUsername(username);
             user.setPassword(""); //Making sure to send unusable password as response. // Det et hack basiclly
-
-            List<UserRolesLookup> roles = userService.getRolesByUserId(user.getUserId());
             String token = jwtUtil.createToken(user);
 
-            LoginRes loginRes = new LoginRes(username, token, user, roles);
+            LoginRes loginRes = new LoginRes(username, token, user);
 
             return ResponseEntity.ok(loginRes);
         } catch (BadCredentialsException e) {

@@ -22,7 +22,7 @@ public class UserService {
     @Autowired
     RoleLookupRepository roleLookupRepository;
 
-    public String registerUser(String username, String password, String firstname, String lastname, int roleID) {
+    public String registerUser(String username, String password, String firstname, String lastname, int roleID) { //TODO: Lav om så den returner User
         System.out.println("Registering: " +username);
         //Check role is a thing
         UserRolesLookup role = userRolesRepository.findRoleById(roleID);

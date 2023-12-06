@@ -45,7 +45,7 @@ public class MachineRepository {
 
     public List<Machine> getAllMachines() {
         try (Session session = sessionFactory.openSession()) {
-            Query<Machine> query = session.createQuery("FROM Machine", Machine.class);
+            Query<Machine> query = session.createNativeQuery("select * from machine", Machine.class);
             return query.list();
         } catch (Exception e) {
             e.printStackTrace();

@@ -17,6 +17,8 @@ public class MainController {
 
     /*NOTES/TODO:
         - Check TODO's
+
+        //TODO: Add delete user endpoint
      */
 
     @Autowired
@@ -153,7 +155,10 @@ public class MainController {
         return productService.getCurrentOeeFromBatch(batchNo);
     }
 
+    //Endpoints TODO:
+    //GetAllMachines
 
+    //TODO: Test getAllUsers
 
 
 
