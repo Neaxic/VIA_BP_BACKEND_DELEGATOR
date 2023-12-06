@@ -43,8 +43,8 @@ public class ProductService {
                 .toString();
         return json;
     }
-    public String getMostFrequentStatusForMachine(){
-        List<Object[]> results = productRepository.getMostFrequentStatusForMachine();
+    public String getMostFrequentStatusForMachine(int machineId){
+        List<Object[]> results = productRepository.getMostFrequentStatusForMachine(machineId);
         JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
         for (Object[] result : results) {
