@@ -147,6 +147,11 @@ public class MainController {
         return productService.getCurrentOeeFromBatch(batchNo);
     }
 
+    @GetMapping("/getMostFrequentStatusForMachine")
+    public String getMostFrequentStatusForMachine(){
+        return productService.getMostFrequentStatusForMachine();
+    }
+
 
 
 }

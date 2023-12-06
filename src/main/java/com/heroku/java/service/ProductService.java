@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import java.util.List;
 
 @Service
@@ -39,7 +41,26 @@ public class ProductService {
                 .add("count", count)
                 .build()
                 .toString();
+        return json;
+    }
+    public String getMostFrequentStatusForMachine(){
+        List<Object[]> results = productRepository.getMostFrequentStatusForMachine();
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
 
+        for (Object[] result : results) {
+            Integer machineid = (Integer) result[0];
+            Integer productLookUpId = (Integer) result[1];
+            Integer count = ((Number) result[2]).intValue();
+
+            JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
+                    .add("machineid", machineid)
+                    .add("productlookupid", productLookUpId)
+                    .add("count", count);
+
+            jsonArrayBuilder.add(jsonObjectBuilder);
+        }
+
+        String json = jsonArrayBuilder.build().toString();
         return json;
     }
 
