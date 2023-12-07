@@ -80,6 +80,20 @@ public class MachineUpTimeRepository {
             LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
             Query<MachineUpTime> query = session.createQuery("FROM MachineUpTime m WHERE m.status <> 1 AND m.timeOfLog >= :oneDayAgo AND machineId = :machineId order by m.timeOfLog desc", MachineUpTime.class);
             query.setParameter("oneDayAgo", oneDayAgo);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public int getNumDowntimeLast24HourByMachineId(int machineId) {
+        try (Session session = sessionFactory.openSession()) {
+            LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
+            Query<Long> query = session.createQuery(
+                    "SELECT COUNT(machineId) as cnt FROM MachineUpTime " +
+                            "WHERE status != 1 AND timeOfLog >= :oneDayAgo AND machineId = :machineId ", Long.class);
+            query.setParameter("oneDayAgo", oneDayAgo);
             query.setParameter("machineId", machineId);
             result = query.list();
         } catch (Exception e) {
@@ -100,6 +114,8 @@ public class MachineUpTimeRepository {
         }
         return result;
     }
+
+
 
     public long getTimeSinceLastBreakdown(int machineId) {
         try (Session session = sessionFactory.openSession()) {
@@ -125,5 +141,28 @@ public class MachineUpTimeRepository {
             e.printStackTrace();
             return -1;
         }
+    }
+
+    public int getLastNonOperationalStatusCode(int machineId) {
+        Integer lastStatusCode = null;
+        try (Session session = sessionFactory.openSession()) {
+            Query<Integer> query = session.createQuery(
+                    "SELECT status FROM MachineUpTime " +
+                            "WHERE machineId = :machineId AND status != 1 ",
+                    Integer.class
+            );
+            query.setParameter("machineId", machineId);
+            query.setMaxResults(1);
+
+            lastStatusCode = query.uniqueResult();
+            if(lastStatusCode != null){
+                return lastStatusCode;
+            } else {
+                return -1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lastStatusCode;
     }
 }

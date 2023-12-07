@@ -207,6 +207,11 @@ public class MainController {
     }
 
 
+    @GetMapping("/getLastBreakdown")
+    public String getLastBreakdown(@RequestParam Integer machineId){
+        return machineUpTimeService.getLastBreakdown(machineId);
+    }
+
 }
 
 
