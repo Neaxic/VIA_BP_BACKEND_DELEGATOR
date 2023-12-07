@@ -190,6 +190,11 @@ public class MainController {
         return productService.getMostCommonProductErrorsAndTheirFrequency();
     }
 
+    @GetMapping("/getMostCommonProductErrorsAndTheirFrequencyForMachine")
+    public String getMostCommonProductErrorsAndTheirFrequencyForMachine(@RequestParam Integer machineId) {
+        return productService.getMostCommonProductErrorsAndTheirFrequency(machineId);
+    }
+
     @GetMapping("/amountOfBreakdowns24hrByMachine")
     public int getNumDowntimeLast24Hour(@RequestParam int machineId){
         return machineUpTimeService.getNumDowntimeLast24Hour(machineId);

@@ -97,7 +97,14 @@ public class ProductService {
     }
 
     public String getMostCommonProductErrorsAndTheirFrequency() {
-        List<Object[]> object = productRepository.getMostCommonProductErrorsAndTheirFrequency();
+        return getMostCommonProductErrorsAndTheirFrequency(null);
+    }
+
+    public String getMostCommonProductErrorsAndTheirFrequency(Integer machineId) {
+        return machineId == null ? jsonForErrorsAndFrequency(productRepository.getMostCommonProductErrorsAndTheirFrequency()) : jsonForErrorsAndFrequency(productRepository.getMostCommonProductErrorsAndTheirFrequencyForMachine(machineId));
+    }
+
+    private String jsonForErrorsAndFrequency(List<Object[]> object) {
         JsonArrayBuilder jsonReturnArray = Json.createArrayBuilder();
         for (Object[] result : object) {
             JsonObjectBuilder jsonObject = Json.createObjectBuilder()
