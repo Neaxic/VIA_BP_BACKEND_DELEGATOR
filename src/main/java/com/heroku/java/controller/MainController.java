@@ -185,6 +185,7 @@ public class MainController {
 
     @GetMapping("/getMachineOverviewByMachineLast24")
     public List<Object[]> getMachineOverviewByMachineLast24(int machineId){return  machineUpTimeService.getMachineOverviewByMachineLast24(machineId);}
+
     @GetMapping("/getMostCommonProductErrorsAndTheirFrequency")
     public String getMostCommonProductErrorsAndTheirFrequency() {
         return productService.getMostCommonProductErrorsAndTheirFrequency();
@@ -224,6 +225,11 @@ public class MainController {
     @GetMapping("/getAllProductsMadeInTheLast24Hours")
     public Integer getAllProductsMadeInTheLast24Hours() {
         return productService.getNumberOfProductsMadeInTheLast24Hours();
+    }
+
+    @GetMapping("/getNumberOfProductsMadeInTheLast24HoursPrHour")
+    public String getNumberOfProductsMadeInTheLast24HoursPrHour() {
+        return productService.getNumberOfProductsMadeInTheLast24HoursPrHour();
     }
 
     @GetMapping("/getProductsMadeEachDay30DayInterval")

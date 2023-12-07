@@ -169,6 +169,25 @@ public class ProductRepository {
         return null;
     }
 
+    public List<Object[]> getNumberOfProductsMadeInTheLast24HoursPrHour() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createNativeQuery(
+                    "SELECT DATE(p.TimeStamp) as Date, " +
+                            "EXTRACT(HOUR FROM p.TimeStamp) as Hour, " +
+                            "COUNT(p.ProductId) as ProductCount " +
+                            "FROM Product p " +
+                            "WHERE p.TimeStamp >= :yesterday " +
+                            "GROUP BY Date, EXTRACT(HOUR FROM p.TimeStamp) " +
+                            "ORDER BY Date DESC, EXTRACT(HOUR FROM p.TimeStamp) DESC");
+
+            query.setParameter("yesterday", LocalDateTime.now().minusHours(24));
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public List<Object[]> getProductsMadeEachDay30DayInterval() {
         try (Session session = sessionFactory.openSession()) {
             Query<Object[]> query = session.createNativeQuery(
