@@ -11,6 +11,7 @@ import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MachineUpTimeService {
@@ -39,11 +40,11 @@ public class MachineUpTimeService {
         return machine;
     }
 
-    public List<Object[]> getMachineOverviewByMachineLast24(int machineId) {
+    public Map<String, List<Integer>> getMachineOverviewByMachineLast24(int machineId) {
         return machineUpTimeRepository.getMachineOverviewByMachineLast24(machineId);
     }
 
-    public List<Object[]> getMachineOverviewAllMachineLast24() {
+    public Map<String, List<Integer>> getMachineOverviewAllMachineLast24() {
         return machineUpTimeRepository.getMachineOverviewAllMachineLast24();
     }
     public int getNumDowntimeLast24Hour(Integer machineId){
