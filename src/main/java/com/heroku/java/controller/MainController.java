@@ -187,6 +187,10 @@ public class MainController {
     }
 
 
+    @GetMapping("/amountOfBreakdowns24hr")
+    public int getNumDowntimeLast24Hour(){
+        return machineUpTimeService.getNumDowntimeLast24Hour();
+    }
 }
 
 

@@ -71,4 +71,19 @@ public class MachineUpTimeRepository {
         }
         return -1;
     }
+
+    public int getNumDowntimeLast24Hour(){
+        try (Session session = sessionFactory.openSession()) {
+            LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
+            Query<Long> query = session.createQuery(
+                    "SELECT COUNT(machineId) as cnt FROM MachineUpTime " +
+                            "WHERE status != 1 AND timeOfLog >= :oneDayAgo ", Long.class);
+            query.setParameter("oneDayAgo", oneDayAgo);
+            Long result = query.uniqueResult();
+            return result != null ? result.intValue() : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 }
