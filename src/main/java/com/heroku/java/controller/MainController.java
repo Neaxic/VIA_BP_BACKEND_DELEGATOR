@@ -14,6 +14,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObjectBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -184,10 +185,10 @@ public class MainController {
 
 
     @GetMapping("/getMachineOverviewAllMachineLast24")
-    public List<Object[]> getMachineOverviewAllMachineLast24(){return  machineUpTimeService.getMachineOverviewAllMachineLast24();}
+    public Map<String, List<Integer>> getMachineOverviewAllMachineLast24(){return  machineUpTimeService.getMachineOverviewAllMachineLast24();}
 
     @GetMapping("/getMachineOverviewByMachineLast24")
-    public List<Object[]> getMachineOverviewByMachineLast24(int machineId){return  machineUpTimeService.getMachineOverviewByMachineLast24(machineId);}
+    public Map<String, List<Integer>> getMachineOverviewByMachineLast24(int machineId){return  machineUpTimeService.getMachineOverviewByMachineLast24(machineId);}
     @GetMapping("/getMostCommonProductErrorsAndTheirFrequency")
     public String getMostCommonProductErrorsAndTheirFrequency() {
         return productService.getMostCommonProductErrorsAndTheirFrequency();

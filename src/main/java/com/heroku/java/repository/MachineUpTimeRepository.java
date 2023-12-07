@@ -11,10 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
+import java.util.*;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.List;
 
 
 @Repository
@@ -74,34 +72,53 @@ public class MachineUpTimeRepository {
         return -1;
     }
 
-    public List<Object[]> getMachineOverviewByMachineLast24(int machineId){
-        List<Object[]> results = new ArrayList<>();
+    public Map<String, List<Integer>> getMachineOverviewByMachineLast24(int machineId) {
+        Map<String, List<Integer>> results = new LinkedHashMap<>();
         try (Session session = sessionFactory.openSession()) {
-            Query<Object[]> query = session.createNativeQuery(" SELECT machinename, status\n" +
-                    "FROM machineuptime\n" +
-                    "WHERE machineid = :machineId\n" +
-                    "ORDER BY timestamp DESC\n" +
-                    "LIMIT 24;", Object[].class);
+            Query<Object[]> query = session.createNativeQuery(
+                    "SELECT machinename, status FROM machineuptime " +
+                            "WHERE machineid = :machineId ORDER BY timestamp DESC LIMIT 24;",
+                    Object[].class);
             query.setParameter("machineId", machineId);
-            Object result = query.getResultList();
-            return query.list();
+            List<Object[]> resultList = query.getResultList();
+            for (Object[] row : resultList) {
+                String machineName = (String) row[0];
+                Integer status = (Integer) row[1];
+                if (!results.containsKey(machineName)) {
+                    results.put(machineName, new ArrayList<>());
+                }
+                results.get(machineName).add(status);
+            }
+
+            return results;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return new LinkedHashMap<>();
     }
 
-    public List<Object[]> getMachineOverviewAllMachineLast24(){
-        List<Object[]> results = new ArrayList<>();
+
+    public Map<String, List<Integer>> getMachineOverviewAllMachineLast24() {
+        Map<String, List<Integer>> results = new LinkedHashMap<>();
         try (Session session = sessionFactory.openSession()) {
             Query<Object[]> query = session.createNativeQuery("SELECT machinename, status FROM ( SELECT *, ROW_NUMBER() OVER(PARTITION BY machineid ORDER BY timestamp DESC) AS row_num FROM machineuptime ) AS ranked_statuses WHERE row_num <= 24 ORDER BY machineid, timestamp DESC;", Object[].class);
-            Object result = query.getResultList();
-            return query.list();
+            List<Object[]> resultList = query.getResultList();
+            for (Object[] row : resultList) {
+                String machineName = (String) row[0];
+                Integer status = (Integer) row[1];
+                if (!results.containsKey(machineName)) {
+                    results.put(machineName, new ArrayList<>());
+                }
+                results.get(machineName).add(status);
+            }
+
+            return results;
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ArrayList<>();
+        return new LinkedHashMap<>();
     }
+
 
 
 
