@@ -157,4 +157,16 @@ public class ProductRepository {
         return new ArrayList<>();
     }
 
+    public Integer getNumberOfProductsMadeInTheLast24Hours() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Long> query = session.createQuery("SELECT COUNT(p.id) FROM Product p WHERE p.timeStamp >= :oneDayAgo", Long.class);
+            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
+            Long result = query.getSingleResult();
+            return result.intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

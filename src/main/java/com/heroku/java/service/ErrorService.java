@@ -35,7 +35,18 @@ public class ErrorService {
     }
 
     public String getMostCommonMachineErrorsAndTheirFrequency() {
-        List<Object[]> object = errorCodeRepository.getMostCommonMachineErrorsAndTheirFrequency();
+       List<Object[]> object = errorCodeRepository.getMostCommonMachineErrorsAndTheirFrequency();
+       return jsonForErrosAndFrequency(object);
+    }
+
+
+
+    public String getMostCommonMachineErrorsAndTheirFrequencyForMachine(Integer machineId) {
+        List<Object[]> object = errorCodeRepository.getMostCommonMachineErrorsAndTheirFrequencyForMachine(machineId);
+        return jsonForErrosAndFrequency(object);
+    }
+
+    private String jsonForErrosAndFrequency(List<Object[]> object) {
         JsonArrayBuilder jsonReturnArray = Json.createArrayBuilder();
         for (Object[] result : object) {
             JsonObjectBuilder jsonObject = Json.createObjectBuilder()
@@ -45,7 +56,4 @@ public class ErrorService {
         }
         return jsonReturnArray.build().toString();
     }
-
-
-
 }

@@ -107,4 +107,8 @@ public class ProductService {
         return jsonReturnArray.build().toString();
     }
 
+    public Integer getNumberOfProductsMadeInTheLast24Hours() {
+        return productRepository.getNumberOfProductsMadeInTheLast24Hours();
+    }
+
 }
