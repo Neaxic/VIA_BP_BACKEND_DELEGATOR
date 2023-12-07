@@ -42,7 +42,7 @@ public class ProductRepository {
 
     public List<Product> getProductsOfBatch(int batchNo) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Product> query = session.createQuery("FROM Product WHERE batchNo = :batchNo", Product.class);
+            Query<Product> query = session.createQuery("FROM Product WHERE batchInfo.batchNo = :batchNo", Product.class);
             query.setParameter("batchNo", batchNo);
             return query.list();
         } catch (Exception e) {
