@@ -86,7 +86,7 @@ public class ScheduledTasks {
 
     public Errors generateRandomError(int machineId) {
         Errors error = new Errors();
-        error.setErrorLookUpId(errorLookupService.getRandomErrorLookup().getErrorLookupId());
+        error.setErrorLookUp(errorLookupService.getRandomErrorLookup());
         error.setTimeStamp(LocalDateTime.now());
         error.setMachineID(machineId);
         error.setAsFakeData(true);

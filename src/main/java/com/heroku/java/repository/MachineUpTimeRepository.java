@@ -74,44 +74,38 @@ public class MachineUpTimeRepository {
     }
 
 
-    //DE her to mangler kærelighed - de reffeltkere ikke at error er den samme pr snapshot aka pr breakdown
-    //De burde være individuelle, hvis nu der er et breakdown, og den skifter til en anden error, så det en ny
-    public int getNumDowntimeLast24Hour(){
+    public List<MachineUpTime> get24HoursMachineUpTimeWithStoppedStatusByMachineId(int machineId){
+        List<MachineUpTime> result = null;
         try (Session session = sessionFactory.openSession()) {
             LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
-            Query<Long> query = session.createQuery(
-                    "SELECT COUNT(machineId) as cnt FROM MachineUpTime " +
-                            "WHERE status != 1 AND timeOfLog >= :oneDayAgo ", Long.class);
-            query.setParameter("oneDayAgo", oneDayAgo);
-            Long result = query.uniqueResult();
-            return result != null ? result.intValue() : 0;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    public int getNumDowntimeLast24HourByMachineId(int machineId){
-        try (Session session = sessionFactory.openSession()) {
-            LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
-            Query<Long> query = session.createQuery(
-                    "SELECT COUNT(machineId) as cnt FROM MachineUpTime " +
-                            "WHERE status != 1 AND timeOfLog >= :oneDayAgo AND machineId = :machineId ", Long.class);
+            Query<MachineUpTime> query = session.createQuery("FROM MachineUpTime m WHERE m.status <> 1 AND m.timeOfLog >= :oneDayAgo AND machineId = :machineId order by m.timeOfLog desc", MachineUpTime.class);
             query.setParameter("oneDayAgo", oneDayAgo);
             query.setParameter("machineId", machineId);
-            Long result = query.uniqueResult();
-            return result != null ? result.intValue() : 0;
+            result = query.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return -1;
+        return result;
+    }
+
+    public List<MachineUpTime> get24HoursMachineUpTimeWithStoppedStatusForAllMachines(){
+        List<MachineUpTime> result = null;
+        try (Session session = sessionFactory.openSession()) {
+            LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
+            Query<MachineUpTime> query = session.createQuery("FROM MachineUpTime m WHERE m.status <> 1 AND m.timeOfLog >= :oneDayAgo order by m.timeOfLog desc", MachineUpTime.class);
+            query.setParameter("oneDayAgo", oneDayAgo);
+            result = query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public long getTimeSinceLastBreakdown(int machineId) {
         try (Session session = sessionFactory.openSession()) {
             Query<Object[]> query = session.createQuery(
                     "SELECT timeOfLog FROM MachineUpTime " +
-                            "WHERE machineId = :machineId AND status != 1 " +
+                            "WHERE machineId = :machineId AND status <> 1 " +
                             "ORDER BY timeOfLog DESC",
                     Object[].class
             );

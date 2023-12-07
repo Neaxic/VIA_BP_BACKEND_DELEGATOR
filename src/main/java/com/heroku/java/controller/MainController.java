@@ -186,21 +186,27 @@ public class MainController {
         return productService.getMostCommonProductErrorsAndTheirFrequency();
     }
 
-
-    @GetMapping("/amountOfBreakdowns24hr")
-    public int getNumDowntimeLast24Hour(){
-        return machineUpTimeService.getNumDowntimeLast24Hour();
+    @GetMapping("/amountOfBreakdowns24hrByMachine")
+    public int getNumDowntimeLast24Hour(@RequestParam int machineId){
+        return machineUpTimeService.getNumDowntimeLast24Hour(machineId);
     }
 
-    @GetMapping("/amountOfBreakdowns24hrByMachine")
-    public int getNumDowntimeLast24Hour(@RequestParam Integer machineId){
-        return machineUpTimeService.getNumDowntimeLast24HourByMachineId(machineId);
+    @GetMapping("/amountOfBreakdowns24hrForAllMachines")
+    public int getNumDowntimeLast24Hour(){
+        return machineUpTimeService.getNumDowntimeLast24Hour(null);
     }
 
     @GetMapping("/getTimeSinceLastBreakdown")
     public long getTimeSinceLastBreakdown(@RequestParam Integer machineId){
         return machineUpTimeService.getTimeSinceLastBreakdown(machineId);
     }
+
+    @GetMapping("/getMostCommonMachineErrorsAndTheirFrequency")
+    public String getMostCommonMachineErrorsAndTheirFrequency() {
+        return errorService.getMostCommonMachineErrorsAndTheirFrequency();
+    }
+
+
 }
 
 

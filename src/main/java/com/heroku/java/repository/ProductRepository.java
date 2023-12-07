@@ -148,7 +148,6 @@ public class ProductRepository {
                     "GROUP BY p.productLookup.name " +
                     "ORDER BY frequency DESC", Object[].class);
             query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
-            // Set a limit on the number of results (5 in this case)
             query.setMaxResults(5);
 
             return query.list();

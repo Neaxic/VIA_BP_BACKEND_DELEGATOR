@@ -6,6 +6,7 @@ import com.heroku.java.repository.MachineUpTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,14 +36,24 @@ public class MachineUpTimeService {
         return machine;
     }
 
-    public int getNumDowntimeLast24Hour(){
-        int cnt = machineUpTimeRepository.getNumDowntimeLast24Hour();
-        return cnt;
-    }
+    public int getNumDowntimeLast24Hour(Integer machineId){
+        List<MachineUpTime> machineUpTimeList = new ArrayList<>();
+        if (machineId != null) {
+           machineUpTimeList = machineUpTimeRepository.get24HoursMachineUpTimeWithStoppedStatusByMachineId(machineId);
+        } else {
+            machineUpTimeList = machineUpTimeRepository.get24HoursMachineUpTimeWithStoppedStatusForAllMachines();
+        }
 
-    public int getNumDowntimeLast24HourByMachineId(int machineId){
-        int cnt = machineUpTimeRepository.getNumDowntimeLast24HourByMachineId(machineId);
-        return cnt;
+        List<MachineUpTime> machineUpTimesForRemoval = new ArrayList<>();
+        for (int i = 1; i < machineUpTimeList.size(); i++) {
+            MachineUpTime machineBefore = machineUpTimeList.get(i-1);
+            MachineUpTime currentMachine = machineUpTimeList.get(i);
+            if (machineBefore.getStatus() == currentMachine.getStatus()) {
+                machineUpTimesForRemoval.add(currentMachine);
+            }
+        }
+        machineUpTimeList.removeAll(machineUpTimesForRemoval);
+        return machineUpTimeList.size();
     }
 
     public long getTimeSinceLastBreakdown(int machineId){
