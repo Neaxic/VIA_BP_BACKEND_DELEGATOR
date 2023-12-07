@@ -8,6 +8,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -176,6 +180,12 @@ public class MainController {
     public int getMostProblematicMachine24Hr(){
         return machineUpTimeService.getMostDowntimeMachine24Hour();
     }
+
+    @GetMapping("/getMostCommonErrorsAndTheirFrequency")
+    public String getMostCommonErrorsAndTheirFrequency() {
+        return productService.getMostCommonErrorsAndTheirFrequency();
+    }
+
 
 }
 

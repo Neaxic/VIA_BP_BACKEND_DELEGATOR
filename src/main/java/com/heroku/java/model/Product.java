@@ -18,8 +18,9 @@ public class Product {
     @JoinColumn(name = "batchNo")
     private BatchInfo batchInfo;
 
-    @Column(name = "ProductLookupId")
-    private Integer productLookupId;
+    @ManyToOne
+    @JoinColumn(name = "ProductLookupId")
+    private ProductLookUp productLookup;
 
     @Basic
     @Column(name = "TimeStamp")
@@ -39,12 +40,12 @@ public class Product {
         this.productId = productId;
     }
 
-    public Integer getProductLookupId() {
-        return productLookupId;
+    public ProductLookUp getProductLookup() {
+        return productLookup;
     }
 
-    public void setProductLookupId(Integer productLookupId) {
-        this.productLookupId = productLookupId;
+    public void setProductLookup(ProductLookUp productLookupId) {
+        this.productLookup = productLookupId;
     }
 
     public LocalDateTime getTimeStamp() {
