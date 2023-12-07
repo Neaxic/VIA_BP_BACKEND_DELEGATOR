@@ -226,6 +226,12 @@ public class MainController {
         return productService.getNumberOfProductsMadeInTheLast24Hours();
     }
 
+    @GetMapping("/getProductsMadeEachDay30DayInterval")
+    public String getProductsMadeEachDay30DayInterval() {
+        return productService.getProductsMadeEachDay30DayInterval();
+    }
+
+
 }
 
 

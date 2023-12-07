@@ -169,4 +169,22 @@ public class ProductRepository {
         return null;
     }
 
+    public List<Object[]> getProductsMadeEachDay30DayInterval() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createNativeQuery(
+                    "SELECT DATE(p.TimeStamp) as Date, COUNT(p.ProductId) as ProductCount " +
+                            "FROM Product p " +
+                            "WHERE p.TimeStamp >= :thirtyDaysAgo " +
+                            "GROUP BY Date " +
+                            "ORDER BY Date DESC");
+
+            query.setParameter("thirtyDaysAgo", LocalDateTime.now().minusDays(30));
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+
 }

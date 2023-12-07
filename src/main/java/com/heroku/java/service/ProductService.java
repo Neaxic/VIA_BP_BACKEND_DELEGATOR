@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.json.*;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -109,6 +110,21 @@ public class ProductService {
 
     public Integer getNumberOfProductsMadeInTheLast24Hours() {
         return productRepository.getNumberOfProductsMadeInTheLast24Hours();
+    }
+
+    public String getProductsMadeEachDay30DayInterval() {
+        List<Object[]> object = productRepository.getProductsMadeEachDay30DayInterval();
+        JsonArrayBuilder jsonReturnArray = Json.createArrayBuilder();
+        for (Object[] result : object) {
+            Date date = (Date) result[0];
+            Long productsMade = (Long) result[1];
+
+            JsonObjectBuilder jsonObject = Json.createObjectBuilder()
+                    .add("Date", date.toString())
+                    .add("ProductsMade", productsMade);
+            jsonReturnArray.add(jsonObject);
+        }
+        return jsonReturnArray.build().toString();
     }
 
 }
