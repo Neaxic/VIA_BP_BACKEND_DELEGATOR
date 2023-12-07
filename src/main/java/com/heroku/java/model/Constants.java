@@ -10,4 +10,6 @@ public class Constants {
     public static int MACHINE_STATUS_STOPPED = 0;
     public static int MACHINE_STATUS_RUNNING = 1;
     public static int MACHINE_STATUS_ERROR = 2;
+
+    public static int INVALID_ID = -99;
 }

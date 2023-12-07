@@ -80,26 +80,28 @@ public class MachineUpTimeRepository {
             LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
             Query<MachineUpTime> query = session.createQuery("FROM MachineUpTime m WHERE m.status <> 1 AND m.timeOfLog >= :oneDayAgo AND machineId = :machineId order by m.timeOfLog desc", MachineUpTime.class);
             query.setParameter("oneDayAgo", oneDayAgo);
-            return query.uniqueResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return -1;
-    }
-
-    public int getNumDowntimeLast24HourByMachineId(int machineId) {
-        try (Session session = sessionFactory.openSession()) {
-            LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
-            Query<Long> query = session.createQuery(
-                    "SELECT COUNT(machineId) as cnt FROM MachineUpTime " +
-                            "WHERE status != 1 AND timeOfLog >= :oneDayAgo AND machineId = :machineId ", Long.class);
-            query.setParameter("oneDayAgo", oneDayAgo);
             query.setParameter("machineId", machineId);
             result = query.list();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public int getNumDowntimeLast24HourByMachineId(int machineId) {
+        try (Session session = sessionFactory.openSession()) {
+
+            LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
+            Query<Long> query = session.createQuery(
+                    "SELECT COUNT(machineId) as cnt FROM MachineUpTime " +
+                            "WHERE status != 1 AND timeOfLog >= :oneDayAgo AND machineId = :machineId ", Long.class);
+            query.setParameter("oneDayAgo", oneDayAgo);
+            query.setParameter("machineId", machineId);
+            return query.getSingleResult().intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Constants.INVALID_ID;
     }
 
     public List<MachineUpTime> get24HoursMachineUpTimeWithStoppedStatusForAllMachines(){
