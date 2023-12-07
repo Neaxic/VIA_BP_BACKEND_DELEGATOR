@@ -177,6 +177,14 @@ public class MainController {
         return machineUpTimeService.getMostDowntimeMachine24Hour();
     }
 
+
+
+    @GetMapping("/getMachineOverviewAllMachineLast24")
+    public List<Object[]> getMachineOverviewAllMachineLast24(){return  machineUpTimeService.getMachineOverviewAllMachineLast24();}
+
+    @GetMapping("/getMachineOverviewByMachineLast24")
+    public List<Object[]> getMachineOverviewByMachineLast24(int machineId){return  machineUpTimeService.getMachineOverviewByMachineLast24(machineId);}
+
 }
 
 

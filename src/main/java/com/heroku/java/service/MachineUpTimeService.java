@@ -35,4 +35,12 @@ public class MachineUpTimeService {
         System.out.println("machine: "+machine);
         return machine;
     }
+
+    public List<Object[]> getMachineOverviewByMachineLast24(int machineId) {
+        return machineUpTimeRepository.getMachineOverviewByMachineLast24(machineId);
+    }
+
+    public List<Object[]> getMachineOverviewAllMachineLast24() {
+        return machineUpTimeRepository.getMachineOverviewAllMachineLast24();
+    }
 }
