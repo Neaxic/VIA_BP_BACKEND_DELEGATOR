@@ -40,6 +40,16 @@ public class MachineUpTimeService {
         return cnt;
     }
 
+    public int getNumDowntimeLast24HourByMachineId(int machineId){
+        int cnt = machineUpTimeRepository.getNumDowntimeLast24HourByMachineId(machineId);
+        return cnt;
+    }
+
+    public long getTimeSinceLastBreakdown(int machineId){
+        long min = machineUpTimeRepository.getTimeSinceLastBreakdown(machineId);
+        return min;
+    }
+
 
 
 }

@@ -181,6 +181,16 @@ public class MainController {
     public int getNumDowntimeLast24Hour(){
         return machineUpTimeService.getNumDowntimeLast24Hour();
     }
+
+    @GetMapping("/amountOfBreakdowns24hrByMachine")
+    public int getNumDowntimeLast24Hour(@RequestParam Integer machineId){
+        return machineUpTimeService.getNumDowntimeLast24HourByMachineId(machineId);
+    }
+
+    @GetMapping("/getTimeSinceLastBreakdown")
+    public long getTimeSinceLastBreakdown(@RequestParam Integer machineId){
+        return machineUpTimeService.getTimeSinceLastBreakdown(machineId);
+    }
 }
 
 

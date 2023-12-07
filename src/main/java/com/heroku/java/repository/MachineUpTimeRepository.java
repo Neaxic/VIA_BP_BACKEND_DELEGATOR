@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 
@@ -72,6 +73,9 @@ public class MachineUpTimeRepository {
         return -1;
     }
 
+
+    //DE her to mangler kærelighed - de reffeltkere ikke at error er den samme pr snapshot aka pr breakdown
+    //De burde være individuelle, hvis nu der er et breakdown, og den skifter til en anden error, så det en ny
     public int getNumDowntimeLast24Hour(){
         try (Session session = sessionFactory.openSession()) {
             LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
@@ -85,5 +89,47 @@ public class MachineUpTimeRepository {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public int getNumDowntimeLast24HourByMachineId(int machineId){
+        try (Session session = sessionFactory.openSession()) {
+            LocalDateTime oneDayAgo = LocalDateTime.now().minusHours(24);
+            Query<Long> query = session.createQuery(
+                    "SELECT COUNT(machineId) as cnt FROM MachineUpTime " +
+                            "WHERE status != 1 AND timeOfLog >= :oneDayAgo AND machineId = :machineId ", Long.class);
+            query.setParameter("oneDayAgo", oneDayAgo);
+            query.setParameter("machineId", machineId);
+            Long result = query.uniqueResult();
+            return result != null ? result.intValue() : 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public long getTimeSinceLastBreakdown(int machineId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createQuery(
+                    "SELECT timeOfLog FROM MachineUpTime " +
+                            "WHERE machineId = :machineId AND status != 1 " +
+                            "ORDER BY timeOfLog DESC",
+                    Object[].class
+            );
+            query.setParameter("machineId", machineId);
+            query.setMaxResults(1); //Kun den sidste
+
+            Object[] result = query.uniqueResult();
+
+            if (result != null) {
+                LocalDateTime lastBreakdownTime = (LocalDateTime) result[0];
+                long minutesSinceLastBreakdown = ChronoUnit.MINUTES.between(lastBreakdownTime, LocalDateTime.now());
+                return minutesSinceLastBreakdown;
+            } else {
+                return -1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
