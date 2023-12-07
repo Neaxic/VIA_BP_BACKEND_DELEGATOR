@@ -181,9 +181,9 @@ public class MainController {
         return machineUpTimeService.getMostDowntimeMachine24Hour();
     }
 
-    @GetMapping("/getMostCommonErrorsAndTheirFrequency")
-    public String getMostCommonErrorsAndTheirFrequency() {
-        return productService.getMostCommonErrorsAndTheirFrequency();
+    @GetMapping("/getMostCommonProductErrorsAndTheirFrequency")
+    public String getMostCommonProductErrorsAndTheirFrequency() {
+        return productService.getMostCommonProductErrorsAndTheirFrequency();
     }
 
 

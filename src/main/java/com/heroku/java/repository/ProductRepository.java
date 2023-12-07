@@ -138,7 +138,7 @@ public class ProductRepository {
 
 
 
-    public List<Object[]> getMostCommonErrorsAndTheirFrequency() {
+    public List<Object[]> getMostCommonProductErrorsAndTheirFrequency() {
         try (Session session = sessionFactory.openSession()) {
 
             Query<Object[]> query = session.createQuery("SELECT p.productLookup.name, COUNT(p.productLookup.name) AS frequency " +

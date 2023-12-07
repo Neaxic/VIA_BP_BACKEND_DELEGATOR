@@ -95,8 +95,8 @@ public class ProductService {
         return productRepository.saveProduct(product);
     }
 
-    public String getMostCommonErrorsAndTheirFrequency() {
-        List<Object[]> object = productRepository.getMostCommonErrorsAndTheirFrequency();
+    public String getMostCommonProductErrorsAndTheirFrequency() {
+        List<Object[]> object = productRepository.getMostCommonProductErrorsAndTheirFrequency();
         JsonArrayBuilder jsonReturnArray = Json.createArrayBuilder();
         for (Object[] result : object) {
             JsonObjectBuilder jsonObject = Json.createObjectBuilder()
