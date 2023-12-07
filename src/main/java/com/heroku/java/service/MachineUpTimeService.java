@@ -6,6 +6,9 @@ import com.heroku.java.repository.MachineUpTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import java.util.List;
 
 @Service
@@ -50,6 +53,24 @@ public class MachineUpTimeService {
         return min;
     }
 
+    public int getLastErrorCode(int machineId){
+        int id = machineUpTimeRepository.getLastNonOperationalStatusCode(machineId);
+        return id;
+    }
 
+    public String getLastBreakdown(int machineId){
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+
+        long min = machineUpTimeRepository.getTimeSinceLastBreakdown(machineId);
+        int id = machineUpTimeRepository.getLastNonOperationalStatusCode(machineId);
+
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
+                .add("statusCode", id)
+                .add("timesince", min);
+
+        jsonArrayBuilder.add(jsonObjectBuilder);
+        String json = jsonArrayBuilder.build().toString();
+        return json;
+    }
 
 }

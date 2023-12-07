@@ -82,6 +82,8 @@ public class MachineUpTimeRepository {
             Query<Long> query = session.createQuery(
                     "SELECT COUNT(machineId) as cnt FROM MachineUpTime " +
                             "WHERE status != 1 AND timeOfLog >= :oneDayAgo ", Long.class);
+
+
             query.setParameter("oneDayAgo", oneDayAgo);
             Long result = query.uniqueResult();
             return result != null ? result.intValue() : 0;
@@ -107,6 +109,8 @@ public class MachineUpTimeRepository {
         return -1;
     }
 
+
+
     public long getTimeSinceLastBreakdown(int machineId) {
         try (Session session = sessionFactory.openSession()) {
             Query<Object[]> query = session.createQuery(
@@ -131,5 +135,28 @@ public class MachineUpTimeRepository {
             e.printStackTrace();
             return -1;
         }
+    }
+
+    public int getLastNonOperationalStatusCode(int machineId) {
+        Integer lastStatusCode = null;
+        try (Session session = sessionFactory.openSession()) {
+            Query<Integer> query = session.createQuery(
+                    "SELECT status FROM MachineUpTime " +
+                            "WHERE machineId = :machineId AND status != 1 ",
+                    Integer.class
+            );
+            query.setParameter("machineId", machineId);
+            query.setMaxResults(1);
+
+            lastStatusCode = query.uniqueResult();
+            if(lastStatusCode != null){
+                return lastStatusCode;
+            } else {
+                return -1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lastStatusCode;
     }
 }
