@@ -32,7 +32,14 @@ public class MachineUpTimeService {
 
     public int getMostDowntimeMachine24Hour(){
         int machine = machineUpTimeRepository.getMostDowntimeMachine24Hour();
-        System.out.println("machine: "+machine);
         return machine;
     }
+
+    public int getNumDowntimeLast24Hour(){
+        int cnt = machineUpTimeRepository.getNumDowntimeLast24Hour();
+        return cnt;
+    }
+
+
+
 }
