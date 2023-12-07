@@ -8,6 +8,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -69,5 +71,21 @@ public class ErrorRepository {
     }
 
 
-    //TODO: Get 24 hours frequentcy of error
+    public List<Object[]> getMostCommonMachineErrorsAndTheirFrequency() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createQuery("SELECT e.errorLookUp.name, COUNT(e.errorLookUp.id) AS frequency " +
+                    "FROM Errors e " +
+                    "WHERE e.timeStamp >= :oneDayAgo " +
+                    "GROUP BY e.errorLookUp.id, e.errorLookUp.name " +
+                    "ORDER BY frequency DESC", Object[].class);
+            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
+            query.setMaxResults(5);
+
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.heroku.java.repository;
 
 import com.heroku.java.model.Constants;
+import com.heroku.java.model.Machine;
 import com.heroku.java.model.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -132,4 +134,27 @@ public class ProductRepository {
         }
         return Collections.emptyList();
     }
+
+
+
+
+    public List<Object[]> getMostCommonProductErrorsAndTheirFrequency() {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Object[]> query = session.createQuery("SELECT p.productLookup.name, COUNT(p.productLookup.name) AS frequency " +
+                    "FROM Product p " +
+                    "WHERE p.timeStamp >= :oneDayAgo " +
+                    "AND p.productLookup.productLookupId <> 1" +
+                    "GROUP BY p.productLookup.name " +
+                    "ORDER BY frequency DESC", Object[].class);
+            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
+            query.setMaxResults(5);
+
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
 }

@@ -20,6 +20,7 @@ public class ErrorLookup {
     public ErrorLookup() {
     }
 
+
     public int getErrorLookupId() {
         return errorLookupId;
     }

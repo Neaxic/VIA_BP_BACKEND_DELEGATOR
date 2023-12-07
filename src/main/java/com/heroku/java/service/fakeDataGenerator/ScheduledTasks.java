@@ -72,10 +72,10 @@ public class ScheduledTasks {
     public Product generateRandomProduct(Machine machine) {
         Product product = new Product();
         if (Math.random() <= 0.8) { //Will generate STATUS_OK 80% of the time.
-            product.setProductLookupId(1);
+            product.setProductLookup(productLookupService.getProductLookupById(1));
         } else {
             //TODO: Make NPE check
-            product.setProductLookupId(productLookupService.getRandomProductLookUp().getProductLookupId());
+            product.setProductLookup(productLookupService.getRandomProductLookUp());
         }
         product.setBatchInfo(machine.getCurrentBatch());
         product.setTimeStamp(LocalDateTime.now());
@@ -86,7 +86,7 @@ public class ScheduledTasks {
 
     public Errors generateRandomError(int machineId) {
         Errors error = new Errors();
-        error.setErrorLookUpId(errorLookupService.getRandomErrorLookup().getErrorLookupId());
+        error.setErrorLookUp(errorLookupService.getRandomErrorLookup());
         error.setTimeStamp(LocalDateTime.now());
         error.setMachineID(machineId);
         error.setAsFakeData(true);

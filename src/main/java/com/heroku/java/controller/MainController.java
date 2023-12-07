@@ -8,6 +8,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -184,6 +188,36 @@ public class MainController {
 
     @GetMapping("/getMachineOverviewByMachineLast24")
     public List<Object[]> getMachineOverviewByMachineLast24(int machineId){return  machineUpTimeService.getMachineOverviewByMachineLast24(machineId);}
+    @GetMapping("/getMostCommonProductErrorsAndTheirFrequency")
+    public String getMostCommonProductErrorsAndTheirFrequency() {
+        return productService.getMostCommonProductErrorsAndTheirFrequency();
+    }
+
+    @GetMapping("/amountOfBreakdowns24hrByMachine")
+    public int getNumDowntimeLast24Hour(@RequestParam int machineId){
+        return machineUpTimeService.getNumDowntimeLast24Hour(machineId);
+    }
+
+    @GetMapping("/amountOfBreakdowns24hrForAllMachines")
+    public int getNumDowntimeLast24Hour(){
+        return machineUpTimeService.getNumDowntimeLast24Hour(null);
+    }
+
+    @GetMapping("/getTimeSinceLastBreakdown")
+    public long getTimeSinceLastBreakdown(@RequestParam Integer machineId){
+        return machineUpTimeService.getTimeSinceLastBreakdown(machineId);
+    }
+
+    @GetMapping("/getMostCommonMachineErrorsAndTheirFrequency")
+    public String getMostCommonMachineErrorsAndTheirFrequency() {
+        return errorService.getMostCommonMachineErrorsAndTheirFrequency();
+    }
+
+
+    @GetMapping("/getLastBreakdown")
+    public String getLastBreakdown(@RequestParam Integer machineId){
+        return machineUpTimeService.getLastBreakdown(machineId);
+    }
 
 }
 

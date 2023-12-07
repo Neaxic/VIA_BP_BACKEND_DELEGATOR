@@ -6,6 +6,10 @@ import com.heroku.java.repository.MachineUpTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import javax.json.Json;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObjectBuilder;
 import java.util.List;
 
 @Service
@@ -32,7 +36,6 @@ public class MachineUpTimeService {
 
     public int getMostDowntimeMachine24Hour(){
         int machine = machineUpTimeRepository.getMostDowntimeMachine24Hour();
-        System.out.println("machine: "+machine);
         return machine;
     }
 
@@ -43,4 +46,49 @@ public class MachineUpTimeService {
     public List<Object[]> getMachineOverviewAllMachineLast24() {
         return machineUpTimeRepository.getMachineOverviewAllMachineLast24();
     }
+    public int getNumDowntimeLast24Hour(Integer machineId){
+        List<MachineUpTime> machineUpTimeList = new ArrayList<>();
+        if (machineId != null) {
+           machineUpTimeList = machineUpTimeRepository.get24HoursMachineUpTimeWithStoppedStatusByMachineId(machineId);
+        } else {
+            machineUpTimeList = machineUpTimeRepository.get24HoursMachineUpTimeWithStoppedStatusForAllMachines();
+        }
+
+        List<MachineUpTime> machineUpTimesForRemoval = new ArrayList<>();
+        for (int i = 1; i < machineUpTimeList.size(); i++) {
+            MachineUpTime machineBefore = machineUpTimeList.get(i-1);
+            MachineUpTime currentMachine = machineUpTimeList.get(i);
+            if (machineBefore.getStatus() == currentMachine.getStatus()) {
+                machineUpTimesForRemoval.add(currentMachine);
+            }
+        }
+        machineUpTimeList.removeAll(machineUpTimesForRemoval);
+        return machineUpTimeList.size();
+    }
+
+    public long getTimeSinceLastBreakdown(int machineId){
+        long min = machineUpTimeRepository.getTimeSinceLastBreakdown(machineId);
+        return min;
+    }
+
+    public int getLastErrorCode(int machineId){
+        int id = machineUpTimeRepository.getLastNonOperationalStatusCode(machineId);
+        return id;
+    }
+
+    public String getLastBreakdown(int machineId){
+        JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+
+        long min = machineUpTimeRepository.getTimeSinceLastBreakdown(machineId);
+        int id = machineUpTimeRepository.getLastNonOperationalStatusCode(machineId);
+
+        JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
+                .add("statusCode", id)
+                .add("timesince", min);
+
+        jsonArrayBuilder.add(jsonObjectBuilder);
+        String json = jsonArrayBuilder.build().toString();
+        return json;
+    }
+
 }

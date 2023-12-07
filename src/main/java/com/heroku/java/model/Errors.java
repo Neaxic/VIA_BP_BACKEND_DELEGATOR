@@ -20,8 +20,9 @@ public class Errors {
     @Column(name = "TimeStamp")
     private LocalDateTime timeStamp;
 
-    @Column(name = "ErrorLookUpId")
-    private Integer errorLookUpId;
+    @ManyToOne
+    @JoinColumn(name = "ErrorLookUpId")
+    private ErrorLookup errorLookUp;
 
     @Column(name = "isFakeGenerated")
     private boolean isFakeData;
@@ -53,12 +54,16 @@ public class Errors {
         this.timeStamp = timeStamp;
     }
 
-    public Integer getErrorLookUpId() {
-        return errorLookUpId;
+    public ErrorLookup getErrorLookUp() {
+        return errorLookUp;
     }
 
-    public void setErrorLookUpId(Integer errorLookUpId) {
-        this.errorLookUpId = errorLookUpId;
+    public void setErrorLookUp(ErrorLookup errorLookUp) {
+        this.errorLookUp = errorLookUp;
+    }
+
+    public void setFakeData(boolean fakeData) {
+        isFakeData = fakeData;
     }
 
     public boolean isFakeData() {
