@@ -3,6 +3,7 @@ package com.heroku.java.service.fakeDataGenerator;
 import com.heroku.java.model.Errors;
 import com.heroku.java.model.Machine;
 import com.heroku.java.model.Product;
+import com.heroku.java.model.ProductLookUp;
 import com.heroku.java.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -71,12 +72,7 @@ public class ScheduledTasks {
 
     public Product generateRandomProduct(Machine machine) {
         Product product = new Product();
-        if (Math.random() <= 0.8) { //Will generate STATUS_OK 80% of the time.
-            product.setProductLookup(productLookupService.getProductLookupById(1));
-        } else {
-            //TODO: Make NPE check
-            product.setProductLookup(productLookupService.getRandomProductLookUp());
-        }
+        product.setProductLookup((Math.random() <= 0.8) ? productLookupService.getProductLookupById(1) : productLookupService.getRandomProductLookUp());
         product.setBatchInfo(machine.getCurrentBatch());
         product.setTimeStamp(LocalDateTime.now());
         product.setFake(true);

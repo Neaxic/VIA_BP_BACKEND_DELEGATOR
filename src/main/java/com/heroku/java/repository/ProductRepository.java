@@ -157,4 +157,53 @@ public class ProductRepository {
         return new ArrayList<>();
     }
 
+    public List<Object[]> getMostCommonProductErrorsAndTheirFrequencyForMachine(int machineId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createQuery("SELECT p.productLookup.name, COUNT(p.productLookup.name) AS frequency " +
+                    "FROM Product p " +
+                    "WHERE p.timeStamp >= :oneDayAgo " +
+                    "AND p.productLookup.productLookupId <> 1 and p.batchInfo.machine.id = :machineId" +
+                    "GROUP BY p.productLookup.name " +
+                    "ORDER BY frequency DESC", Object[].class);
+            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
+            query.setParameter("machineId", machineId);
+            query.setMaxResults(5);
+
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public Integer getNumberOfProductsMadeInTheLast24Hours() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Long> query = session.createQuery("SELECT COUNT(p.id) FROM Product p WHERE p.timeStamp >= :oneDayAgo", Long.class);
+            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
+            Long result = query.getSingleResult();
+            return result.intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<Object[]> getProductsMadeEachDay30DayInterval() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createNativeQuery(
+                    "SELECT DATE(p.TimeStamp) as Date, COUNT(p.ProductId) as ProductCount " +
+                            "FROM Product p " +
+                            "WHERE p.TimeStamp >= :thirtyDaysAgo " +
+                            "GROUP BY Date " +
+                            "ORDER BY Date DESC");
+
+            query.setParameter("thirtyDaysAgo", LocalDateTime.now().minusDays(30));
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+
 }

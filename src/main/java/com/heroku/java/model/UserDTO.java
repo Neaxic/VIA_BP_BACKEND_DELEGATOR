@@ -87,13 +87,5 @@ public class UserDTO {
     public void setCreateDate(LocalDateTime createDate) {
         this.createDate = createDate;
     }
-
-    /*private List<UserRolesLookup> getUserRolesLookUpFromUserRoles(Set<UserRoles> userRoles) { //TODO: Skriv test
-        List<UserRolesLookup> userRolesLookups = new ArrayList<>();
-        for (UserRoles role : userRoles) {
-            userRolesLookups.add(role.getRole());
-        }
-        return userRolesLookups;
-    }*/
 }
 

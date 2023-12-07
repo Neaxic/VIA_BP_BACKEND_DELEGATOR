@@ -23,9 +23,6 @@ public class MainController {
 
     /*NOTES/TODO:
         - Check TODO's
-
-        //TODO: Add delete user endpoint
-        //TODO: Add edit user endpoint.
      */
 
     @Autowired
@@ -194,6 +191,11 @@ public class MainController {
         return productService.getMostCommonProductErrorsAndTheirFrequency();
     }
 
+    @GetMapping("/getMostCommonProductErrorsAndTheirFrequencyForMachine")
+    public String getMostCommonProductErrorsAndTheirFrequencyForMachine(@RequestParam Integer machineId) {
+        return productService.getMostCommonProductErrorsAndTheirFrequency(machineId);
+    }
+
     @GetMapping("/amountOfBreakdowns24hrByMachine")
     public int getNumDowntimeLast24Hour(@RequestParam int machineId){
         return machineUpTimeService.getNumDowntimeLast24Hour(machineId);
@@ -214,11 +216,27 @@ public class MainController {
         return errorService.getMostCommonMachineErrorsAndTheirFrequency();
     }
 
+    @GetMapping("/getMostCommonMachineErrorsAndTheirFrequencyForMachine")
+    public String getMostCommonMachineErrorsAndTheirFrequency(@RequestParam Integer machineId) {
+        return errorService.getMostCommonMachineErrorsAndTheirFrequencyForMachine(machineId);
+    }
+
 
     @GetMapping("/getLastBreakdown")
     public String getLastBreakdown(@RequestParam Integer machineId){
         return machineUpTimeService.getLastBreakdown(machineId);
     }
+
+    @GetMapping("/getAllProductsMadeInTheLast24Hours")
+    public Integer getAllProductsMadeInTheLast24Hours() {
+        return productService.getNumberOfProductsMadeInTheLast24Hours();
+    }
+
+    @GetMapping("/getProductsMadeEachDay30DayInterval")
+    public String getProductsMadeEachDay30DayInterval() {
+        return productService.getProductsMadeEachDay30DayInterval();
+    }
+
 
 }
 
