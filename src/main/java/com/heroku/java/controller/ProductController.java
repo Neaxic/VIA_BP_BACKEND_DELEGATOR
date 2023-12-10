@@ -1,7 +1,6 @@
 package com.heroku.java.controller;
 
 import com.heroku.java.model.*;
-import com.heroku.java.model.request.RegisterReq;
 import com.heroku.java.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-public class BatchController {
-
-    @Autowired
-    private UserService userService;
+public class ProductController {
 
     @Autowired
     private BatchInfoService batchInfoService;
@@ -43,24 +39,6 @@ public class BatchController {
         return batchInfoService.getAllBatches();
     }
 
-    @ResponseBody
-    @GetMapping("/getAllUsers")
-    public List<UserDTO> getAllUsers() {
-        return userService.getAllUsersDTO();
-    }
-
-    @ResponseBody
-    @GetMapping("/getAllLookupRoles")
-    public List<UserRolesLookup> getAllLookupRoles() {
-        return userService.getAllLookupRoles();
-    }
-
-    @ResponseBody
-    @PostMapping("/registerUser")
-    public String registerUser(@RequestBody RegisterReq registerReq) {
-        return userService.registerUser(registerReq.getUsername(), registerReq.getPassword(), registerReq.getFirstname(), registerReq.getLastname(), registerReq.getRoleId());
-    }
-
     @GetMapping("/getMostFrequentStatusForBatch")
     public String getMostFrequentStatusForBatch(@RequestParam Integer batchNo){
         return productService.getMostFrequentStatusForBatch(batchNo);
@@ -79,11 +57,6 @@ public class BatchController {
     @GetMapping("/getHistoryBatchData")
     public String getHistoryBatchData(int machineId){
         return productService.getHistoryBatchData(machineId);
-    }
-
-    @DeleteMapping("/deleteUser")
-    public Boolean deleteUser(@RequestParam Integer userId){
-        return userService.deleteUser(userId);
     }
 
     @GetMapping("/getMostCommonProductErrorsAndTheirFrequency")
