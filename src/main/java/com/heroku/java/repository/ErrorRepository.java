@@ -58,18 +58,6 @@ public class ErrorRepository {
         return errorCodes.get((int) (Math.random() * errorCodes.size()));
     }
 
-    public Errors getMostFrequentError(int machineId) { //TODO: MAKE ENDPOINT
-        try (Session session = sessionFactory.openSession()) {
-            Query<Errors> query = session.createQuery("SELECT e FROM Errors e WHERE e.machineID = :machineId GROUP BY e.errorLookUpId ORDER BY COUNT(e.errorLookUpId) DESC", Errors.class);
-            query.setParameter("machineId", machineId);
-            query.setMaxResults(1);
-            return query.uniqueResult();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
     public List<Object[]> getMostCommonMachineErrorsAndTheirFrequency() {
         try (Session session = sessionFactory.openSession()) {
