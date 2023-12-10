@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "machine")
 @JsonIgnoreProperties("batches")
-public class Machine {
+public class Machine implements MachineInterface {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

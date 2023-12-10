@@ -19,7 +19,6 @@ public class UserDTO {
      * This is done to avoid an extra layer of json
      */
 
-
     private int userId;
     private String username;
     private List<UserRolesLookup> roles;

@@ -81,7 +81,7 @@ public class UserService {
     }
 
     public boolean deleteUser(int userID){
-        userRolesRepository.deleteAllRolesByUserId(userID);
+        userRolesRepository.deleteAllRolesByUserId(userID); //Brug cascade i stedet for det her
         return userRepository.deleteUser(userID);
     }
 
@@ -89,5 +89,15 @@ public class UserService {
         UserDTO userDTO = user.toDTO();
         userDTO.setRoles(userRolesRepository.getAllRolesByUser(user.getUserId()));
         return userDTO;
+    }
+
+    public UserDTO getUserDTOById(int userId) {
+        UserDTO userDTO = getUserById(userId).toDTO();
+        userDTO.setRoles(userRolesRepository.getAllRolesByUser(userId));
+        return userDTO;
+    }
+
+    public User getUserById(int userId) {
+        return userRepository.getUserById(userId);
     }
 }

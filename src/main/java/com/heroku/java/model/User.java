@@ -84,8 +84,6 @@ public class User {
         this.createDate = createDate;
     }
 
-
-
     public UserDTO toDTO() {
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(this.getUserId());

@@ -139,4 +139,15 @@ public class UserRepository {
         return false;
     }
 
+    public User getUserById(int userId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<User> query = session.createQuery("FROM User WHERE id = :userId", User.class);
+            query.setParameter("userId", userId);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
