@@ -1,7 +1,7 @@
 package com.heroku.java.repository;
 
 import com.heroku.java.model.BatchInfo;
-import com.heroku.java.model.Constants;
+import com.heroku.java.util.Constants;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
