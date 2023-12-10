@@ -137,6 +137,23 @@ public class ProductService {
         return jsonReturnArray.build().toString();
     }
 
+    public String getNumberOfProductsMadeInTheLast24HoursPrHourPrMachine(int machineId) {
+        List<Object[]> object = productRepository.getNumberOfProductsMadeInTheLast24HoursPrHourPrMachine(machineId);
+        JsonArrayBuilder jsonReturnArray = Json.createArrayBuilder();
+        for (Object[] result : object) {
+            Date date = (Date) result[0];
+            BigDecimal hour = (BigDecimal) result[1];
+            Long productsMade = (Long) result[2];
+
+            JsonObjectBuilder jsonObject = Json.createObjectBuilder()
+                    .add("Date", date.toString())
+                    .add("Hour", hour)
+                    .add("ProductsMade", productsMade);
+            jsonReturnArray.add(jsonObject);
+        }
+        return jsonReturnArray.build().toString();
+    }
+
     public String getProductsMadeEachDay30DayInterval() {
         List<Object[]> object = productRepository.getProductsMadeEachDay30DayInterval();
         JsonArrayBuilder jsonReturnArray = Json.createArrayBuilder();
