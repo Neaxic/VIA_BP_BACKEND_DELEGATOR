@@ -1,4 +1,4 @@
-package com.heroku.java.model;
+package com.heroku.java.util;
 
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;

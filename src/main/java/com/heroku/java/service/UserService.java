@@ -4,13 +4,13 @@ import com.heroku.java.model.*;
 import com.heroku.java.repository.RoleLookupRepository;
 import com.heroku.java.repository.UserRepository;
 import com.heroku.java.repository.UserRolesRepository;
+import com.heroku.java.util.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {

@@ -1,6 +1,6 @@
 package com.heroku.java.repository;
 
-import com.heroku.java.model.Constants;
+import com.heroku.java.util.Constants;
 import com.heroku.java.model.Errors;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

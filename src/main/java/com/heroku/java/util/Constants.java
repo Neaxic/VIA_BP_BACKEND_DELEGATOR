@@ -1,4 +1,4 @@
-package com.heroku.java.model;
+package com.heroku.java.util;
 
 public class Constants {
     public static String STATUS_SUCCESS = "SUCCESS";

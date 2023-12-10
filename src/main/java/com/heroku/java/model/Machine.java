@@ -1,6 +1,7 @@
 package com.heroku.java.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.heroku.java.util.Constants;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
