@@ -63,10 +63,8 @@ public class ErrorRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Object[]> query = session.createQuery("SELECT e.errorLookUp.name, COUNT(e.errorLookUp.id) AS frequency " +
                     "FROM Errors e " +
-                    "WHERE e.timeStamp >= :oneDayAgo " +
                     "GROUP BY e.errorLookUp.id, e.errorLookUp.name " +
                     "ORDER BY frequency DESC", Object[].class);
-            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
             query.setMaxResults(5);
 
             return query.list();
@@ -80,10 +78,9 @@ public class ErrorRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Object[]> query = session.createQuery("SELECT e.errorLookUp.name, COUNT(e.errorLookUp.id) AS frequency " +
                     "FROM Errors e " +
-                    "WHERE e.timeStamp >= :oneDayAgo and e.machineID = :machineId " +
+                    "WHERE e.machineID = :machineId " +
                     "GROUP BY e.errorLookUp.id, e.errorLookUp.name " +
                     "ORDER BY frequency DESC", Object[].class);
-            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
             query.setParameter("machineId", machineId);
             query.setMaxResults(5);
 
