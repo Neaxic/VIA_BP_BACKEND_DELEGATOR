@@ -73,6 +73,22 @@ public class ErrorRepository {
         }
         return new ArrayList<>();
     }
+    public List<Object[]> getMostCommonMachineErrorsAndTheirFrequency24Hr() {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createQuery("SELECT e.errorLookUp.name, COUNT(e.errorLookUp.id) AS frequency " +
+                    "FROM Errors e " +
+                    "WHERE e.timeStamp >= :oneDayAgo " +
+                    "GROUP BY e.errorLookUp.id, e.errorLookUp.name " +
+                    "ORDER BY frequency DESC", Object[].class);
+            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
+            query.setMaxResults(5);
+
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
 
     public List<Object[]> getMostCommonMachineErrorsAndTheirFrequencyForMachine(Integer machineId) {
         try (Session session = sessionFactory.openSession()) {
@@ -81,6 +97,25 @@ public class ErrorRepository {
                     "WHERE e.machineID = :machineId " +
                     "GROUP BY e.errorLookUp.id, e.errorLookUp.name " +
                     "ORDER BY frequency DESC", Object[].class);
+            query.setParameter("machineId", machineId);
+            query.setMaxResults(5);
+
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Object[]> getMostCommonMachineErrorsAndTheirFrequencyForMachine24Hr(Integer machineId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createQuery("SELECT e.errorLookUp.name, COUNT(e.errorLookUp.id) AS frequency " +
+                    "FROM Errors e " +
+                    "WHERE e.timeStamp >= :oneDayAgo and e.machineID = :machineId " +
+                    "AND e.machineID = :machineId " +
+                    "GROUP BY e.errorLookUp.id, e.errorLookUp.name " +
+                    "ORDER BY frequency DESC", Object[].class);
+            query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
             query.setParameter("machineId", machineId);
             query.setMaxResults(5);
 

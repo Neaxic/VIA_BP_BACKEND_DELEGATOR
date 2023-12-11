@@ -136,8 +136,7 @@ public class ProductRepository {
 
 
 
-
-    public List<Object[]> getMostCommonProductErrorsAndTheirFrequency() {
+    public List<Object[]> getMostCommonProductErrorsAndTheirFrequencyLast24hr() {
         try (Session session = sessionFactory.openSession()) {
 
             Query<Object[]> query = session.createQuery("SELECT p.productLookup.name, COUNT(p.productLookup.name) AS frequency " +
@@ -147,6 +146,23 @@ public class ProductRepository {
                     "GROUP BY p.productLookup.name " +
                     "ORDER BY frequency DESC", Object[].class);
             query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
+            query.setMaxResults(5);
+
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Object[]> getMostCommonProductErrorsAndTheirFrequency() {
+        try (Session session = sessionFactory.openSession()) {
+
+            Query<Object[]> query = session.createQuery("SELECT p.productLookup.name, COUNT(p.productLookup.name) AS frequency " +
+                    "FROM Product p " +
+                    "WHERE p.productLookup.productLookupId <> 1" +
+                    "GROUP BY p.productLookup.name " +
+                    "ORDER BY frequency DESC", Object[].class);
             query.setMaxResults(5);
 
             return query.list();
