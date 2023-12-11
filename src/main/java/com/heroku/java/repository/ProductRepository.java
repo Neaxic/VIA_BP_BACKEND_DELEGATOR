@@ -176,8 +176,25 @@ public class ProductRepository {
         try (Session session = sessionFactory.openSession()) {
             Query<Object[]> query = session.createQuery("SELECT p.productLookup.name, COUNT(p.productLookup.name) AS frequency " +
                     "FROM Product p " +
+                    "WHERE p.productLookup.productLookupId <> 1 and p.batchInfo.machine.id = :machineId " +
+                    "GROUP BY p.productLookup.name " +
+                    "ORDER BY frequency DESC", Object[].class);
+            query.setParameter("machineId", machineId);
+            query.setMaxResults(5);
+
+            return query.list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    public List<Object[]> getMostCommonProductErrorsAndTheirFrequencyForMachine24Hour(int machineId) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Object[]> query = session.createQuery("SELECT p.productLookup.name, COUNT(p.productLookup.name) AS frequency " +
+                    "FROM Product p " +
                     "WHERE p.timeStamp >= :oneDayAgo " +
-                    "AND p.productLookup.productLookupId <> 1 and p.batchInfo.machine.id = :machineId" +
+                    "AND p.productLookup.productLookupId <> 1 and p.batchInfo.machine.id = :machineId " +
                     "GROUP BY p.productLookup.name " +
                     "ORDER BY frequency DESC", Object[].class);
             query.setParameter("oneDayAgo", LocalDateTime.now().minusDays(1));
