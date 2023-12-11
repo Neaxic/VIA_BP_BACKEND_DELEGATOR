@@ -57,6 +57,9 @@ public class ProductService {
             Integer batchNo = (Integer) ress[0];
             Double oee = ((BigDecimal) ress[1]).doubleValue();
             Integer mostFreqent = (Integer) ress[2];
+            if(mostFreqent == null){
+                mostFreqent = -1;
+            }
             Timestamp endtime = (Timestamp) ress[3];
 
             JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
