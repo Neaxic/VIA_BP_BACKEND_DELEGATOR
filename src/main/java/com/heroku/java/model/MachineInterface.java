@@ -1,10 +1,5 @@
 package com.heroku.java.model;
 
-import com.heroku.java.util.Constants;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public interface MachineInterface {
     public int getMachineID();
