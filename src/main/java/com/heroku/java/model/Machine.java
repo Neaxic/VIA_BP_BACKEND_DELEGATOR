@@ -104,7 +104,6 @@ public class Machine implements MachineInterface {
     }
 
     public MachineUpTime toMachineUpTime() {
-        //TODO: Overvej og lav unitTest på den her (TTD)
         MachineUpTime machineUpTime = new MachineUpTime();
         machineUpTime.setMachineId(this.getMachineID());
         machineUpTime.setMachineName(this.getMachineName());
