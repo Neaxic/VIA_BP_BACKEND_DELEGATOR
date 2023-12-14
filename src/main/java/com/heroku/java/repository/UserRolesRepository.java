@@ -45,7 +45,7 @@ public class UserRolesRepository {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("DELETE FROM UserRoles WHERE user_id = :userId");
+            Query query = session.createQuery("DELETE FROM UserRoles u WHERE u.user.userId = :userId");
             query.setParameter("userId", userId);
             int deleted = query.executeUpdate();
             transaction.commit();

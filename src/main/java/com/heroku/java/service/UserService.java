@@ -81,7 +81,7 @@ public class UserService {
     }
 
     public boolean deleteUser(int userID){
-        userRolesRepository.deleteAllRolesByUserId(userID); //Brug cascade i stedet for det her
+        userRolesRepository.deleteAllRolesByUserId(userID);
         return userRepository.deleteUser(userID);
     }
 
